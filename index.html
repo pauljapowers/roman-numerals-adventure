@@ -3,99 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roman Numerals Learning Game</title>
+    <title>Roman Numerals Adventure</title>
     <style>
-        body { font-family: Arial, sans-serif; background: linear-gradient(to bottom, #ffd55c 50%, #5a94ff 50%); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
-        .section { display: none; }
-        #nav { display: flex; justify-content: space-around; margin-bottom: 20px; }
-        button { padding: 10px; cursor: pointer; }
-        #character { position: fixed; bottom: 10px; right: 10px; width: 150px; }
-        #speech { background: #fff; border: 1px solid; padding: 5px; border-radius: 5px; margin-top: 5px; }
-        .draggable { display: inline-block; padding: 10px; background: #eee; margin: 5px; cursor: move; }
-        #dropzone { border: 2px dashed #000; min-height: 50px; padding: 10px; margin: 10px 0; }
-        #matching .pair { display: flex; justify-content: space-between; margin: 10px 0; }
-        #matching .drop { border: 1px solid; width: 100px; height: 50px; }
-        img { max-width: 100%; height: auto; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ffd55c 50%, #5a94ff 50%);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .section {
+            display: none;
+        }
+        #character {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 180px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+        #character img {
+            max-width: 100%;
+            display: block;
+        }
+        #speech {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .draggable {
+            display: inline-block;
+            padding: 10px;
+            background: #eee;
+            margin: 5px;
+            cursor: move;
+            border-radius: 4px;
+        }
+        #dropzone {
+            border: 2px dashed #000;
+            min-height: 50px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        #matching .pair {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        #matching .drop {
+            border: 1px solid #000;
+            width: 100px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        img.content-image {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        /* Battle arena */
+        #battle-arena {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0 20px 0;
+        }
+        .fighter img {
+            max-width: 150px;
+        }
+        #health-bars {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        #character-options img {
+            max-width: 120px;
+            margin: 5px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 8px;
+        }
+        #character-options img.selected {
+            border-color: #5a94ff;
+        }
+        input[type="text"] {
+            padding: 5px;
+            margin-top: 5px;
+        }
+        #history-facts p {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Roman Numerals Adventure</h1>
         <div id="nav">
+            <button onclick="showSection('story')">Story</button>
             <button onclick="showSection('tutorial')">Tutorial</button>
             <button onclick="showSection('converter')">Converter</button>
             <button onclick="showSection('builder')">Builder</button>
-            <button onclick="showSection('quiz')">Quiz</button>
+            <button onclick="showSection('character-select')">Character</button>
+            <button onclick="showSection('quiz')">Arena</button>
             <button onclick="showSection('matching')">Matching</button>
             <button onclick="showSection('history')">History</button>
             <button onclick="downloadCertificate()">Certificate</button>
+            <input type="text" id="player-name" placeholder="Your name" />
         </div>
+
+        <!-- Story / narrative -->
+        <div id="story" class="section">
+            <h2>Story</h2>
+            <p>
+                You are a young scribe in ancient Rome, chosen by the Senate to keep
+                track of armies, festivals, and treasure. To prove yourself, you must
+                master Roman numerals and defeat legendary beasts in the Arena of Numbers.
+            </p>
+            <p>
+                Each victory unlocks new secrets about Rome’s history and language.
+                Learn new words like <strong>legion</strong> (a large Roman army),
+                <strong>Senate</strong> (the council of leaders), and
+                <strong>scribe</strong> (a person who writes official records).
+            </p>
+            <img src="images/ancient-rome.png" alt="Ancient Roman forum" class="content-image" />
+        </div>
+
+        <!-- Tutorial -->
         <div id="tutorial" class="section">
             <h2>Tutorial</h2>
-            <p>Rules: I=1, V=5, X=10, L=50, C=100, D=500, M=1000. Subtractives: IV=4, IX=9, etc.</p>
-            <img src="https://via.placeholder.com/300?text=Ancient+Roman+Scene" alt="Ancient Rome">
-            <p>Modern use: In clocks, movies (e.g., MMXXVI = 2026).</p>
-            <img src="https://via.placeholder.com/300?text=Modern+Clock" alt="Modern Math">
+            <p>Rules: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000.</p>
+            <p>Subtractive forms: IV = 4, IX = 9, XL = 40, XC = 90, CD = 400, CM = 900.</p>
+            <img src="images/roman-clock.png" alt="Clock with Roman numerals" class="content-image" />
+            <p>
+                Modern use: Roman numerals still appear on clocks, in book chapters,
+                and at the end of films (for example, MMXXVI = 2026).
+            </p>
         </div>
+
+        <!-- Converter -->
         <div id="converter" class="section">
             <h2>Converter</h2>
             <input type="text" id="input" placeholder="Number or Roman">
             <button onclick="convertInput()">Convert</button>
             <div id="result"></div>
         </div>
+
+        <!-- Builder -->
         <div id="builder" class="section">
             <h2>Drag-and-Drop Builder</h2>
-            <p>Drag symbols to build a Roman numeral, see the value.</p>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="I">I</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="V">V</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="X">X</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="L">L</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="C">C</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="D">D</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="M">M</div>
+            <p>Drag symbols to build a Roman numeral and see its value.</p>
+            <div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="I">I</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="V">V</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="X">X</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="L">L</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="C">C</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="D">D</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="M">M</div>
+            </div>
             <div id="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             <div id="build-result"></div>
             <button onclick="resetBuilder()">Reset</button>
         </div>
+
+        <!-- Character select -->
+        <div id="character-select" class="section">
+            <h2>Choose Your Champion</h2>
+            <p>Select a character to guide you through the Arena of Numbers.</p>
+            <div id="character-options">
+                <img src="images/roman-character-1.png" alt="Centurion"
+                     id="char-centurion" onclick="selectCharacter('centurion')" />
+                <img src="images/roman-character-2.png" alt="Scholar"
+                     id="char-scholar" onclick="selectCharacter('scholar')" />
+            </div>
+        </div>
+
+        <!-- Arena / battle quiz -->
         <div id="quiz" class="section">
-            <h2>Quiz (Progressive Levels)</h2>
-            <p>Level <span id="level">1</span>. Score: <span id="score">0</span></p>
+            <h2>Arena Battle</h2>
+            <p>
+                Level <span id="level">1</span>.
+                Total score: <span id="score">0</span>
+            </p>
+            <p>Each battle has up to 10 questions. Correct answers damage the monster, wrong answers hurt you!</p>
+            <div id="health-bars">
+                <div>Hero HP: <span id="hero-hp">5</span></div>
+                <div>Monster HP: <span id="monster-hp">5</span></div>
+            </div>
+            <div id="battle-arena">
+                <div class="fighter">
+                    <img id="hero-img" src="images/roman-character-1.png" alt="Hero">
+                </div>
+                <div class="fighter">
+                    <img id="monster-img" src="images/monster-1.png" alt="Monster">
+                </div>
+            </div>
+            <p>Round score: <span id="round-score">0</span> / 10</p>
             <div id="question"></div>
-            <input type="text" id="quiz-input">
+            <input type="text" id="quiz-input" autocomplete="off">
             <button onclick="checkQuiz()">Submit</button>
             <div id="quiz-result"></div>
         </div>
+
+        <!-- Matching -->
         <div id="matching" class="section">
             <h2>Matching Game</h2>
-            <p>Drag Romans to match numbers.</p>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-I">I</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-V">V</div>
-            <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-X">X</div>
-            <!-- Add more as needed -->
-            <div class="pair">5: <div class="drop" ondrop="dropMatch(event, 5)" ondragover="allowDrop(event)"></div></div>
-            <div class="pair">1: <div class="drop" ondrop="dropMatch(event, 1)" ondragover="allowDrop(event)"></div></div>
-            <div class="pair">10: <div class="drop" ondrop="dropMatch(event, 10)" ondragover="allowDrop(event)"></div></div>
-            <!-- Add more -->
+            <p>Drag Roman numerals to match the numbers.</p>
+            <div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-I">I</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-V">V</div>
+                <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-X">X</div>
+            </div>
+            <div class="pair">5:
+                <div class="drop" ondrop="dropMatch(event, 5)" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="pair">1:
+                <div class="drop" ondrop="dropMatch(event, 1)" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="pair">10:
+                <div class="drop" ondrop="dropMatch(event, 10)" ondragover="allowDrop(event)"></div>
+            </div>
             <div id="match-result"></div>
         </div>
+
+        <!-- History & unlockable facts -->
         <div id="history" class="section">
             <h2>History & Background</h2>
-            <p>Roman numerals originated in ancient Rome around 800 BC. Used for counting, in clocks, books. Example scenario: Emperor's legions numbered III (3).</p>
-            <img src="https://via.placeholder.com/300?text=Roman+History" alt="History">
+            <p>
+                Win battles in the Arena to unlock new secrets about Roman numerals and
+                ancient Rome.
+            </p>
+            <div id="history-facts"></div>
         </div>
     </div>
+
+    <!-- Fixed character speech bubble -->
     <div id="character">
-        <img src="https://via.placeholder.com/100?text=Roman+Character" alt="Character">
-        <div id="speech">Welcome!</div>
+        <img id="corner-character" src="images/roman-character-1.png" alt="Guide character">
+        <div id="speech">Welcome to the Arena of Numbers!</div>
     </div>
+
+    <!-- Certificate canvas -->
     <canvas id="cert-canvas" style="display:none;"></canvas>
+
     <script>
-        let score = localStorage.getItem('score') || 0;
+        // Persistent score and level
+        let score = parseInt(localStorage.getItem('score') || '0', 10);
+        let level = parseInt(localStorage.getItem('level') || '1', 10);
         document.getElementById('score').innerText = score;
-        let level = 1;
         document.getElementById('level').innerText = level;
 
+        // Character state
+        let selectedCharacter = 'centurion';
+        let opponent = 'monster-1';
+
+        // History facts
+        const historyFacts = [
+            "Romans used numerals mainly for counting money, recording trade, and numbering armies.",
+            "Romans did not have a symbol for zero. The idea of zero came later from other cultures.",
+            "Romans wrote numbers on wax tablets, stone, and metal, often carved into monuments.",
+            "On old clocks and buildings you often see 'IIII' for 4 instead of 'IV'.",
+            "Roman numerals are still used today for book chapters, movie dates, and royal names."
+        ];
+        let unlockedFacts = parseInt(localStorage.getItem('factsUnlocked') || '1', 10);
+
+        function renderHistoryFacts() {
+            const container = document.getElementById('history-facts');
+            container.innerHTML = '';
+            for (let i = 0; i < unlockedFacts && i < historyFacts.length; i++) {
+                const p = document.createElement('p');
+                p.textContent = historyFacts[i];
+                container.appendChild(p);
+            }
+        }
+
+        // Navigation
         function showSection(id) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
             document.getElementById(id).style.display = 'block';
@@ -109,7 +322,6 @@
             { value: 50, numeral: "L" }, { value: 40, numeral: "XL" }, { value: 10, numeral: "X" },
             { value: 9, numeral: "IX" }, { value: 5, numeral: "V" }, { value: 4, numeral: "IV" }, { value: 1, numeral: "I" }
         ];
-
         function numberToRoman(num) {
             let result = "";
             for (let { value, numeral } of romanMap) {
@@ -117,9 +329,7 @@
             }
             return result;
         }
-
         const romanToNumMap = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
-
         function romanToNumber(roman) {
             let i = 0, num = 0;
             roman = roman.toUpperCase();
@@ -130,95 +340,242 @@
             }
             return num;
         }
-
         function convertInput() {
             let input = document.getElementById('input').value.trim().toUpperCase();
             let result = document.getElementById('result');
+            if (!input) {
+                result.innerText = "Please enter a number or Roman numeral.";
+                return;
+            }
             if (!isNaN(input)) {
                 let num = parseInt(input);
-                if (num < 1 || num > 3999) return result.innerText = "1-3999 only.";
-                result.innerText = numberToRoman(num);
+                if (num < 1 || num > 3999) {
+                    result.innerText = "Please enter a number from 1 to 3999.";
+                } else {
+                    result.innerText = numberToRoman(num);
+                }
             } else {
                 result.innerText = romanToNumber(input);
             }
         }
 
-        // Drag drop
+        // Drag and drop builder
         function allowDrop(ev) { ev.preventDefault(); }
         function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
         function drop(ev) {
             ev.preventDefault();
             let data = ev.dataTransfer.getData("text");
             let node = document.getElementById(data).cloneNode(true);
+            node.id = node.id + "-copy-" + Date.now();
             ev.target.appendChild(node);
-            let roman = ev.target.innerText;
-            document.getElementById('build-result').innerText = romanToNumber(roman);
+            let roman = ev.target.innerText.replace(/\s+/g, '');
+            document.getElementById('build-result').innerText = roman ? romanToNumber(roman) : '';
         }
-
         function resetBuilder() {
             document.getElementById('dropzone').innerHTML = '';
             document.getElementById('build-result').innerText = '';
         }
 
-        // Quiz
-        let currentQuestion;
+        // Character select
+        function selectCharacter(id) {
+            selectedCharacter = id;
+            document.getElementById('speech').innerText = `You chose the ${id}!`;
+            document.getElementById('corner-character').src =
+                id === 'scholar' ? 'images/roman-character-2.png' : 'images/roman-character-1.png';
+
+            document.querySelectorAll('#character-options img').forEach(img => img.classList.remove('selected'));
+            if (id === 'scholar') {
+                document.getElementById('char-scholar').classList.add('selected');
+            } else {
+                document.getElementById('char-centurion').classList.add('selected');
+            }
+        }
+
+        // Arena / quiz battle
+        let heroHp = 5;
+        let monsterHp = 5;
+        let questionsThisRound = 0;
+        let currentQuestion = null;
+
         function startQuiz() {
-            let max = level * 10;
-            currentQuestion = Math.floor(Math.random() * max) + 1;
-            document.getElementById('question').innerText = `Convert ${currentQuestion} to Roman (Scenario: Number of gladiators).`;
+            // Set hero image based on character
+            document.getElementById('hero-img').src =
+                selectedCharacter === 'scholar'
+                    ? 'images/roman-character-2.png'
+                    : 'images/roman-character-1.png';
+
+            // Reset if new round
+            if (questionsThisRound === 0) {
+                heroHp = 5;
+                monsterHp = 5;
+                document.getElementById('hero-hp').innerText = heroHp;
+                document.getElementById('monster-hp').innerText = monsterHp;
+                document.getElementById('round-score').innerText = 0;
+                document.getElementById('quiz-result').innerText = '';
+            }
+
+            // Choose operation based on level
+            const maxBase = level * 10;
+            let a = Math.floor(Math.random() * maxBase) + 1;
+            let b = Math.floor(Math.random() * maxBase) + 1;
+            let op = '+';
+            if (level >= 3 && level <= 4) op = '-';
+            if (level >= 5 && level <= 6) op = '×';
+            if (level >= 7) op = '÷';
+
+            let correctNumber;
+            if (op === '+') correctNumber = a + b;
+            else if (op === '-') {
+                const max = Math.max(a, b);
+                const min = Math.min(a, b);
+                a = max; b = min;
+                correctNumber = a - b;
+            } else if (op === '×') {
+                correctNumber = a * b;
+            } else if (op === '÷') {
+                // Make clean division
+                correctNumber = a;
+                b = Math.max(1, Math.floor(Math.random() * (level + 1)));
+                a = correctNumber * b;
+            }
+
+            currentQuestion = { a, b, op, correctNumber };
+            const romanA = numberToRoman(a);
+            const romanB = numberToRoman(b);
+            document.getElementById('question').innerText =
+                `Arena Challenge: ${romanA} ${op} ${romanB} = ? (answer in Roman numerals)`;
+            document.getElementById('quiz-input').value = '';
+            document.getElementById('quiz-input').focus();
         }
 
         function checkQuiz() {
-            let answer = document.getElementById('quiz-input').value.toUpperCase();
-            let correct = numberToRoman(currentQuestion);
-            let result = document.getElementById('quiz-result');
-            if (answer === correct) {
-                result.innerText = 'Correct!';
+            if (!currentQuestion) return;
+            const input = document.getElementById('quiz-input').value.trim().toUpperCase();
+            if (!input) return;
+
+            const result = document.getElementById('quiz-result');
+            questionsThisRound++;
+
+            const correctRoman = numberToRoman(currentQuestion.correctNumber);
+            const correct = (input === correctRoman);
+
+            if (correct) {
+                monsterHp--;
                 score++;
-                if (score % 5 === 0) level++;
-                document.getElementById('speech').innerText = 'Great job!';
-                localStorage.setItem('score', score);
-                document.getElementById('score').innerText = score;
-                document.getElementById('level').innerText = level;
+                document.getElementById('monster-hp').innerText = monsterHp;
+                document.getElementById('round-score').innerText =
+                    parseInt(document.getElementById('round-score').innerText) + 1;
+                document.getElementById('speech').innerText = 'You strike the monster!';
+                result.innerText = 'Correct!';
             } else {
-                result.innerText = `Wrong. Correct: ${correct}`;
-                document.getElementById('speech').innerText = 'Try again!';
+                heroHp--;
+                document.getElementById('hero-hp').innerText = heroHp;
+                document.getElementById('speech').innerText =
+                    `The monster hits back! Correct answer was ${correctRoman}.`;
+                result.innerText = `Wrong. Correct: ${correctRoman}`;
             }
-            startQuiz();
-            document.getElementById('quiz-input').value = '';
+
+            localStorage.setItem('score', score);
+            document.getElementById('score').innerText = score;
+
+            // Check round end
+            if (heroHp <= 0 || monsterHp <= 0 || questionsThisRound >= 10) {
+                if (monsterHp <= 0 && heroHp > 0) {
+                    level++;
+                    localStorage.setItem('level', level);
+                    document.getElementById('level').innerText = level;
+
+                    if (unlockedFacts < historyFacts.length) {
+                        unlockedFacts++;
+                        localStorage.setItem('factsUnlocked', unlockedFacts);
+                        renderHistoryFacts();
+                        document.getElementById('speech').innerText =
+                            'Victory! You move to the next arena and unlock a new secret of Rome.';
+                    } else {
+                        document.getElementById('speech').innerText =
+                            'Victory! You have uncovered all the known secrets of Rome.';
+                    }
+                } else if (heroHp <= 0) {
+                    document.getElementById('speech').innerText =
+                        'Defeat... but you can try the level again.';
+                }
+                questionsThisRound = 0; // new round next time
+            }
+
+            if (heroHp > 0 && monsterHp > 0 && questionsThisRound < 10) {
+                startQuiz();
+            }
         }
 
-        // Matching
+        // Matching game
         function dropMatch(ev, num) {
             ev.preventDefault();
             let data = ev.dataTransfer.getData("text");
-            let symbol = document.getElementById(data).innerText;
+            let symbol = document.getElementById(data).innerText.trim();
             if (romanToNumber(symbol) === num) {
                 ev.target.innerText = symbol;
-                document.getElementById('match-result').innerText += 'Match! ';
+                document.getElementById('match-result').innerText = 'Match!';
                 document.getElementById('speech').innerText = 'Good match!';
             } else {
+                document.getElementById('match-result').innerText = 'Try again.';
                 document.getElementById('speech').innerText = 'No match.';
             }
         }
 
         // Certificate
         function downloadCertificate() {
-            let canvas = document.getElementById('cert-canvas');
-            canvas.width = 400; canvas.height = 300;
-            let ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 400, 300);
-            ctx.fillStyle = '#000'; ctx.font = '20px Arial';
-            ctx.fillText('Certificate of Achievement', 50, 50);
-            ctx.fillText('Roman Numerals Master', 50, 100);
-            ctx.fillText(`Score: ${score} Level: ${level}`, 50, 150);
-            let a = document.createElement('a');
+            const canvas = document.getElementById('cert-canvas');
+            const ctx = canvas.getContext('2d');
+            const name = document.getElementById('player-name').value || 'Brave Student';
+
+            canvas.width = 800;
+            canvas.height = 600;
+
+            // Background
+            ctx.fillStyle = '#fdf6e3';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Border
+            ctx.strokeStyle = '#8b5a2b';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+            // Title
+            ctx.fillStyle = '#000';
+            ctx.font = '36px Georgia';
+            ctx.textAlign = 'center';
+            ctx.fillText('Certificate of Achievement', canvas.width / 2, 120);
+
+            // Subtitle
+            ctx.font = '28px Georgia';
+            ctx.fillText('Roman Numerals Master', canvas.width / 2, 180);
+
+            // Name
+            ctx.font = '24px Georgia';
+            ctx.fillText(name, canvas.width / 2, 240);
+
+            // Score / level
+            ctx.font = '20px Georgia';
+            ctx.fillText(`Score: ${score}   Level: ${level}`, canvas.width / 2, 300);
+
+            // Date
+            const date = new Date().toLocaleDateString();
+            ctx.fillText(`Awarded on: ${date}`, canvas.width / 2, 340);
+
+            // Footer
+            ctx.font = '16px Georgia';
+            ctx.fillText('Roman Numerals Adventure Academy', canvas.width / 2, 420);
+
+            const a = document.createElement('a');
             a.href = canvas.toDataURL('image/png');
-            a.download = 'certificate.png';
+            a.download = 'roman-numerals-certificate.png';
             a.click();
         }
 
-        showSection('tutorial');
+        // Init
+        renderHistoryFacts();
+        selectCharacter('centurion');
+        showSection('story');
     </script>
 </body>
 </html>
