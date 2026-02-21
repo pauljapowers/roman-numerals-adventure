@@ -18,113 +18,177 @@
         - From images/: all monster/faun art + roman-clock.png etc.
     -->
     <style>
-        /* ====== GLOBAL LAYOUT & BACKGROUND ====== */
+                /* ====== GLOBAL LAYOUT & BACKGROUND ====== */
         body {
             font-family: Arial, sans-serif;
-            background: url("ancient-rome.png") no-repeat center center fixed;
+            background: url("ancient-rome.png") no-repeat centre centre fixed;
             background-size: cover;
             margin: 0;
-            padding: 20px;
+            padding: 0; /* header now controls top padding */
         }
-
+        
+        /* Sticky site header */
+        #site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Inner header container */
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            align-items: centre;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        /* Site title and small tagline */
+        #site-title {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        #site-tagline {
+            margin: 0;
+            font-size: 0.85rem;
+            colour: #555;
+        }
+        
+        /* Main white content card */
         .container {
             max-width: 1000px;
-            margin: auto;
+            margin: 0 auto 40px auto;
             background: rgba(255, 255, 255, 0.95);
             padding: 20px 30px 40px 30px;
             border-radius: 10px;
         }
-
-        h1 {
-            text-align: center;
-            margin-top: 0;
-        }
-
-        h2 {
-            margin-top: 10px;
-        }
-
-        h3 {
-            margin-top: 15px;
-        }
-
-        p {
-            line-height: 1.5;
-        }
-
-        /* ====== TOP NAVIGATION ====== */
+        
+        /* Top navigation bar */
         #nav {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: centre;
             gap: 8px;
-            margin-bottom: 20px;
         }
-
+        
         button {
             padding: 8px 12px;
             cursor: pointer;
         }
-
+        
         input[type="text"] {
             padding: 5px;
             margin-top: 5px;
         }
-
+        
         /* Dropdown for History */
         .dropdown {
             position: relative;
             display: inline-block;
         }
-
         .dropdown-toggle {
             padding: 8px 12px;
             cursor: pointer;
         }
-
         .dropdown-menu {
             display: none;
             position: absolute;
             top: 110%;
             left: 0;
             background: white;
-            min-width: 200px;
+            min-width: 220px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.25);
             border-radius: 4px;
-            z-index: 100;
+            z-index: 150;
         }
-
         .dropdown-menu button {
             width: 100%;
             text-align: left;
             border: none;
             background: white;
             padding: 8px 10px;
+            cursor: pointer;
         }
-
         .dropdown-menu button:hover {
             background: #f0f0f0;
         }
-
         .dropdown:hover .dropdown-menu {
             display: block;
         }
-
-        /* ====== SECTIONS (PAGES) ====== */
+        
+        /* All main sections (pages) */
         .section {
             display: none;
         }
-
-        /* ====== INFO BOXES (Cato, Did you know?) ====== */
+        
+        /* Info boxes (Cato, Did you know?, Quick facts) */
         .info-box {
-            background-color: #fffde7;
+            background-colour: #fffde7;
             border: 1px solid #ffd54f;
             border-left: 5px solid #fbc02d;
             padding: 15px;
             margin-top: 10px;
             border-radius: 4px;
         }
-
+        
+        /* Chapter/content boxes (light colour background) */
+        .chapter-box {
+            background-colour: #f3f8ff; /* very light blue – still readable */
+            border: 1px solid #dde7ff;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-top: 15px;
+        }
+        
+        /* ====== LEFT PARCHMENT TABLE OF CONTENTS (History) ====== */
+        
+        #history-layout {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        /* Parchment nav */
+        .side-toc {
+            position: fixed;
+            top: 90px;             /* just under sticky header */
+            left: 10px;
+            width: 180px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+            background: #f9f1d0;   /* parchment colour */
+            border: 2px solid #e0c27b;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            font-size: 0.9rem;
+        }
+        
+        .side-toc h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            text-align: centre;
+        }
+        
+        .side-toc a {
+            display: block;
+            text-decoration: none;
+            colour: #4a3210;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .side-toc a:hover {
+            background: rgba(255,255,255,0.6);
+        }
+        
+        /* History main content shifted to the right of parchment */
+        #history-main {
+            margin-left: 210px;  /* width of side toc + gap */
+        }
+        
         /* ====== FIXED GUIDE CHARACTER ====== */
         #character {
             position: fixed;
@@ -137,12 +201,10 @@
             box-shadow: 0 0 4px rgba(0,0,0,0.3);
             z-index: 50;
         }
-
         #character img {
             max-width: 100%;
             display: block;
         }
-
         #speech {
             background: #fff;
             border: 1px solid #ccc;
@@ -151,8 +213,10 @@
             margin-top: 5px;
             font-size: 0.85rem;
         }
-
-        /* ====== DRAG / DROP COMMON STYLES ====== */
+        
+        /* ====== DRAG / DROP, MATCHING, ARENA, ETC. ====== */
+        /* (unchanged from your last version – keep these) */
+        
         .draggable {
             display: inline-block;
             padding: 10px;
@@ -161,32 +225,26 @@
             cursor: move;
             border-radius: 4px;
         }
-
         #dropzone {
             border: 2px dashed #000;
             min-height: 60px;
             padding: 10px;
             margin: 10px 0;
         }
-
-        /* ====== MATCHING GAME ====== */
         #matching .pair {
             display: flex;
-            align-items: center;
+            align-items: centre;
             gap: 10px;
             margin: 10px 0;
         }
-
         #matching .drop {
             border: 1px solid #000;
             width: 100px;
             height: 40px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: centre;
+            justify-content: centre;
         }
-
-        /* ====== CONTENT IMAGES ====== */
         img.content-image {
             max-width: 100%;
             height: auto;
@@ -194,34 +252,27 @@
             border-radius: 6px;
             display: block;
         }
-
-        /* ====== ARENA ====== */
         #battle-arena {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: centre;
             margin: 10px 0 20px 0;
         }
-
         .fighter img {
             max-width: 160px;
         }
-
         #health-bars {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
             font-weight: bold;
         }
-
-        /* ====== CHARACTER SELECT ====== */
         #character-options {
             display: flex;
             gap: 20px;
             align-items: flex-start;
             flex-wrap: wrap;
         }
-
         .hero-card {
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -230,86 +281,144 @@
             background: #fafafa;
             cursor: pointer;
         }
-
         .hero-card img {
             max-width: 100%;
             border-radius: 6px;
         }
-
         .hero-card.selected {
             border: 3px solid #5a94ff;
             box-shadow: 0 0 6px rgba(90,148,255,0.6);
         }
-
-        /* ====== TOOLS NAV ====== */
         #tools-nav {
             display: flex;
             gap: 8px;
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
-
         .tool-panel {
             display: none;
         }
-
-        /* ====== HISTORY PAGE ====== */
-        #history-toc {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 10px 0 15px 0;
-        }
-
-        #history-toc button {
-            padding: 6px 10px;
-            font-size: 0.9rem;
-        }
-
-        .history-section {
+        
+        /* ====== TRIFORCE CHAPTER BUTTONS (History) ====== */
+        .chapter-triforce {
             margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: centre;
+            justify-content: centre;
+            gap: 6px;
         }
-
-        .chapter-buttons {
-            margin-top: 20px;
+        .chapter-triforce-row {
+            display: flex;
+            gap: 20px;
+            justify-content: centre;
+        }
+        .chapter-tri-btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            colour: #000;
+            font-weight: bold;
+            background: #ffe082;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-align: centre;
+        }
+        .chapter-tri-btn.empire {
+            background: #ffab91;
+        }
+        .chapter-tri-btn.republic {
+            background: #ffcc80;
+        }
+        .chapter-tri-btn.kingdom {
+            background: #fff59d;
+        }
+        
+        /* ====== FOOTER ====== */
+        #site-footer {
+            background: #222;
+            colour: #eee;
+            padding: 15px 20px;
+            font-size: 0.85rem;
+        }
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            justify-content: space-between;
+            align-items: centre;
         }
-
-        .chapter-buttons a {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 20px;
+        .footer-links a {
+            colour: #eee;
             text-decoration: none;
-            color: #000;
-            font-weight: bold;
+            margin-right: 10px;
         }
-
-        .chapter-kingdom { background: #ffe082; }
-        .chapter-republic { background: #ffcc80; }
-        .chapter-empire { background: #ffab91; }
-
-        /* ====== HIGH SCORE TABLE ====== */
-        #highscore-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
+        .footer-links a:hover {
+            text-decoration: underline;
         }
-
-        #highscore-table th,
-        #highscore-table td {
-            border: 1px solid #ccc;
-            padding: 4px 6px;
-            text-align: left;
-        }
-
-        #highscore-table th {
-            background: #f0f0f0;
+        
+        /* ====== BASIC RESPONSIVE ADJUSTMENT ====== */
+        @media (max-width: 800px) {
+            #history-layout {
+                flex-direction: column;
+            }
+            .side-toc {
+                position: static;
+                width: auto;
+                max-height: none;
+                margin-bottom: 10px;
+            }
+            #history-main {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
+        <header id="site-header">
+        <div class="header-inner">
+            <div>
+                <h1 id="site-title">Roman Numerals Adventure</h1>
+                <p id="site-tagline">Learn Roman numerals and explore ancient Rome.</p>
+            </div>
+            <div>
+                <!-- Top navigation bar (moved into header) -->
+                <div id="nav">
+                    <button onclick="showSection('story')">Story</button>
+                    <button onclick="showSection('tutorial')">Tutorial</button>
+                    <button onclick="showSection('character-select')">Character</button>
+    
+                    <div class="dropdown">
+                        <button class="dropdown-toggle" onclick="showSection('history')">
+                            History ▼
+                        </button>
+                        <div class="dropdown-menu">
+                            <button onclick="showSection('history'); scrollToId('history-top');">
+                                History overview
+                            </button>
+                            <button onclick="window.location.href='kingdom.html'">
+                                Roman Kingdom – 200 Years
+                            </button>
+                            <button onclick="window.location.href='republic.html'">
+                                Roman Republic – 500 Years
+                            </button>
+                            <button onclick="window.location.href='empire.html'">
+                                Roman Empire – 500 Years
+                            </button>
+                        </div>
+                    </div>
+    
+                    <button onclick="showSection('quiz')">Arena</button>
+                    <button onclick="showSection('tools')">Tools</button>
+                    <button onclick="downloadCertificate()">Certificate</button>
+                    <button onclick="showSection('highscore')">High Score</button>
+                    <input type="text" id="player-name" placeholder="Your name" />
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <h1>Roman Numerals Adventure</h1>
 
@@ -464,310 +573,324 @@
 
         <!-- ====== HISTORY OVERVIEW ====== -->
         <div id="history" class="section">
-            <h2 id="history-top">History & Background</h2>
-
-            <div class="info-box">
-                <strong>Cato whispers:</strong>
-                “Rome did not appear in a single day. It grew from a tiny village
-                beside a river into a huge empire across three continents. Let me
-                show you how it happened!”
-            </div>
-
-            <!-- Small internal TOC for quick jump -->
-            <div id="history-toc">
-                <button onclick="scrollToId('h0')">Quick Facts</button>
-                <button onclick="scrollToId('h1')">Intro</button>
-                <button onclick="scrollToId('h4')">Culture</button>
-                <button onclick="scrollToId('h5')">Forum</button>
-                <button onclick="scrollToId('h14')">Legion</button>
-                <button onclick="scrollToId('h15')">Roads</button>
-                <button onclick="scrollToId('h18')">Empire</button>
-                <button onclick="scrollToId('h19')">Republic</button>
-                <button onclick="scrollToId('h22')">Why Rome matters</button>
-            </div>
-
-            <!-- 0. Quick Facts -->
-            <div id="h0" class="history-section">
-                <h3>0. Quick Facts</h3>
-                <ul>
-                    <li>Ancient Rome began as a small town by the River Tiber in Italy.</li>
-                    <li>Romans spoke Latin and used Roman numerals instead of our number system.</li>
-                    <li>At its largest, the Roman Empire stretched across Europe, North Africa, and the Middle East.</li>
-                    <li>Roman ideas about roads, laws, buildings, and calendars still affect our lives today.</li>
-                    <li>Many English words come from Latin, including <em>aquatic</em>, <em>video</em>, and <em>laboratory</em>.</li>
-                </ul>
-            </div>
-
-            <!-- 1. Introduction -->
-            <div id="h1" class="history-section">
-                <h3>1. Introduction to Ancient Rome</h3>
-                <p>
-                    Ancient Rome was one of the most powerful civilizations in world history.
-                    It started as a tiny village of farmers and grew into a busy city full of
-                    markets, temples, and bath houses. Romans were famous for their strong armies,
-                    clever engineers, and love of stories and myths.
-                </p>
-            </div>
-
-            <!-- 2. When was Ancient Rome? -->
-            <div id="h2" class="history-section">
-                <h3>2. When was Ancient Rome?</h3>
-                <p>
-                    The story of Rome stretches over more than one thousand years.
-                    It begins around 753 BCE (before the common era) with legends of
-                    twin brothers, Romulus and Remus, and continues until about 476 CE
-                    when the western part of the empire collapsed.
-                </p>
-            </div>
-
-            <!-- 3. How did Rome Begin? -->
-            <div id="h3" class="history-section">
-                <h3>3. How did Rome Begin?</h3>
-                <p>
-                    According to legend, Rome was founded by Romulus after a great argument
-                    with his twin brother Remus. The brothers were said to have been raised
-                    by a she‑wolf. Romulus chose a hill by the River Tiber, drew a sacred
-                    boundary, and slowly a village grew into the city of Rome.
-                </p>
-            </div>
-
-            <!-- 4. Roman Culture -->
-            <div id="h4" class="history-section">
-                <h3>4. Roman Culture</h3>
-                <p>
-                    Roman culture mixed ideas from many peoples, including the Greeks and Etruscans.
-                    Romans loved theatre, poetry, speeches, and colourful mosaics on their floors.
-                    They enjoyed sports like chariot racing and gladiator games, and they valued
-                    discipline, bravery, and loyalty to their family and city.
-                </p>
-            </div>
-
-            <!-- 5. The Forum -->
-            <div id="h5" class="history-section">
-                <h3>5. The Forum</h3>
-                <p>
-                    The Forum was the busy heart of Rome. It was an open square surrounded by
-                    important buildings. People went there to shop, listen to speeches, visit
-                    temples, and meet friends. If you stood in the Forum, you could hear news
-                    from all corners of the empire.
-                </p>
-            </div>
-
-            <!-- 6. History of Ancient Rome -->
-            <div id="h6" class="history-section">
-                <h3>6. History of Ancient Rome</h3>
-                <p>
-                    Historians usually divide Rome’s history into three big periods:
-                    the <strong>Kingdom</strong>, when kings ruled; the <strong>Republic</strong>,
-                    when citizens elected leaders; and the <strong>Empire</strong>, when powerful
-                    emperors controlled vast lands.
-                </p>
-            </div>
-
-            <!-- 7. Life in Ancient Rome -->
-            <div id="h7" class="history-section">
-                <h3>7. Life in Ancient Rome</h3>
-                <p>
-                    Daily life depended on who you were. Rich Romans lived in large houses with
-                    courtyards, servants, and fancy dinners. Poor Romans often lived in tall,
-                    crowded apartments. Children played games with balls, dolls, and toy soldiers,
-                    and many went to school to learn reading, writing, and numerals.
-                </p>
-            </div>
-
-            <!-- 8. The Roman Family -->
-            <div id="h8" class="history-section">
-                <h3>8. The Roman Family</h3>
-                <p>
-                    The Roman family was led by the <strong>pater familias</strong>, usually the oldest man.
-                    He was responsible for protecting everyone and making important decisions.
-                    Families included parents, children, grandparents, and sometimes enslaved people
-                    who worked in the home.
-                </p>
-            </div>
-
-            <!-- 9. Typical Roman activities -->
-            <div id="h9" class="history-section">
-                <h3>9. Typical Roman Activities</h3>
-                <p>
-                    Romans might start their day with a quick bread breakfast, visit the baths,
-                    work in shops or offices, and then relax by watching performances or sports.
-                    Children played knucklebones, marbles, and board games similar to modern ones.
-                </p>
-            </div>
-
-            <!-- 10. Roman Food -->
-            <div id="h10" class="history-section">
-                <h3>10. Roman Food</h3>
-                <p>
-                    Roman meals often included bread, olives, cheese, and fruit.
-                    Rich families might eat fish, meat, honey cakes, and exotic spices
-                    from far‑away provinces. A favourite sauce called <em>garum</em> was made
-                    from fermented fish and added to many dishes.
-                </p>
-            </div>
-
-            <!-- 11. Roman customs -->
-            <div id="h11" class="history-section">
-                <h3>11. Roman Customs</h3>
-                <p>
-                    Romans celebrated many festivals to honour their gods, such as Saturnalia,
-                    a winter feast with gift‑giving and games. They wore togas for special
-                    occasions and used wreaths of leaves as symbols of victory and honour.
-                </p>
-            </div>
-
-            <!-- 12. Rome was not built in a day -->
-            <div id="h12" class="history-section">
-                <h3>12. Rome Was Not Built in a Day</h3>
-                <p>
-                    The saying “Rome was not built in a day” reminds us that great things take time.
-                    Rome’s roads, aqueducts, and grand buildings took many years and thousands of
-                    workers to complete. Your learning journey will also grow step by step.
-                </p>
-            </div>
-
-            <!-- 13. Roman mythology -->
-            <div id="h13" class="history-section">
-                <h3>13. Roman Mythology</h3>
-                <p>
-                    Romans believed in many gods and goddesses, such as Jupiter, Juno, Mars, and Venus.
-                    They told stories to explain the world, from how the seasons changed to why
-                    storms shook the sky. Many planets in our solar system are named after Roman gods.
-                </p>
-            </div>
-
-            <!-- 14. The Roman Legion -->
-            <div id="h14" class="history-section">
-                <h3>14. The Roman Legion</h3>
-                <p>
-                    A <strong>legion</strong> was a huge group of Roman soldiers, sometimes over 5,000 men.
-                    They trained hard, marched long distances, and built forts and roads as they went.
-                    Their discipline and organisation helped Rome win many battles.
-                </p>
-            </div>
-
-            <!-- 15. Roman Roads -->
-            <div id="h15" class="history-section">
-                <h3>15. Roman Roads</h3>
-                <p>
-                    Romans built straight, strong roads made of layers of stone.
-                    These roads linked distant towns and made it easier to move
-                    armies, trade goods, and share news. The saying “All roads lead
-                    to Rome” comes from this amazing network.
-                </p>
-            </div>
-
-            <!-- 16. How was Rome ruled? -->
-            <div id="h16" class="history-section">
-                <h3>16. How Was Rome Ruled?</h3>
-                <p>
-                    Rome changed its style of government over time. Under kings,
-                    power was held by one ruler. During the Republic, many citizens
-                    could vote and elect leaders. In the Empire, emperors held the
-                    strongest power, but still used laws and officials to manage the
-                    huge territories.
-                </p>
-            </div>
-
-            <!-- 17. Who was Julius Caesar? -->
-            <div id="h17" class="history-section">
-                <h3>17. Who Was Julius Caesar?</h3>
-                <p>
-                    Julius Caesar was a brilliant general and politician who helped
-                    bring an end to the Roman Republic. He conquered lands like Gaul
-                    (modern France), became very popular, and was eventually made
-                    “dictator for life”. Some senators feared he had too much power
-                    and plotted to assassinate him.
-                </p>
-            </div>
-
-            <!-- 18. Empire -->
-            <div id="h18" class="history-section">
-                <h3>18. Empire</h3>
-                <p>
-                    After Julius Caesar’s death, his adopted heir Octavian became
-                    the first emperor, taking the name Augustus. Under the empire,
-                    Rome reached its greatest size and enjoyed long periods of peace,
-                    known as the <em>Pax Romana</em>, or “Roman Peace”.
-                </p>
-            </div>
-
-            <!-- 19. Republic -->
-            <div id="h19" class="history-section">
-                <h3>19. Republic</h3>
-                <p>
-                    The Roman Republic was a time when citizens chose leaders to
-                    represent them. There was a Senate of wealthy men, and different
-                    assemblies for voting. Although not everyone was treated equally,
-                    ideas from the Republic helped inspire later democracies.
-                </p>
-            </div>
-
-            <!-- 20. Downfall -->
-            <div id="h20" class="history-section">
-                <h3>20. Downfall – How Did the Empire End?</h3>
-                <p>
-                    Over time, the western Roman Empire faced many problems: weak
-                    rulers, expensive wars, and attacks from invading groups.
-                    In 476 CE, the last western emperor was removed. The eastern
-                    half, called the Byzantine Empire, continued for almost another
-                    thousand years.
-                </p>
-            </div>
-
-            <!-- 21. Rest of the world -->
-            <div id="h21" class="history-section">
-                <h3>21. What Was the Rest of the World Like?</h3>
-                <p>
-                    While Rome grew, many other cultures flourished. In China,
-                    the Han dynasty built sections of the Great Wall. In India,
-                    powerful kingdoms created beautiful temples. In the Americas,
-                    early civilizations like the Maya were developing their own
-                    writing and calendar systems.
-                </p>
-            </div>
-
-            <!-- 22. Why Rome still matters -->
-            <div id="h22" class="history-section">
-                <h3>22. Why Ancient Rome Still Matters Today</h3>
-                <p>
-                    Rome’s ideas about laws, government, engineering, and language
-                    still shape our world. Many modern buildings copy Roman arches
-                    and columns, and our months and numerals have Roman roots.
-                    Learning about Rome helps us understand where many of our own
-                    customs and inventions came from.
-                </p>
-            </div>
-
-            <!-- 23. Modern Rome -->
-            <div id="h23" class="history-section">
-                <h3>23. Modern Rome in the Modern World</h3>
-                <p>
-                    Today, Rome is the capital of Italy and a busy modern city.
-                    Visitors can walk past ancient ruins like the Colosseum and
-                    Forum, then enjoy gelato and modern shops nearby. It is a
-                    place where old and new sit side by side.
-                </p>
-            </div>
-
-            <!-- 24. How to use chapter buttons -->
-            <div id="h24" class="history-section">
-                <h3>24. How to Use the Chapter Buttons</h3>
-                <p>
-                    The three chapter buttons below take you on longer journeys
-                    through Rome’s past. Each chapter focuses on a different time:
-                    the Kingdom, the Republic, and the Empire. You can read them
-                    in any order, but many learners like to start at the beginning.
-                </p>
-
-                <div class="chapter-buttons">
-                    <a href="kingdom.html" class="chapter-kingdom">The Roman Kingdom – 200 Years</a>
-                    <a href="republic.html" class="chapter-republic">The Roman Republic – 500 Years</a>
-                    <a href="empire.html" class="chapter-empire">The Roman Empire – 500 Years</a>
+            <div id="history-layout">
+                <!-- Left parchment TOC -->
+                <nav class="side-toc">
+                    <h3>Contents</h3>
+                    <a href="#h-intro">Introduction</a>
+                    <a href="#h-quick">Quick facts</a>
+                    <a href="#h-II">II – When was Ancient Rome? [2]</a>
+                    <a href="#h-III">III – How did Rome begin? [3]</a>
+                    <a href="#h-IV">IV – Roman culture [4]</a>
+                    <a href="#h-V">V – The Forum [5]</a>
+                    <a href="#h-VI">VI – History of Ancient Rome [6]</a>
+                    <a href="#h-VII">VII – Life in Ancient Rome [7]</a>
+                    <a href="#h-VIII">VIII – The Roman family [8]</a>
+                    <a href="#h-IX">IX – Typical Roman activities [9]</a>
+                    <a href="#h-X">X – Roman food [10]</a>
+                    <a href="#h-XI">XI – Roman customs [11]</a>
+                    <a href="#h-XII">XII – Rome was not built in a day [12]</a>
+                    <a href="#h-XIII">XIII – Roman mythology [13]</a>
+                    <a href="#h-XIV">XIV – The Roman legion [14]</a>
+                    <a href="#h-XV">XV – Roman roads [15]</a>
+                    <a href="#h-XVI">XVI – How was Rome ruled? [16]</a>
+                    <a href="#h-XVII">XVII – Who was Julius Caesar? [17]</a>
+                    <a href="#h-XVIII">XVIII – Empire [18]</a>
+                    <a href="#h-XIX">XIX – Republic [19]</a>
+                    <a href="#h-XX">XX – Downfall – How did the Empire end? [20]</a>
+                    <a href="#h-XXI">XXI – The rest of the world [21]</a>
+                    <a href="#h-XXII">XXII – Why Ancient Rome still matters [22]</a>
+                    <a href="#h-XXIII">XXIII – Modern Rome in the modern world [23]</a>
+                </nav>
+        
+                <!-- Main history content -->
+                <div id="history-main">
+                    <h2 id="history-top">History &amp; Background</h2>
+        
+                    <div style="display:flex; align-items:center; gap:16px; margin-top:10px;">
+                        <img src="images/monster-1-faun-1.png" alt="Cato the faun guide" style="max-width:120px;">
+                        <p>
+                            “Salvē! I am Cato, your guide to the past. Together we shall travel
+                            from a tiny village by the River Tiber to a vast empire that shaped
+                            much of the world you know today.”
+                        </p>
+                    </div>
+        
+                    <!-- Triforce chapter buttons -->
+                    <div class="chapter-triforce">
+                        <div class="chapter-triforce-row">
+                            <a href="kingdom.html" class="chapter-tri-btn kingdom">
+                                The Roman Kingdom – 200 Years
+                            </a>
+                        </div>
+                        <div class="chapter-triforce-row">
+                            <a href="republic.html" class="chapter-tri-btn republic">
+                                The Roman Republic – 500 Years
+                            </a>
+                            <a href="empire.html" class="chapter-tri-btn empire">
+                                The Roman Empire – 500 Years
+                            </a>
+                        </div>
+                    </div>
+        
+                    <!-- Quick facts box -->
+                    <div id="h-quick" class="info-box chapter-box" style="margin-top:15px;">
+                        <strong>Quick facts</strong>
+                        <ul>
+                            <li>Ancient Rome began as a small town by the River Tiber in Italy.</li>
+                            <li>Romans spoke Latin and used Roman numerals instead of our number system.</li>
+                            <li>At its largest, the Roman Empire stretched across Europe, North Africa, and the Middle East.</li>
+                            <li>Roman ideas about roads, laws, buildings, and calendars still affect our lives today.</li>
+                            <li>Many English words come from Latin, including <em>aquatic</em>, <em>video</em>, and <em>laboratory</em>.</li>
+                        </ul>
+                    </div>
+        
+                    <!-- I – Introduction -->
+                    <div id="h-intro" class="chapter-box">
+                        <h3>I – Introduction to Ancient Rome [1]</h3>
+                        <p>
+                            Ancient Rome was one of the most powerful civilisations in world history.
+                            It started as a tiny village of farmers and grew into a busy city full of
+                            markets, temples, and bath houses. Romans were famous for their strong armies,
+                            clever engineers, and love of stories and myths.
+                        </p>
+                    </div>
+        
+                    <!-- II – When was Ancient Rome? -->
+                    <div id="h-II" class="chapter-box">
+                        <h3>II – When was Ancient Rome? [2]</h3>
+                        <p>
+                            The story of Rome stretches over more than one thousand years. It begins
+                            around 753 BCE with legends of twin brothers, Romulus and Remus, and
+                            continues until about 476 CE when the western part of the Empire collapsed.
+                        </p>
+                    </div>
+        
+                    <!-- III – How did Rome begin? -->
+                    <div id="h-III" class="chapter-box">
+                        <h3>III – How did Rome begin? [3]</h3>
+                        <p>
+                            According to legend, Rome was founded by Romulus after a fierce argument
+                            with his twin brother Remus. The brothers were said to have been raised
+                            by a she‑wolf. Romulus chose a hill by the River Tiber, drew a sacred
+                            boundary, and slowly a village grew into the city of Rome.
+                        </p>
+                    </div>
+        
+                    <!-- IV – Roman culture -->
+                    <div id="h-IV" class="chapter-box">
+                        <h3>IV – Roman culture [4]</h3>
+                        <p>
+                            Roman culture mixed ideas from many peoples, including the Greeks and Etruscans.
+                            Romans loved theatre, poetry, speeches, and colourful mosaics on their floors.
+                            They enjoyed sports such as chariot racing and gladiator games, and they valued
+                            discipline, bravery, and loyalty to their family and city.
+                        </p>
+                    </div>
+        
+                    <!-- V – The Forum -->
+                    <div id="h-V" class="chapter-box">
+                        <h3>V – The Forum [5]</h3>
+                        <p>
+                            The Forum was the busy heart of Rome. It was an open square surrounded by
+                            important buildings. People went there to shop, listen to speeches, visit
+                            temples, and meet friends. If you stood in the Forum, you could hear news
+                            from all corners of the Empire.
+                        </p>
+                    </div>
+        
+                    <!-- VI – History of Ancient Rome -->
+                    <div id="h-VI" class="chapter-box">
+                        <h3>VI – History of Ancient Rome [6]</h3>
+                        <p>
+                            Historians usually divide Rome’s history into three main periods: the
+                            <strong>Kingdom</strong>, when kings ruled; the <strong>Republic</strong>,
+                            when citizens elected leaders; and the <strong>Empire</strong>, when powerful
+                            emperors controlled vast lands.
+                        </p>
+                    </div>
+        
+                    <!-- VII – Life in Ancient Rome -->
+                    <div id="h-VII" class="chapter-box">
+                        <h3>VII – Life in Ancient Rome [7]</h3>
+                        <p>
+                            Daily life depended on who you were. Wealthy Romans lived in large houses with
+                            courtyards, servants, and elaborate dinners. Poor Romans often lived in tall,
+                            crowded blocks of flats. Children played games with balls, dolls, and toy soldiers,
+                            and many went to school to learn reading, writing, and numerals.
+                        </p>
+                    </div>
+        
+                    <!-- VIII – The Roman family -->
+                    <div id="h-VIII" class="chapter-box">
+                        <h3>VIII – The Roman family [8]</h3>
+                        <p>
+                            The Roman family was led by the <strong>pater familias</strong>, usually the oldest man.
+                            He was responsible for protecting everyone and making important decisions.
+                            Families included parents, children, grandparents, and sometimes enslaved people
+                            who worked in the home.
+                        </p>
+                    </div>
+        
+                    <!-- IX – Typical Roman activities -->
+                    <div id="h-IX" class="chapter-box">
+                        <h3>IX – Typical Roman activities [9]</h3>
+                        <p>
+                            Romans might start their day with a quick bread breakfast, visit the baths,
+                            work in shops or offices, and then relax by watching performances or sports.
+                            Children played knucklebones, marbles, and board games similar to modern ones.
+                        </p>
+                    </div>
+        
+                    <!-- X – Roman food -->
+                    <div id="h-X" class="chapter-box">
+                        <h3>X – Roman food [10]</h3>
+                        <p>
+                            Roman meals often included bread, olives, cheese, and fruit. Wealthy families
+                            might eat fish, meat, honey cakes, and exotic spices from far‑away provinces.
+                            A favourite sauce called <em>garum</em> was made from fermented fish and added
+                            to many dishes.
+                        </p>
+                    </div>
+        
+                    <!-- XI – Roman customs -->
+                    <div id="h-XI" class="chapter-box">
+                        <h3>XI – Roman customs [11]</h3>
+                        <p>
+                            Romans celebrated many festivals to honour their gods, such as Saturnalia,
+                            a winter feast with gift‑giving and games. They wore togas for special
+                            occasions and used wreaths of leaves as symbols of victory and honour.
+                        </p>
+                    </div>
+        
+                    <!-- XII – Rome was not built in a day -->
+                    <div id="h-XII" class="chapter-box">
+                        <h3>XII – Rome was not built in a day [12]</h3>
+                        <p>
+                            The saying “Rome was not built in a day” reminds us that great things take time.
+                            Rome’s roads, aqueducts, and grand buildings took many years and thousands of
+                            workers to complete. Your learning journey will also grow step by step.
+                        </p>
+                    </div>
+        
+                    <!-- XIII – Roman mythology -->
+                    <div id="h-XIII" class="chapter-box">
+                        <h3>XIII – Roman mythology [13]</h3>
+                        <p>
+                            Romans believed in many gods and goddesses, such as Jupiter, Juno, Mars, and Venus.
+                            They told stories to explain the world, from how the seasons changed to why
+                            storms shook the sky. Many planets in our solar system are named after Roman gods.
+                        </p>
+                    </div>
+        
+                    <!-- XIV – The Roman legion -->
+                    <div id="h-XIV" class="chapter-box">
+                        <h3>XIV – The Roman legion [14]</h3>
+                        <p>
+                            A <strong>legion</strong> was a huge group of Roman soldiers, sometimes over 5,000 men.
+                            They trained hard, marched long distances, and built forts and roads as they went.
+                            Their discipline and organisation helped Rome win many battles.
+                        </p>
+                    </div>
+        
+                    <!-- XV – Roman roads -->
+                    <div id="h-XV" class="chapter-box">
+                        <h3>XV – Roman roads [15]</h3>
+                        <p>
+                            Romans built straight, strong roads made of layers of stone. These roads linked
+                            distant towns and made it easier to move armies, trade goods, and share news.
+                            The saying “All roads lead to Rome” comes from this impressive network.
+                        </p>
+                    </div>
+        
+                    <!-- XVI – How was Rome ruled? -->
+                    <div id="h-XVI" class="chapter-box">
+                        <h3>XVI – How was Rome ruled? [16]</h3>
+                        <p>
+                            Rome changed its style of government over time. Under kings, power was held by
+                            one ruler. During the Republic, many citizens could vote and elect leaders.
+                            In the Empire, emperors held the strongest power, but still used laws and officials
+                            to manage the huge territories.
+                        </p>
+                    </div>
+        
+                    <!-- XVII – Who was Julius Caesar? -->
+                    <div id="h-XVII" class="chapter-box">
+                        <h3>XVII – Who was Julius Caesar? [17]</h3>
+                        <p>
+                            Julius Caesar was a skilled general and politician who helped bring an end to the
+                            Roman Republic. He conquered lands such as Gaul, became very popular, and was
+                            eventually made “dictator for life”. Some senators feared he had too much power
+                            and plotted to assassinate him.
+                        </p>
+                    </div>
+        
+                    <!-- XVIII – Empire -->
+                    <div id="h-XVIII" class="chapter-box">
+                        <h3>XVIII – Empire [18]</h3>
+                        <p>
+                            After Julius Caesar’s death, his adopted heir Octavian became the first emperor,
+                            taking the name Augustus. Under the Empire, Rome reached its greatest size and
+                            enjoyed long periods of peace, known as the <em>Pax Romana</em>, or “Roman Peace”.
+                        </p>
+                    </div>
+        
+                    <!-- XIX – Republic -->
+                    <div id="h-XIX" class="chapter-box">
+                        <h3>XIX – Republic [19]</h3>
+                        <p>
+                            The Roman Republic was a time when citizens chose leaders to represent them.
+                            There was a Senate of wealthy men and different assemblies for voting. Although
+                            not everyone was treated equally, ideas from the Republic helped inspire later
+                            democracies.
+                        </p>
+                    </div>
+        
+                    <!-- XX – Downfall -->
+                    <div id="h-XX" class="chapter-box">
+                        <h3>XX – Downfall – How did the Empire end? [20]</h3>
+                        <p>
+                            Over time, the western Roman Empire faced many problems: weak rulers, expensive
+                            wars, and attacks from invading groups. In 476 CE, the last western emperor was
+                            removed. The eastern half, called the Byzantine Empire, continued for almost
+                            another thousand years.
+                        </p>
+                    </div>
+        
+                    <!-- XXI – Rest of the world -->
+                    <div id="h-XXI" class="chapter-box">
+                        <h3>XXI – What was the rest of the world like? [21]</h3>
+                        <p>
+                            While Rome grew, many other cultures flourished. In China, the Han dynasty built
+                            sections of the Great Wall. In India, powerful kingdoms created beautiful temples.
+                            In the Americas, early civilisations such as the Maya were developing their own
+                            writing and calendar systems.
+                        </p>
+                    </div>
+        
+                    <!-- XXII – Why Ancient Rome still matters -->
+                    <div id="h-XXII" class="chapter-box">
+                        <h3>XXII – Why Ancient Rome still matters today [22]</h3>
+                        <p>
+                            Rome’s ideas about laws, government, engineering, and language still shape our world.
+                            Many modern buildings copy Roman arches and columns, and our months and numerals have
+                            Roman roots. Learning about Rome helps us to understand where many of our own customs
+                            and inventions came from.
+                        </p>
+                    </div>
+        
+                    <!-- XXIII – Modern Rome -->
+                    <div id="h-XXIII" class="chapter-box">
+                        <h3>XXIII – Modern Rome in the modern world [23]</h3>
+                        <p>
+                            Today, Rome is the capital of Italy and a busy modern city. Visitors can walk past
+                            ancient ruins such as the Colosseum and Forum, then enjoy gelato and modern shops
+                            nearby. It is a place where old and new sit side by side.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div>        
 
         <!-- ====== TOOLS WRAPPER ====== -->
         <div id="tools" class="section">
@@ -1325,5 +1448,22 @@
         renderHistoryFacts();
         showSection('story');
     </script>
+        <footer id="site-footer">
+        <div class="footer-inner">
+            <div>
+                <span>This website and its content are copyright of Paul Powers – © 2026 Paul Powers. All rights reserved.</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html#story">Home</a>
+                <a href="index.html#history-top">History</a>
+                <a href="kingdom.html">Kingdom</a>
+                <a href="republic.html">Republic</a>
+                <a href="empire.html">Empire</a>
+                <a href="index.html#quiz">Arena</a>
+                <a href="index.html#tools">Tools</a>
+                <a href="index.html#highscore">High Score</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
