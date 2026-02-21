@@ -6,30 +6,46 @@
     <title>Roman Numerals Adventure</title>
 
     <!--
-        Basic styling: background stripes, centered white card, buttons, sections,
-        arena layout, character selection, and history facts.
+        Roman Numerals Adventure
+        Complete single–file HTML, CSS and JS.
+        IMPORTANT PATH NOTE:
+        - These three images are loaded from the ROOT of the repo:
+            ancient-rome.png
+            roman-character-1.png   (Centurion)
+            roman-character-2.png   (Scholar)
+        - All faun / monster / clock art is loaded from the images/ folder.
     -->
     <style>
+        /* ====== GLOBAL LAYOUT & BACKGROUND ====== */
+
         body {
             font-family: Arial, sans-serif;
-            background: url("images/ancient-rome.png") no-repeat center center fixed;
+            /* Background art from ROOT (as requested) */
+            background: url("ancient-rome.png") no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 20px;
         }
 
+        /* Main white content card */
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: auto;
-            background: white;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px 40px 30px;
             border-radius: 10px;
         }
 
         h1 {
             text-align: center;
+            margin-top: 0;
         }
 
-        /* Top nav buttons */
+        h2 {
+            margin-top: 10px;
+        }
+
+        /* Top navigation bar */
         #nav {
             display: flex;
             flex-wrap: wrap;
@@ -43,21 +59,38 @@
             cursor: pointer;
         }
 
-        /* Each main section (Story, Tutorial, etc.) */
+        input[type="text"] {
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        /* All main pages (sections) */
         .section {
             display: none;
         }
 
-        /* Bottom‑right guide character and speech bubble */
+        /* Reusable “info box” style (like your Did you know? box) */
+        .info-box {
+            background-color: #fffde7;
+            border: 1px solid #ffd54f;
+            border-left: 5px solid #fbc02d;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        /* ====== FIXED GUIDE CHARACTER (BOTTOM‑RIGHT) ====== */
+
         #character {
             position: fixed;
             bottom: 10px;
             right: 10px;
-            width: 180px;
-            background: rgba(255, 255, 255, 0.9);
+            width: 220px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 8px;
-            padding: 5px;
+            padding: 8px;
             box-shadow: 0 0 4px rgba(0,0,0,0.3);
+            z-index: 50;
         }
 
         #character img {
@@ -71,10 +104,11 @@
             padding: 5px;
             border-radius: 5px;
             margin-top: 5px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
-        /* Generic draggable tiles (for builder + matching) */
+        /* ====== DRAG / DROP COMMON STYLES ====== */
+
         .draggable {
             display: inline-block;
             padding: 10px;
@@ -84,15 +118,15 @@
             border-radius: 4px;
         }
 
-        /* Dropzone for the numeral builder */
         #dropzone {
             border: 2px dashed #000;
-            min-height: 50px;
+            min-height: 60px;
             padding: 10px;
             margin: 10px 0;
         }
 
-        /* Matching game layout */
+        /* ====== MATCHING GAME ====== */
+
         #matching .pair {
             display: flex;
             align-items: center;
@@ -109,15 +143,18 @@
             justify-content: center;
         }
 
-        /* Content images (tutorial, story, etc.) */
+        /* ====== CONTENT IMAGES ====== */
+
         img.content-image {
             max-width: 100%;
             height: auto;
-            margin: 10px 0;
+            margin: 15px 0;
             border-radius: 6px;
+            display: block;
         }
 
-        /* Arena layout: hero vs monster */
+        /* ====== ARENA / BATTLE ====== */
+
         #battle-arena {
             display: flex;
             justify-content: space-between;
@@ -126,7 +163,7 @@
         }
 
         .fighter img {
-            max-width: 150px;
+            max-width: 160px;
         }
 
         #health-bars {
@@ -136,26 +173,51 @@
             font-weight: bold;
         }
 
-        /* Character‑select thumbnails */
-        #character-options img {
-            max-width: 120px;
-            margin: 5px;
-            cursor: pointer;
-            border: 3px solid transparent;
+        /* ====== CHARACTER SELECT ====== */
+
+        #character-options {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        #character-options .hero-card {
+            border: 1px solid #ccc;
             border-radius: 8px;
+            padding: 10px;
+            width: 220px;
+            background: #fafafa;
+            cursor: pointer;
         }
 
-        #character-options img.selected {
-            border-color: #5a94ff;
+        #character-options .hero-card img {
+            max-width: 100%;
+            border-radius: 6px;
         }
 
-        input[type="text"] {
-            padding: 5px;
-            margin-top: 5px;
+        #character-options .hero-card.selected {
+            border: 3px solid #5a94ff;
+            box-shadow: 0 0 6px rgba(90,148,255,0.6);
         }
+
+        /* ====== HISTORY FACTS ====== */
 
         #history-facts p {
             margin-bottom: 8px;
+        }
+
+        /* ====== TOOLS SECTION WRAPPER ====== */
+
+        #tools-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tool-panel {
+            display: none;
         }
     </style>
 </head>
@@ -163,166 +225,266 @@
     <div class="container">
         <h1>Roman Numerals Adventure</h1>
 
-        <!--
-            Navigation bar. Each button shows one section.
-            Player name is used on the certificate.
-        -->
+        <!-- Navigation bar. Each button shows one section. -->
         <div id="nav">
-          <button onclick="showSection('story')">Story</button>
-          <button onclick="showSection('tutorial')">Tutorial</button>
-          <button onclick="showSection('character-select')">Character</button>
-          <button onclick="showSection('history')">History</button>
-          <button onclick="showSection('tools')">Tools</button>
-          <button onclick="showSection('quiz')">Arena</button>
-          <button onclick="downloadCertificate()">Certificate</button>
-          <button onclick="showSection('highscore')">High Score</button>
-          <input type="text" id="player-name" placeholder="Your name" />
+            <button onclick="showSection('story')">Story</button>
+            <button onclick="showSection('tutorial')">Tutorial</button>
+            <button onclick="showSection('character-select')">Character</button>
+            <button onclick="showSection('history')">History</button>
+            <button onclick="showSection('tools')">Tools</button>
+            <button onclick="showSection('quiz')">Arena</button>
+            <button onclick="downloadCertificate()">Certificate</button>
+            <button onclick="showSection('highscore')">High Score</button>
+            <input type="text" id="player-name" placeholder="Your name" />
         </div>
 
-        <!-- STORY / NARRATIVE -->
+        <!-- ====== STORY / NARRATIVE ====== -->
         <div id="story" class="section">
             <h2>Story</h2>
-            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
-              <img src="images/monster-1-faun-1.png" alt="Faun herald" style="max-width:120px;">
-              <p>
-                “Salve! I am your guide, Cato! 
-                Cato means "wise" or "shrewd," and my name is often associated with the famous stoic philosopher.
-                ... I will guide you through Rome and explain how to use this site to learn all about Roman Numerals and Ancient Rome.
-                Read your story below, then follow the buttons above to learn all about Roman numbers,
-                explore our city, and prove your skills in the Arena where you will combat XX monsters by proving your maths skills!”
-                <em>XX in Roman Numerals = 20 in your modern numbers</em>                     
-              </p>
+
+            <!-- Guide Cato introduces the mission -->
+            <div style="display:flex; align-items:center; gap:16px; margin-top:10px;">
+                <img src="images/monster-1-faun-1.png" alt="Cato the faun guide" style="max-width:120px;">
+                <p>
+                    “Salve! I am <strong>Cato</strong>, your clever guide through ancient Rome.
+                    My name means ‘wise’, so listen closely! This adventure will teach you how
+                    Romans wrote numbers, how they lived, and how brave heroes like you can
+                    defeat trickster monsters in the Arena of Numbers.”
+                </p>
             </div>
-            
-            <div style="background-color: #fffde7; border: 1px solid #ffd54f; border-left: 5px solid #fbc02d; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: sans-serif;">
-                <strong>Did you know?</strong> 
-                <i>(Cato is pronounced in Ancient Latin as KAH-toh sounded out like /ˈkaːtoː/)
-                Classical Latin Pronunciation: Historians and Latin students typically use "KAH-toh". 
-                In this version, the "a" is a short, open sound like the "a" in "father"</i>
-            </div> 
-            
+
+            <!-- Did you know box -->
+            <div class="info-box">
+                <strong>Did you know?</strong>
+                <br>
+                Cato is pronounced <em>KAH-toh</em>. In Classical Latin the letter “C” always
+                sounds like a hard “k”, just like in the word “cat”.
+            </div>
+
             <p>
                 You are a young scribe in ancient Rome, chosen by the Senate to keep
-                track of armies, festivals, and treasure. To prove yourself, you must
-                master Roman numerals and defeat legendary beasts in the Arena of Numbers.
+                track of armies, festivals, and treasure. To prove yourself worthy,
+                you must master Roman numerals and record every victory and festival correctly.
             </p>
             <p>
-                Each victory unlocks new secrets about Rome’s history and language.
-                Learn new words like <strong>legion</strong> (a large Roman army),
+                But Rome is full of magical creatures. A playful trickster called Faun
+                has enchanted the numbers in the Arena. Each time you answer a question
+                correctly, his magic grows weaker. Each time you make a mistake, he grows stronger.
+            </p>
+            <p>
+                Every battle you win unlocks new secrets about Rome’s history and language.
+                You will learn words like <strong>legion</strong> (a large Roman army),
                 <strong>Senate</strong> (the council of leaders), and
                 <strong>scribe</strong> (a person who writes official records).
             </p>
+
             <h3>How to use this adventure</h3>
-            <ol style="margin-left: 1.5rem;">
-              <li>Start with the <strong>Story</strong> and <strong>Tutorial</strong> pages to learn the basics.</li>
-              <li>Choose your hero on the <strong>Character</strong> page.</li>
-              <li>Visit the <strong>History</strong> page to unlock facts as you win battles.</li>
-              <li>Train in the <strong>Tools</strong> section: Converter, Builder, and Matching games.</li>
-              <li>Fight monsters in the <strong>Arena</strong> and climb through levels I to XX.</li>
-              <li>When you are ready, download your <strong>Certificate</strong> and add your name to the Hall of Fame.</li>
+            <ol style="margin-left: 1.5rem; list-style-type: upper-roman;">
+                <li>Begin with the <strong>Story</strong> and <strong>Tutorial</strong> to learn the basics.</li>
+                <li>Choose your hero on the <strong>Character</strong> page: Centurion or Scholar.</li>
+                <li>Visit <strong>History</strong> to read fun facts about ancient Rome.</li>
+                <li>Practise in <strong>Tools</strong> using the Converter, Builder, and Matching games.</li>
+                <li>Enter the <strong>Arena</strong> to battle Faun with your maths skills.</li>
+                <li>Download your <strong>Certificate</strong> and check the <strong>High Score</strong> board.</li>
             </ol>
-            <!-- Background art: ancient Rome -->
-            <img src="images/ancient-rome.png"
+
+            <!-- Extra hero image of Rome, loaded from ROOT for consistency -->
+            <img src="ancient-rome.png"
                  alt="Ancient Roman forum with temples and people"
                  class="content-image" />
         </div>
 
-        <!-- TUTORIAL (rules + clock image) -->
+        <!-- ====== TUTORIAL ====== -->
         <div id="tutorial" class="section">
             <h2>Tutorial</h2>
-            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
-              <img src="images/monster-1-faun-2.png" alt="Faun teacher" style="max-width:120px;">
-              <p>
-                “I, Faun, will teach you! First, read the rules above. Next, look at the clock
-                and say each numeral from I to XII. Then visit the Tools to practise. When you can
-                read every numeral quickly, you are ready for the Arena!”
-              </p>
+
+            <div style="display:flex; align-items:center; gap:16px; margin-top:10px;">
+                <img src="images/monster-1-faun-2.png" alt="Cato teaching" style="max-width:120px;">
+                <p>
+                    “I, Cato the Faun, will teach you the rules of Roman numerals.
+                    Learn them well, and you will be ready to challenge me in the Arena!”
+                </p>
             </div>
+
             <p>Rules: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000.</p>
             <p>Subtractive forms: IV = 4, IX = 9, XL = 40, XC = 90, CD = 400, CM = 900.</p>
-            <!-- Clock art showing Roman numerals -->
+
             <img src="images/roman-clock.png"
                  alt="Clock face with Roman numerals"
                  class="content-image" />
+
             <p>
                 Modern use: Roman numerals still appear on clocks, in book chapters,
                 and at the end of films (for example, MMXXVI = 2026).
             </p>
+
             <h3>How to use this site (Step‑by‑step)</h3>
             <ol style="list-style-type: upper-roman; margin-left: 1.5rem;">
-              <li>Read the rules for Roman numerals at the top of this page.</li>
-              <li>Look at the clock and say each numeral out loud from I to XII.</li>
-              <li>Use the <strong>Converter</strong> to practise turning numbers into numerals and back.</li>
-              <li>Use the <strong>Builder</strong> to drag I, V, X, L, C, D, M and see how they combine.</li>
-              <li>Play the <strong>Matching</strong> game to speed up your recognition.</li>
-              <li>Enter the <strong>Arena</strong> when you feel ready to battle with maths.</li>
+                <li>Read the rules for Roman numerals at the top of this page.</li>
+                <li>Look at the clock and say each numeral out loud from I to XII.</li>
+                <li>Use the <strong>Converter</strong> to practise turning numbers into numerals and back.</li>
+                <li>Use the <strong>Builder</strong> to drag I, V, X, L, C, D, M and see how they combine.</li>
+                <li>Play the <strong>Matching</strong> game to speed up your recognition.</li>
+                <li>Enter the <strong>Arena</strong> when you feel ready to battle with maths.</li>
             </ol>
         </div>
 
-        <!-- CONVERTER -->
-        <div id="converter" class="section">
-            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
-          <img src="images/monster-1-faun-left-1.png" alt="Faun helper" style="max-width:120px;">
-          <p>
-            “Type a regular number, like <strong>27</strong>, and press Convert to see its Roman
-            numeral (<strong>XXVII</strong>). Or type a Roman numeral, like <strong>XL</strong>,
-            to see the number <strong>40</strong>. Practise until you can guess the answer
-            before the converter shows it!”
-          </p>
-        </div>
-            <h2>Converter</h2>
-            <input type="text" id="input" placeholder="Number or Roman">
-            <button onclick="convertInput()">Convert</button>
-            <div id="result"></div>
-        </div>        
-
-        <!-- DRAG‑AND‑DROP BUILDER -->
-        <div id="builder" class="section">
-            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
-              <img src="images/monster-1-faun-left-1.png" alt="Faun helper" style="max-width:120px;">
-              <p>
-                “Type a regular number, like <strong>27</strong>, and press Convert to see its Roman
-                numeral (<strong>XXVII</strong>). Or type a Roman numeral, like <strong>XL</strong>,
-                to see the number <strong>40</strong>. Welcome Roman! Here is a tricky game for you to play!”
-              </p>
-            </div>
-            <h2>Drag-and-Drop Builder</h2>
-            <p>Drag symbols to build a Roman numeral and see its value.</p>
-            <div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="I">I</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="V">V</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="X">X</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="L">L</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="C">C</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="D">D</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="M">M</div>
-            </div>
-            <div id="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div id="build-result"></div>
-            <button onclick="resetBuilder()">Reset</button>
-        </div>
-
-        <!-- CHARACTER SELECTION -->
+        <!-- ====== CHARACTER SELECTION ====== -->
         <div id="character-select" class="section">
             <h2>Choose Your Champion</h2>
+
+            <div class="info-box">
+                <strong>Cato says:</strong>
+                “Every hero needs a guide. Choose the champion who feels most like you.
+                I will walk beside you either way!”
+            </div>
+
             <p>Select a character to guide you through the Arena of Numbers.</p>
+
             <div id="character-options">
-                <!-- Exact filenames from your image folder -->
-                <img src="images/roman-character-1.png" alt="Centurion"
-                     id="char-centurion" onclick="selectCharacter('centurion')" />
-                <img src="images/roman-character-2.png" alt="Scholar"
-                     id="char-scholar" onclick="selectCharacter('scholar')" />
+                <!-- Centurion card (image from ROOT) -->
+                <div class="hero-card" id="card-centurion" onclick="selectCharacter('centurion')">
+                    <img src="roman-character-1.png" alt="Centurion hero">
+                    <h3>Centurion</h3>
+                    <p>
+                        A brave Roman officer who leads a <strong>century</strong> of 100 soldiers.
+                        The Centurion loves bold challenges, quick battles, and shouting numbers across
+                        the Arena so everyone can hear.
+                    </p>
+                </div>
+
+                <!-- Scholar card (image from ROOT) -->
+                <div class="hero-card" id="card-scholar" onclick="selectCharacter('scholar')">
+                    <img src="roman-character-2.png" alt="Scholar hero">
+                    <h3>Scholar</h3>
+                    <p>
+                        A thoughtful student from the great libraries of Rome.
+                        The Scholar prefers careful thinking, clever strategies, and
+                        solving tricky numeral puzzles before stepping into the Arena.
+                    </p>
+                </div>
             </div>
         </div>
 
-        <!-- ARENA / BATTLE QUIZ -->
+        <!-- ====== HISTORY (simple facts for now) ====== -->
+        <div id="history" class="section">
+            <h2>History & Background</h2>
+
+            <div class="info-box">
+                <strong>Cato whispers:</strong>
+                “As you rise through the levels, I will reveal more secrets about
+                Rome’s roads, buildings, and clever inventions.”
+            </div>
+
+            <p>
+                Win battles in the Arena to unlock new secrets about Roman numerals and
+                ancient Rome. Each level can reveal a new fact below.
+            </p>
+            <div id="history-facts"></div>
+        </div>
+
+        <!-- ====== TOOLS WRAPPER (Converter, Builder, Matching) ====== -->
+        <div id="tools" class="section">
+            <h2>Tools</h2>
+
+            <div id="tools-nav">
+                <button onclick="showTool('tool-converter')">Converter</button>
+                <button onclick="showTool('tool-builder')">Builder</button>
+                <button onclick="showTool('tool-matching')">Matching</button>
+            </div>
+
+            <!-- Converter tool -->
+            <div id="tool-converter" class="tool-panel">
+                <h3>Converter</h3>
+                <div class="info-box">
+                    <img src="images/monster-1-faun-left-1.png" alt="Cato helper" style="max-width:80px; float:left; margin-right:10px;">
+                    <p>
+                        “Type a regular number, like <strong>27</strong>, and press Convert
+                        to see its Roman numeral (<strong>XXVII</strong>). Or type a Roman
+                        numeral, like <strong>XL</strong>, to see the number <strong>40</strong>.
+                        Try to guess the answer before the converter shows it!”
+                    </p>
+                    <div style="clear:both;"></div>
+                </div>
+                <p><strong>Try it:</strong></p>
+                <input type="text" id="input" placeholder="Number or Roman">
+                <button onclick="convertInput()">Convert</button>
+                <div id="result" style="margin-top:8px; font-weight:bold;"></div>
+            </div>
+
+            <!-- Builder tool -->
+            <div id="tool-builder" class="tool-panel">
+                <h3>Drag‑and‑Drop Builder</h3>
+                <div class="info-box">
+                    <img src="images/monster-1-faun-left-1.png" alt="Cato builder" style="max-width:80px; float:left; margin-right:10px;">
+                    <p>
+                        “Welcome, Roman! Drag the symbols I, V, X, L, C, D, and M into the box
+                        to build your own numerals. Watch how the value changes as you add or
+                        remove symbols. Can you build the number <strong>2026</strong>?”
+                    </p>
+                    <div style="clear:both;"></div>
+                </div>
+                <p>Drag symbols to build a Roman numeral and see its value.</p>
+                <div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="I">I</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="V">V</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="X">X</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="L">L</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="C">C</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="D">D</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="M">M</div>
+                </div>
+                <div id="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div id="build-result" style="font-weight:bold; margin-top:5px;"></div>
+                <button onclick="resetBuilder()">Reset</button>
+            </div>
+
+            <!-- Matching tool -->
+            <div id="tool-matching" class="tool-panel">
+                <h3>Matching Game</h3>
+                <div class="info-box">
+                    <img src="images/monster-1-faun-right-2.png" alt="Cato matching" style="max-width:80px; float:left; margin-right:10px;">
+                    <p>
+                        “Here is a quick challenge! Drag each Roman numeral into the
+                        box that shows its number. Remember: I is 1, V is 5, and X is 10.
+                        Try to match them all without a single mistake.”
+                    </p>
+                    <div style="clear:both;"></div>
+                </div>
+                <p>Drag Roman numerals to match the numbers.</p>
+                <div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-I">I</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-V">V</div>
+                    <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-X">X</div>
+                </div>
+                <div class="pair">V (5):
+                    <div class="drop" ondrop="dropMatch(event, 5)" ondragover="allowDrop(event)"></div>
+                </div>
+                <div class="pair">I (1):
+                    <div class="drop" ondrop="dropMatch(event, 1)" ondragover="allowDrop(event)"></div>
+                </div>
+                <div class="pair">X (10):
+                    <div class="drop" ondrop="dropMatch(event, 10)" ondragover="allowDrop(event)"></div>
+                </div>
+                <div id="match-result" style="margin-top:5px; font-weight:bold;"></div>
+            </div>
+        </div>
+
+        <!-- ====== ARENA / BATTLE QUIZ ====== -->
         <div id="quiz" class="section">
             <h2>Arena Battle</h2>
+
+            <div class="info-box">
+                <strong>Cato explains:</strong>
+                “In the Arena, your hero faces me, the trickster Faun. Each correct Roman numeral
+                hits me. Each mistake hits you. Survive ten questions or defeat me to win the round!”
+            </div>
+
             <p>
                 Level <span id="level">1</span>.
                 Total score: <span id="score">0</span>
             </p>
-            <p>Each battle has up to 10 questions. Correct answers damage the monster, wrong answers hurt you!</p>
+            <p>Each battle has up to 10 questions. Correct answers damage the monster, wrong answers hurt you.</p>
 
             <div id="health-bars">
                 <div>Hero HP: <span id="hero-hp">5</span></div>
@@ -331,76 +493,45 @@
 
             <div id="battle-arena">
                 <div class="fighter">
-                    <!-- Hero image (centurion or scholar) -->
-                    <img id="hero-img" src="images/roman-character-1.png" alt="Hero">
+                    <!-- Hero image (Centurion or Scholar) from ROOT -->
+                    <img id="hero-img" src="roman-character-1.png" alt="Hero">
                 </div>
                 <div class="fighter">
-                    <!-- Monster: faun facing left (as in your screenshot) -->
+                    <!-- Monster: Faun, from images/ -->
                     <img id="monster-img" src="images/monster-1-faun-right-2.png" alt="Faun monster">
                 </div>
             </div>
 
             <p>Round score: <span id="round-score">0</span> / 10</p>
-            <div id="question"></div>
+            <div id="question" style="margin-bottom:5px;"></div>
             <input type="text" id="quiz-input" autocomplete="off">
             <button onclick="checkQuiz()">Submit</button>
-            <div id="quiz-result"></div>
+            <div id="quiz-result" style="margin-top:5px; font-weight:bold;"></div>
         </div>
 
-        <!-- MATCHING GAME -->
-        <div id="matching" class="section">
-            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
-              <img src="images/monster-1-faun-left-1.png" alt="Faun helper" style="max-width:120px;">
-              <p>
-                “Type a regular number, like <strong>27</strong>, and press Convert to see its Roman
-                numeral (<strong>XXVII</strong>). Or type a Roman numeral, like <strong>XL</strong>,
-                to see the number <strong>40</strong>. Rome wasn't built in a day! Practice makes perfect!”
-              </p>
-            </div>
-            <h2>Matching Game</h2>
-            <p>Drag Roman numerals to match the numbers.</p>
-            <div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-I">I</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-V">V</div>
-                <div class="draggable" draggable="true" ondragstart="drag(event)" id="match-X">X</div>
-            </div>
-            <div class="pair">5:
-                <div class="drop" ondrop="dropMatch(event, 5)" ondragover="allowDrop(event)"></div>
-            </div>
-            <div class="pair">1:
-                <div class="drop" ondrop="dropMatch(event, 1)" ondragover="allowDrop(event)"></div>
-            </div>
-            <div class="pair">10:
-                <div class="drop" ondrop="dropMatch(event, 10)" ondragover="allowDrop(event)"></div>
-            </div>
-            <div id="match-result"></div>
-        </div>
-
-        <!-- HISTORY (UNLOCKABLE FACTS) -->
-        <div id="history" class="section">
-            <h2>History & Background</h2>
+        <!-- ====== HIGH SCORE (placeholder for now) ====== -->
+        <div id="highscore" class="section">
+            <h2>High Score</h2>
             <p>
-                Win battles in the Arena to unlock new secrets about Roman numerals and
-                ancient Rome.
+                This page will list the highest scores from brave players around the world.
+                For now, keep battling in the Arena to build your score!
             </p>
-            <div id="history-facts"></div>
         </div>
     </div>
 
-    <!-- FIXED GUIDE CHARACTER (BOTTOM‑RIGHT) -->
+    <!-- Fixed guide character (uses chosen hero art from ROOT) -->
     <div id="character">
-        <!-- Uses same hero art; default is centurion -->
-        <img id="corner-character" src="images/roman-character-1.png" alt="Guide character">
+        <img id="corner-character" src="roman-character-1.png" alt="Guide character">
         <div id="speech">Welcome to the Arena of Numbers!</div>
     </div>
 
-    <!-- HIDDEN CANVAS FOR CERTIFICATE PNG -->
+    <!-- Hidden canvas for certificate rendering -->
     <canvas id="cert-canvas" style="display:none;"></canvas>
 
     <script>
         /* ========= GLOBAL STATE & PERSISTENCE ========= */
 
-        // Overall score and level, stored in localStorage
+        // Score and level (persisted in localStorage)
         let score = parseInt(localStorage.getItem('score') || '0', 10);
         let level = parseInt(localStorage.getItem('level') || '1', 10);
         document.getElementById('score').innerText = score;
@@ -409,7 +540,7 @@
         // Active hero: "centurion" or "scholar"
         let selectedCharacter = 'centurion';
 
-        // Short history facts unlocked as the player levels up
+        // Short history facts unlocked per level
         const historyFacts = [
             "Romans used numerals mainly for counting money, recording trade, and numbering armies.",
             "Romans did not have a symbol for zero. The idea of zero came later from other cultures.",
@@ -419,7 +550,6 @@
         ];
         let unlockedFacts = parseInt(localStorage.getItem('factsUnlocked') || '1', 10);
 
-        // Render unlocked facts into the History section
         function renderHistoryFacts() {
             const container = document.getElementById('history-facts');
             container.innerHTML = '';
@@ -432,16 +562,23 @@
 
         /* ========= NAVIGATION ========= */
 
-        // Show one section (by id) and hide the others
         function showSection(id) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-            if (id === 'quiz') startQuiz();  // entering Arena starts/continues a round
+            const section = document.getElementById(id);
+            if (section) section.style.display = 'block';
+
+            if (id === 'quiz') startQuiz();
+            if (id === 'tools') showTool('tool-converter'); // default tool
+        }
+
+        function showTool(id) {
+            document.querySelectorAll('.tool-panel').forEach(p => p.style.display = 'none');
+            const panel = document.getElementById(id);
+            if (panel) panel.style.display = 'block';
         }
 
         /* ========= ROMAN NUMERAL UTILITIES ========= */
 
-        // Number -> Roman lookup map
         const romanMap = [
             { value: 1000, numeral: "M" }, { value: 900, numeral: "CM" }, { value: 500, numeral: "D" },
             { value: 400, numeral: "CD" }, { value: 100, numeral: "C" }, { value: 90, numeral: "XC" },
@@ -449,7 +586,6 @@
             { value: 9, numeral: "IX" }, { value: 5, numeral: "V" }, { value: 4, numeral: "IV" }, { value: 1, numeral: "I" }
         ];
 
-        // Integer -> Roman numeral
         function numberToRoman(num) {
             let result = "";
             for (let { value, numeral } of romanMap) {
@@ -458,35 +594,34 @@
             return result;
         }
 
-        // Roman -> integer lookup
         const romanToNumMap = {
             M: 1000, CM: 900, D: 500, CD: 400,
             C: 100, XC: 90, L: 50, XL: 40,
             X: 10, IX: 9, V: 5, IV: 4, I: 1
         };
 
-        // Roman numeral string -> integer
         function romanToNumber(roman) {
             let i = 0, num = 0;
             roman = roman.toUpperCase();
             while (i < roman.length) {
-                let two = roman[i] + (roman[i + 1] || "");
+                const two = roman[i] + (roman[i + 1] || "");
                 if (romanToNumMap[two]) { num += romanToNumMap[two]; i += 2; }
                 else { num += romanToNumMap[roman[i]]; i++; }
             }
             return num;
         }
 
-        // Converter UI handler
         function convertInput() {
-            let input = document.getElementById('input').value.trim().toUpperCase();
-            let result = document.getElementById('result');
+            const inputEl = document.getElementById('input');
+            if (!inputEl) return;
+            let input = inputEl.value.trim().toUpperCase();
+            const result = document.getElementById('result');
             if (!input) {
                 result.innerText = "Please enter a number or Roman numeral.";
                 return;
             }
             if (!isNaN(input)) {
-                let num = parseInt(input);
+                let num = parseInt(input, 10);
                 if (num < 1 || num > 3999) {
                     result.innerText = "Please enter a number from 1 to 3999.";
                 } else {
@@ -507,15 +642,16 @@
 
         function drop(ev) {
             ev.preventDefault();
-            let data = ev.dataTransfer.getData("text");
-            let node = document.getElementById(data).cloneNode(true);
-            node.id = node.id + "-copy-" + Date.now();  // unique id for clone
+            const id = ev.dataTransfer.getData("text");
+            const original = document.getElementById(id);
+            if (!original) return;
+            const node = original.cloneNode(true);
+            node.id = id + "-copy-" + Date.now();
             ev.target.appendChild(node);
 
-            // Recalculate the value of the assembled numeral
-            let roman = ev.target.innerText.replace(/\s+/g, '');
-            document.getElementById('build-result').innerText =
-                roman ? romanToNumber(roman) : '';
+            const roman = ev.target.innerText.replace(/\s+/g, '');
+            const value = roman ? romanToNumber(roman) : '';
+            document.getElementById('build-result').innerText = value;
         }
 
         function resetBuilder() {
@@ -528,20 +664,24 @@
         function selectCharacter(id) {
             selectedCharacter = id;
 
-            // Update bottom‑right portrait
-            document.getElementById('speech').innerText = `You chose the ${id}!`;
+            // Corner guide portrait (from ROOT)
             document.getElementById('corner-character').src =
                 id === 'scholar'
-                    ? 'images/roman-character-2.png'
-                    : 'images/roman-character-1.png';
+                    ? 'roman-character-2.png'
+                    : 'roman-character-1.png';
 
-            // Visual highlight in character‑select section
-            document.querySelectorAll('#character-options img')
-                .forEach(img => img.classList.remove('selected'));
+            document.getElementById('speech').innerText =
+                id === 'scholar'
+                    ? 'You chose the Scholar! Think carefully and strike wisely.'
+                    : 'You chose the Centurion! Charge bravely into the Arena.';
+
+            // Highlight selected hero card
+            document.querySelectorAll('#character-options .hero-card')
+                .forEach(card => card.classList.remove('selected'));
             if (id === 'scholar') {
-                document.getElementById('char-scholar').classList.add('selected');
+                document.getElementById('card-scholar').classList.add('selected');
             } else {
-                document.getElementById('char-centurion').classList.add('selected');
+                document.getElementById('card-centurion').classList.add('selected');
             }
         }
 
@@ -552,15 +692,14 @@
         let questionsThisRound = 0;
         let currentQuestion = null;
 
-        // Set up or continue the current round
         function startQuiz() {
-            // Hero artwork swaps based on selectedCharacter
-            document.getElementById('hero-img').src =
+            // Update hero art based on chosen character (ROOT paths)
+            const heroImg = document.getElementById('hero-img');
+            heroImg.src =
                 selectedCharacter === 'scholar'
-                    ? 'images/roman-character-2.png'
-                    : 'images/roman-character-1.png';
+                    ? 'roman-character-2.png'
+                    : 'roman-character-1.png';
 
-            // New round: reset HP and round score
             if (questionsThisRound === 0) {
                 heroHp = 5;
                 monsterHp = 5;
@@ -570,7 +709,6 @@
                 document.getElementById('quiz-result').innerText = '';
             }
 
-            // Difficulty scaling by level
             const maxBase = level * 10;
             let a = Math.floor(Math.random() * maxBase) + 1;
             let b = Math.floor(Math.random() * maxBase) + 1;
@@ -589,8 +727,7 @@
                 correctNumber = a - b;
             } else if (op === '×') {
                 correctNumber = a * b;
-            } else if (op === '÷') {
-                // Ensure division questions give integer answers
+            } else { // division
                 correctNumber = a;
                 b = Math.max(1, Math.floor(Math.random() * (level + 1)));
                 a = correctNumber * b;
@@ -599,14 +736,13 @@
             currentQuestion = { a, b, op, correctNumber };
             const romanA = numberToRoman(a);
             const romanB = numberToRoman(b);
-
             document.getElementById('question').innerText =
                 `Arena Challenge: ${romanA} ${op} ${romanB} = ? (answer in Roman numerals)`;
-            document.getElementById('quiz-input').value = '';
-            document.getElementById('quiz-input').focus();
+            const input = document.getElementById('quiz-input');
+            input.value = '';
+            input.focus();
         }
 
-        // Evaluate the player's answer
         function checkQuiz() {
             if (!currentQuestion) return;
 
@@ -624,25 +760,22 @@
                 score++;
                 document.getElementById('monster-hp').innerText = monsterHp;
                 document.getElementById('round-score').innerText =
-                    parseInt(document.getElementById('round-score').innerText) + 1;
+                    parseInt(document.getElementById('round-score').innerText, 10) + 1;
                 document.getElementById('speech').innerText = 'You strike the monster!';
                 result.innerText = 'Correct!';
             } else {
                 heroHp--;
                 document.getElementById('hero-hp').innerText = heroHp;
                 document.getElementById('speech').innerText =
-                    `The monster hits back! Correct answer was ${correctRoman}.`;
+                    `The monster hits back! The correct answer was ${correctRoman}.`;
                 result.innerText = `Wrong. Correct: ${correctRoman}`;
             }
 
-            // Persist total score
             localStorage.setItem('score', score);
             document.getElementById('score').innerText = score;
 
-            // End of round conditions
             if (heroHp <= 0 || monsterHp <= 0 || questionsThisRound >= 10) {
                 if (monsterHp <= 0 && heroHp > 0) {
-                    // Player wins: level up and unlock fact
                     level++;
                     localStorage.setItem('level', level);
                     document.getElementById('level').innerText = level;
@@ -661,7 +794,7 @@
                     document.getElementById('speech').innerText =
                         'Defeat... but you can try the level again.';
                 }
-                questionsThisRound = 0; // next time startQuiz() runs, it resets HP etc.
+                questionsThisRound = 0;
             }
 
             if (heroHp > 0 && monsterHp > 0 && questionsThisRound < 10) {
@@ -673,91 +806,86 @@
 
         function dropMatch(ev, num) {
             ev.preventDefault();
-            let data = ev.dataTransfer.getData("text");
-            let symbol = document.getElementById(data).innerText.trim();
+            const id = ev.dataTransfer.getData("text");
+            const symbol = document.getElementById(id).innerText.trim();
             if (romanToNumber(symbol) === num) {
                 ev.target.innerText = symbol;
                 document.getElementById('match-result').innerText = 'Match!';
                 document.getElementById('speech').innerText = 'Good match!';
             } else {
                 document.getElementById('match-result').innerText = 'Try again.';
-                document.getElementById('speech').innerText = 'No match.';
+                document.getElementById('speech').innerText = 'No match this time.';
             }
         }
 
         /* ========= CERTIFICATE (CANVAS) ========= */
 
-function downloadCertificate() {
-    const canvas = document.getElementById('cert-canvas');
-    const ctx = canvas.getContext('2d');
-    const name = document.getElementById('player-name').value || 'Brave Student';
+        function downloadCertificate() {
+            const canvas = document.getElementById('cert-canvas');
+            const ctx = canvas.getContext('2d');
+            const name = document.getElementById('player-name').value || 'Brave Student';
 
-    canvas.width = 800;
-    canvas.height = 600;
+            canvas.width = 800;
+            canvas.height = 600;
 
-    // Background
-    ctx.fillStyle = '#fdf6e3';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fdf6e3';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Border
-    ctx.strokeStyle = '#8b5a2b';
-    ctx.lineWidth = 10;
-    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+            ctx.strokeStyle = '#8b5a2b';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
 
-    ctx.fillStyle = '#000';
-    ctx.textAlign = 'center';
+            ctx.fillStyle = '#000';
+            ctx.textAlign = 'center';
 
-    // Titles
-    ctx.font = '36px Georgia';
-    ctx.fillText('Certificate of Achievement', canvas.width / 2, 100);
-    ctx.font = '28px Georgia';
-    ctx.fillText('Roman Numerals Adventure', canvas.width / 2, 150);
+            ctx.font = '36px Georgia';
+            ctx.fillText('Certificate of Achievement', canvas.width / 2, 100);
+            ctx.font = '28px Georgia';
+            ctx.fillText('Roman Numerals Adventure', canvas.width / 2, 150);
 
-    // Hero + name
-    ctx.font = '24px Georgia';
-    ctx.fillText(name, canvas.width / 2, 210);
-    ctx.font = '20px Georgia';
-    const heroLabel = selectedCharacter === 'scholar' ? 'Scholar of Numbers' : 'Centurion of Counting';
-    ctx.fillText(heroLabel, canvas.width / 2, 240);
+            ctx.font = '24px Georgia';
+            ctx.fillText(name, canvas.width / 2, 210);
+            ctx.font = '20px Georgia';
+            const heroLabel = selectedCharacter === 'scholar'
+                ? 'Scholar of Numbers'
+                : 'Centurion of Counting';
+            ctx.fillText(heroLabel, canvas.width / 2, 240);
 
-    // Score and level (Roman + Arabic)
-    const levelRoman = numberToRoman(level);
-    ctx.fillText(`Score: ${score}`, canvas.width / 2, 280);
-    ctx.fillText(`Level: ${levelRoman} (${level} of XX)`, canvas.width / 2, 310);
+            const levelRoman = numberToRoman(level);
+            ctx.font = '20px Georgia';
+            ctx.fillText(`Score: ${score}`, canvas.width / 2, 280);
+            ctx.fillText(`Level: ${levelRoman} (${level} of XX)`, canvas.width / 2, 310);
 
-    // Monster text line
-    ctx.font = '18px Georgia';
-    ctx.fillText(
-        `Well done, ${name}! You defeated the trickster known as Faun.`,
-        canvas.width / 2, 350
-    );
+            ctx.font = '18px Georgia';
+            ctx.fillText(
+                `Well done, ${name}! You defeated the trickster known as Faun.`,
+                canvas.width / 2, 350
+            );
 
-    // Insert small faun logo at bottom
-    const logo = new Image();
-    logo.src = 'images/monster-1-faun-left-1.png';
-    logo.onload = () => {
-        const logoSize = 100;
-        ctx.drawImage(logo, canvas.width / 2 - logoSize / 2, 370, logoSize, logoSize);
+            const logo = new Image();
+            // Use logo image as requested, from images/ folder
+            logo.src = 'images/monster-1-faun-logo-1.png';
+            logo.onload = () => {
+                const size = 100;
+                ctx.drawImage(logo, canvas.width / 2 - size / 2, 370, size, size);
 
-        // Footer and date after logo loads
-        ctx.font = '16px Georgia';
-        const date = new Date().toLocaleDateString();
-        ctx.fillText(`Awarded on: ${date}`, canvas.width / 2, 520);
-        ctx.fillText('Roman Numerals Adventure Academy', canvas.width / 2, 550);
+                ctx.font = '16px Georgia';
+                const date = new Date().toLocaleDateString();
+                ctx.fillText(`Awarded on: ${date}`, canvas.width / 2, 520);
+                ctx.fillText('Roman Numerals Adventure Academy', canvas.width / 2, 550);
 
-        // Trigger a .pdf document download
-        const a = document.createElement('a');
-        a.href = canvas.toDataURL('image/png');
-        a.download = 'roman-numerals-certificate.png';
-        a.click();
-    };
-}
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = 'roman-numerals-certificate.png';
+                a.click();
+            };
+        }
 
         /* ========= INITIALISATION ========= */
 
-        renderHistoryFacts();          // show any previously unlocked facts
-        selectCharacter('centurion');  // default hero + corner portrait
-        showSection('story');          // default view when the page loads
+        renderHistoryFacts();
+        selectCharacter('centurion');
+        showSection('story');
     </script>
 </body>
 </html>
