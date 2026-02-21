@@ -8,7 +8,7 @@
     <!--
         Roman Numerals Adventure – MAIN GAME + HISTORY OVERVIEW
         - Background, Story, Tutorial, Character select
-        - History overview (0–24)
+        - History overview (I–XXIII)
         - Tools (Converter, Builder, Matching)
         - Arena battle
         - Certificate
@@ -18,15 +18,15 @@
         - From images/: all monster/faun art + roman-clock.png etc.
     -->
     <style>
-                /* ====== GLOBAL LAYOUT & BACKGROUND ====== */
+        /* ====== GLOBAL LAYOUT & BACKGROUND ====== */
         body {
             font-family: Arial, sans-serif;
             background: url("ancient-rome.png") no-repeat centre centre fixed;
             background-size: cover;
             margin: 0;
-            padding: 0; /* header now controls top padding */
+            padding: 20px; /* space around the main card */
         }
-        
+
         /* Sticky site header */
         #site-header {
             position: sticky;
@@ -35,18 +35,17 @@
             background: rgba(255, 255, 255, 0.98);
             border-bottom: 1px solid #ddd;
         }
-        
+
         /* Inner header container */
         .header-inner {
             max-width: 1000px;
             margin: 0 auto;
             padding: 10px 20px;
             display: flex;
-            align-items: centre;
-            justify-content: space-between;
-            gap: 20px;
+            flex-direction: column; /* title then nav */
+            gap: 8px;
         }
-        
+
         /* Site title and small tagline */
         #site-title {
             margin: 0;
@@ -57,16 +56,16 @@
             font-size: 0.85rem;
             colour: #555;
         }
-        
+
         /* Main white content card */
         .container {
             max-width: 1000px;
-            margin: 0 auto 40px auto;
+            margin: 0 auto 60px auto;
             background: rgba(255, 255, 255, 0.95);
             padding: 20px 30px 40px 30px;
             border-radius: 10px;
         }
-        
+
         /* Top navigation bar */
         #nav {
             display: flex;
@@ -74,24 +73,37 @@
             justify-content: centre;
             gap: 8px;
         }
-        
-        button {
-            padding: 8px 12px;
+
+        /* Button styling shared with chapter buttons */
+        button,
+        .chapter-tri-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 16px;
+            background: #ffe082;
+            colour: #000;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             cursor: pointer;
         }
-        
+
+        button:hover,
+        .chapter-tri-btn:hover {
+            background: #ffd54f;
+        }
+
         input[type="text"] {
             padding: 5px;
             margin-top: 5px;
         }
-        
+
         /* Dropdown for History */
         .dropdown {
             position: relative;
             display: inline-block;
         }
         .dropdown-toggle {
-            padding: 8px 12px;
+            padding: 10px 16px;
             cursor: pointer;
         }
         .dropdown-menu {
@@ -112,6 +124,8 @@
             background: white;
             padding: 8px 10px;
             cursor: pointer;
+            box-shadow: none;
+            border-radius: 0;
         }
         .dropdown-menu button:hover {
             background: #f0f0f0;
@@ -119,12 +133,12 @@
         .dropdown:hover .dropdown-menu {
             display: block;
         }
-        
+
         /* All main sections (pages) */
         .section {
             display: none;
         }
-        
+
         /* Info boxes (Cato, Did you know?, Quick facts) */
         .info-box {
             background-colour: #fffde7;
@@ -134,7 +148,7 @@
             margin-top: 10px;
             border-radius: 4px;
         }
-        
+
         /* Chapter/content boxes (light colour background) */
         .chapter-box {
             background-colour: #f3f8ff; /* very light blue – still readable */
@@ -143,56 +157,63 @@
             padding: 12px 15px;
             margin-top: 15px;
         }
-        
+
+        /* Quick facts special colouring */
+        .quick-facts-box {
+            background-colour: #e0f7fa;
+            border: 1px solid #b2ebf2;
+            border-left: 5px solid #26c6da;
+        }
+
         /* ====== LEFT PARCHMENT TABLE OF CONTENTS (History) ====== */
-        
         #history-layout {
             display: flex;
             flex-direction: row;
         }
-        
-        /* Parchment nav */
+
         .side-toc {
             position: fixed;
-            top: 90px;             /* just under sticky header */
+            top: 120px;  /* under header */
             left: 10px;
-            width: 180px;
-            max-height: calc(100vh - 110px);
+            width: 220px; /* wider for one-line labels */
+            max-height: calc(100vh - 150px); /* leave room above footer */
             overflow-y: auto;
             background: #f9f1d0;   /* parchment colour */
             border: 2px solid #e0c27b;
             border-radius: 12px;
             padding: 10px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
-        
+
         .side-toc h3 {
             margin-top: 0;
             font-size: 1rem;
             text-align: centre;
         }
-        
+
         .side-toc a {
             display: block;
             text-decoration: none;
             colour: #4a3210;
-            padding: 4px 6px;
-            border-radius: 4px;
+            padding: 8px 10px;
+            margin-bottom: 4px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.7);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
         .side-toc a:hover {
-            background: rgba(255,255,255,0.6);
+            background: #ffe082;
         }
-        
-        /* History main content shifted to the right of parchment */
+
         #history-main {
-            margin-left: 210px;  /* width of side toc + gap */
+            margin-left: 250px;  /* width of side toc + gap */
         }
-        
+
         /* ====== FIXED GUIDE CHARACTER ====== */
         #character {
             position: fixed;
-            bottom: 10px;
+            bottom: 80px; /* lifted above footer */
             right: 10px;
             width: 220px;
             background: rgba(255, 255, 255, 0.95);
@@ -213,10 +234,9 @@
             margin-top: 5px;
             font-size: 0.85rem;
         }
-        
+
         /* ====== DRAG / DROP, MATCHING, ARENA, ETC. ====== */
-        /* (unchanged from your last version – keep these) */
-        
+
         .draggable {
             display: inline-block;
             padding: 10px;
@@ -298,7 +318,7 @@
         .tool-panel {
             display: none;
         }
-        
+
         /* ====== TRIFORCE CHAPTER BUTTONS (History) ====== */
         .chapter-triforce {
             margin-top: 15px;
@@ -310,55 +330,55 @@
         }
         .chapter-triforce-row {
             display: flex;
-            gap: 20px;
             justify-content: centre;
+            margin-top: 4px;
+        }
+        .chapter-triforce-row.bottom {
+            justify-content: space-between;
+            width: 320px; /* controls triangle width */
         }
         .chapter-tri-btn {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 999px;
-            text-decoration: none;
-            colour: #000;
-            font-weight: bold;
-            background: #ffe082;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            min-width: 220px;
             text-align: centre;
         }
-        .chapter-tri-btn.empire {
-            background: #ffab91;
+        .chapter-tri-btn.kingdom { background: #fff59d; }
+        .chapter-tri-btn.republic { background: #ffcc80; }
+        .chapter-tri-btn.empire { background: #ffab91; }
+
+        /* Rule boxes on Tutorial */
+        .rule-box {
+            background-colour: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-top: 10px;
         }
-        .chapter-tri-btn.republic {
-            background: #ffcc80;
-        }
-        .chapter-tri-btn.kingdom {
-            background: #fff59d;
-        }
-        
+
         /* ====== FOOTER ====== */
         #site-footer {
-            background: #222;
-            colour: #eee;
-            padding: 15px 20px;
-            font-size: 0.85rem;
+            background: #333;
+            colour: #f5f5f5;
+            padding: 20px 20px;
+            font-size: 0.9rem;
         }
         .footer-inner {
             max-width: 1000px;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 10px 20px;
             justify-content: space-between;
             align-items: centre;
         }
         .footer-links a {
-            colour: #eee;
+            colour: #f5f5f5;
             text-decoration: none;
             margin-right: 10px;
         }
         .footer-links a:hover {
             text-decoration: underline;
         }
-        
+
         /* ====== BASIC RESPONSIVE ADJUSTMENT ====== */
         @media (max-width: 800px) {
             #history-layout {
@@ -377,75 +397,48 @@
     </style>
 </head>
 <body>
-        <header id="site-header">
+    <!-- Sticky header with single nav -->
+    <header id="site-header">
         <div class="header-inner">
             <div>
                 <h1 id="site-title">Roman Numerals Adventure</h1>
                 <p id="site-tagline">Learn Roman numerals and explore ancient Rome.</p>
             </div>
-            <div>
-                <!-- Top navigation bar (moved into header) -->
-                <div id="nav">
-                    <button onclick="showSection('story')">Story</button>
-                    <button onclick="showSection('tutorial')">Tutorial</button>
-                    <button onclick="showSection('character-select')">Character</button>
-    
-                    <div class="dropdown">
-                        <button class="dropdown-toggle" onclick="showSection('history')">
-                            History ▼
+            <div id="nav">
+                <button onclick="showSection('story')">Story</button>
+                <button onclick="showSection('tutorial')">Tutorial</button>
+                <button onclick="showSection('character-select')">Character</button>
+
+                <div class="dropdown">
+                    <button class="dropdown-toggle" onclick="showSection('history')">
+                        History ▼
+                    </button>
+                    <div class="dropdown-menu">
+                        <button onclick="showSection('history'); scrollToId('history-top');">
+                            History overview
                         </button>
-                        <div class="dropdown-menu">
-                            <button onclick="showSection('history'); scrollToId('history-top');">
-                                History overview
-                            </button>
-                            <button onclick="window.location.href='kingdom.html'">
-                                Roman Kingdom – 200 Years
-                            </button>
-                            <button onclick="window.location.href='republic.html'">
-                                Roman Republic – 500 Years
-                            </button>
-                            <button onclick="window.location.href='empire.html'">
-                                Roman Empire – 500 Years
-                            </button>
-                        </div>
+                        <button onclick="window.location.href='kingdom.html'">
+                            Roman Kingdom – 200 Years
+                        </button>
+                        <button onclick="window.location.href='republic.html'">
+                            Roman Republic – 500 Years
+                        </button>
+                        <button onclick="window.location.href='empire.html'">
+                            Roman Empire – 500 Years
+                        </button>
                     </div>
-    
-                    <button onclick="showSection('quiz')">Arena</button>
-                    <button onclick="showSection('tools')">Tools</button>
-                    <button onclick="downloadCertificate()">Certificate</button>
-                    <button onclick="showSection('highscore')">High Score</button>
-                    <input type="text" id="player-name" placeholder="Your name" />
                 </div>
+
+                <button onclick="showSection('quiz')">Arena</button>
+                <button onclick="showSection('tools')">Tools</button>
+                <button onclick="downloadCertificate()">Certificate</button>
+                <button onclick="showSection('highscore')">High Score</button>
+                <input type="text" id="player-name" placeholder="Your name" />
             </div>
         </div>
     </header>
+
     <div class="container">
-        <h1>Roman Numerals Adventure</h1>
-
-        <!-- NAVIGATION BAR -->
-        <div id="nav">
-            <button onclick="showSection('story')">Story</button>
-            <button onclick="showSection('tutorial')">Tutorial</button>
-            <button onclick="showSection('character-select')">Character</button>
-
-            <!-- History dropdown -->
-            <div class="dropdown">
-                <button class="dropdown-toggle" onclick="showSection('history')">History ▼</button>
-                <div class="dropdown-menu">
-                    <button onclick="showSection('history'); scrollToId('history-top');">History overview</button>
-                    <button onclick="window.location.href='kingdom.html'">Roman Kingdom – 200 Years</button>
-                    <button onclick="window.location.href='republic.html'">Roman Republic – 500 Years</button>
-                    <button onclick="window.location.href='empire.html'">Roman Empire – 500 Years</button>
-                </div>
-            </div>
-
-            <button onclick="showSection('quiz')">Arena</button>
-            <button onclick="showSection('tools')">Tools</button>
-            <button onclick="downloadCertificate()">Certificate</button>
-            <button onclick="showSection('highscore')">High Score</button>
-            <input type="text" id="player-name" placeholder="Your name" />
-        </div>
-
         <!-- ====== STORY ====== -->
         <div id="story" class="section">
             <h2>Story</h2>
@@ -484,15 +477,17 @@
                 <strong>scribe</strong> (a person who writes official records).
             </p>
 
-            <h3>How to use this adventure</h3>
-            <ol style="margin-left: 1.5rem; list-style-type: upper-roman;">
-                <li>Begin with the <strong>Story</strong> and <strong>Tutorial</strong> to learn the basics.</li>
-                <li>Choose your hero on the <strong>Character</strong> page.</li>
-                <li>Visit <strong>History</strong> to explore how Rome grew and changed.</li>
-                <li>Practise in <strong>Tools</strong> using the Converter, Builder, and Matching games.</li>
-                <li>Enter the <strong>Arena</strong> to battle Faun with your maths skills.</li>
-                <li>Download your <strong>Certificate</strong> and check the <strong>High Score</strong> board.</li>
-            </ol>
+            <div class="chapter-box">
+                <h3>How to use this adventure</h3>
+                <ol style="margin-left: 1.5rem; list-style-type: upper-roman;">
+                    <li>Begin with the <strong>Story</strong> and <strong>Tutorial</strong> to meet Cato and learn the basics.</li>
+                    <li>Choose your hero on the <strong>Character</strong> page.</li>
+                    <li>Visit <strong>History</strong> and the three chapters – Kingdom, Republic, Empire – to explore ancient Rome.</li>
+                    <li>Practise in <strong>Tools</strong> using the Converter, Builder, and Matching games.</li>
+                    <li>Enter the <strong>Arena</strong> to battle with Roman numerals and earn a high score.</li>
+                    <li>Download your <strong>Certificate</strong> and check the <strong>High Score</strong> board.</li>
+                </ol>
+            </div>
 
             <img src="ancient-rome.png"
                  alt="Ancient Roman forum with temples and people"
@@ -503,35 +498,51 @@
         <div id="tutorial" class="section">
             <h2>Tutorial</h2>
 
-            <div style="display:flex; align-items:center; gap:16px; margin-top:10px;">
+            <!-- Cato speech in yellow box -->
+            <div class="info-box" style="display:flex; align-items:center; gap:16px; margin-top:10px;">
                 <img src="images/monster-1-faun-2.png" alt="Cato teaching" style="max-width:120px;">
                 <p>
-                    “I, Cato the Faun, will teach you the rules of Roman numerals.
+                    “I, Cato the faun, will teach you the rules of Roman numerals.
                     Learn them well, and you will be ready to challenge me in the Arena!”
                 </p>
             </div>
 
-            <p>Rules: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000.</p>
-            <p>Subtractive forms: IV = 4, IX = 9, XL = 40, XC = 90, CD = 400, CM = 900.</p>
+            <!-- Rules in green boxes -->
+            <div class="rule-box">
+                <strong>Basic numerals</strong><br>
+                I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000.
+            </div>
 
-            <img src="images/roman-clock.png"
-                 alt="Clock face with Roman numerals"
-                 class="content-image" />
+            <div class="rule-box">
+                <strong>Subtractive forms</strong><br>
+                IV = 4, IX = 9, XL = 40, XC = 90, CD = 400, CM = 900.
+            </div>
 
-            <p>
-                Modern use: Roman numerals still appear on clocks, in book chapters,
-                and at the end of films (for example, MMXXVI = 2026).
-            </p>
+            <!-- Clock and modern use in one centred box -->
+            <div class="chapter-box" style="text-align: centre; margin-top: 15px;">
+                <h3>An example of modern use</h3>
+                <img src="images/roman-clock.png"
+                     alt="Clock face with Roman numerals"
+                     class="content-image"
+                     style="max-width:260px; margin: 10px auto;">
+                <p>
+                    Roman numerals still appear on clocks, in book chapters,
+                    and at the end of films (for example, MMXXVI = 2026).
+                </p>
+            </div>
 
-            <h3>How to use this site (Step‑by‑step)</h3>
-            <ol style="list-style-type: upper-roman; margin-left: 1.5rem;">
-                <li>Read the rules for Roman numerals at the top of this page.</li>
-                <li>Look at the clock and say each numeral out loud from I to XII.</li>
-                <li>Use the <strong>Converter</strong> to practise turning numbers into numerals and back.</li>
-                <li>Use the <strong>Builder</strong> to drag I, V, X, L, C, D, M and see how they combine.</li>
-                <li>Play the <strong>Matching</strong> game to speed up your recognition.</li>
-                <li>Enter the <strong>Arena</strong> when you feel ready to battle with maths.</li>
-            </ol>
+            <!-- Updated how-to box -->
+            <div class="chapter-box" style="margin-top: 15px;">
+                <h3>How to use this site</h3>
+                <ol style="list-style-type: upper-roman; margin-left: 1.5rem;">
+                    <li>Read the <strong>Story</strong> and this <strong>Tutorial</strong> to meet Cato and learn the rules.</li>
+                    <li>Choose your hero on the <strong>Character</strong> page.</li>
+                    <li>Explore <strong>History</strong> and the three chapters to learn about Rome.</li>
+                    <li>Practise numerals in <strong>Tools</strong> using Converter, Builder, and Matching.</li>
+                    <li>Battle in the <strong>Arena</strong> to earn points and unlock secrets.</li>
+                    <li>Download your <strong>Certificate</strong> and visit the <strong>High Score</strong> page.</li>
+                </ol>
+            </div>
         </div>
 
         <!-- ====== CHARACTER SELECT ====== -->
@@ -577,7 +588,7 @@
                 <!-- Left parchment TOC -->
                 <nav class="side-toc">
                     <h3>Contents</h3>
-                    <a href="#h-intro">Introduction</a>
+                    <a href="#h-intro">I – Introduction [1]</a>
                     <a href="#h-quick">Quick facts</a>
                     <a href="#h-II">II – When was Ancient Rome? [2]</a>
                     <a href="#h-III">III – How did Rome begin? [3]</a>
@@ -602,20 +613,20 @@
                     <a href="#h-XXII">XXII – Why Ancient Rome still matters [22]</a>
                     <a href="#h-XXIII">XXIII – Modern Rome in the modern world [23]</a>
                 </nav>
-        
+
                 <!-- Main history content -->
                 <div id="history-main">
                     <h2 id="history-top">History &amp; Background</h2>
-        
+
                     <div style="display:flex; align-items:center; gap:16px; margin-top:10px;">
                         <img src="images/monster-1-faun-1.png" alt="Cato the faun guide" style="max-width:120px;">
                         <p>
                             “Salvē! I am Cato, your guide to the past. Together we shall travel
-                            from a tiny village by the River Tiber to a vast empire that shaped
+                            from a tiny village by the River Tiber to a vast Empire that shaped
                             much of the world you know today.”
                         </p>
                     </div>
-        
+
                     <!-- Triforce chapter buttons -->
                     <div class="chapter-triforce">
                         <div class="chapter-triforce-row">
@@ -623,7 +634,7 @@
                                 The Roman Kingdom – 200 Years
                             </a>
                         </div>
-                        <div class="chapter-triforce-row">
+                        <div class="chapter-triforce-row bottom">
                             <a href="republic.html" class="chapter-tri-btn republic">
                                 The Roman Republic – 500 Years
                             </a>
@@ -632,9 +643,9 @@
                             </a>
                         </div>
                     </div>
-        
+
                     <!-- Quick facts box -->
-                    <div id="h-quick" class="info-box chapter-box" style="margin-top:15px;">
+                    <div id="h-quick" class="info-box chapter-box quick-facts-box" style="margin-top:15px;">
                         <strong>Quick facts</strong>
                         <ul>
                             <li>Ancient Rome began as a small town by the River Tiber in Italy.</li>
@@ -644,7 +655,7 @@
                             <li>Many English words come from Latin, including <em>aquatic</em>, <em>video</em>, and <em>laboratory</em>.</li>
                         </ul>
                     </div>
-        
+
                     <!-- I – Introduction -->
                     <div id="h-intro" class="chapter-box">
                         <h3>I – Introduction to Ancient Rome [1]</h3>
@@ -655,7 +666,7 @@
                             clever engineers, and love of stories and myths.
                         </p>
                     </div>
-        
+
                     <!-- II – When was Ancient Rome? -->
                     <div id="h-II" class="chapter-box">
                         <h3>II – When was Ancient Rome? [2]</h3>
@@ -665,7 +676,7 @@
                             continues until about 476 CE when the western part of the Empire collapsed.
                         </p>
                     </div>
-        
+
                     <!-- III – How did Rome begin? -->
                     <div id="h-III" class="chapter-box">
                         <h3>III – How did Rome begin? [3]</h3>
@@ -676,7 +687,7 @@
                             boundary, and slowly a village grew into the city of Rome.
                         </p>
                     </div>
-        
+
                     <!-- IV – Roman culture -->
                     <div id="h-IV" class="chapter-box">
                         <h3>IV – Roman culture [4]</h3>
@@ -687,7 +698,7 @@
                             discipline, bravery, and loyalty to their family and city.
                         </p>
                     </div>
-        
+
                     <!-- V – The Forum -->
                     <div id="h-V" class="chapter-box">
                         <h3>V – The Forum [5]</h3>
@@ -698,7 +709,7 @@
                             from all corners of the Empire.
                         </p>
                     </div>
-        
+
                     <!-- VI – History of Ancient Rome -->
                     <div id="h-VI" class="chapter-box">
                         <h3>VI – History of Ancient Rome [6]</h3>
@@ -709,7 +720,7 @@
                             emperors controlled vast lands.
                         </p>
                     </div>
-        
+
                     <!-- VII – Life in Ancient Rome -->
                     <div id="h-VII" class="chapter-box">
                         <h3>VII – Life in Ancient Rome [7]</h3>
@@ -720,7 +731,7 @@
                             and many went to school to learn reading, writing, and numerals.
                         </p>
                     </div>
-        
+
                     <!-- VIII – The Roman family -->
                     <div id="h-VIII" class="chapter-box">
                         <h3>VIII – The Roman family [8]</h3>
@@ -731,7 +742,7 @@
                             who worked in the home.
                         </p>
                     </div>
-        
+
                     <!-- IX – Typical Roman activities -->
                     <div id="h-IX" class="chapter-box">
                         <h3>IX – Typical Roman activities [9]</h3>
@@ -741,7 +752,7 @@
                             Children played knucklebones, marbles, and board games similar to modern ones.
                         </p>
                     </div>
-        
+
                     <!-- X – Roman food -->
                     <div id="h-X" class="chapter-box">
                         <h3>X – Roman food [10]</h3>
@@ -752,7 +763,7 @@
                             to many dishes.
                         </p>
                     </div>
-        
+
                     <!-- XI – Roman customs -->
                     <div id="h-XI" class="chapter-box">
                         <h3>XI – Roman customs [11]</h3>
@@ -762,7 +773,7 @@
                             occasions and used wreaths of leaves as symbols of victory and honour.
                         </p>
                     </div>
-        
+
                     <!-- XII – Rome was not built in a day -->
                     <div id="h-XII" class="chapter-box">
                         <h3>XII – Rome was not built in a day [12]</h3>
@@ -772,7 +783,7 @@
                             workers to complete. Your learning journey will also grow step by step.
                         </p>
                     </div>
-        
+
                     <!-- XIII – Roman mythology -->
                     <div id="h-XIII" class="chapter-box">
                         <h3>XIII – Roman mythology [13]</h3>
@@ -782,7 +793,7 @@
                             storms shook the sky. Many planets in our solar system are named after Roman gods.
                         </p>
                     </div>
-        
+
                     <!-- XIV – The Roman legion -->
                     <div id="h-XIV" class="chapter-box">
                         <h3>XIV – The Roman legion [14]</h3>
@@ -792,7 +803,7 @@
                             Their discipline and organisation helped Rome win many battles.
                         </p>
                     </div>
-        
+
                     <!-- XV – Roman roads -->
                     <div id="h-XV" class="chapter-box">
                         <h3>XV – Roman roads [15]</h3>
@@ -802,7 +813,7 @@
                             The saying “All roads lead to Rome” comes from this impressive network.
                         </p>
                     </div>
-        
+
                     <!-- XVI – How was Rome ruled? -->
                     <div id="h-XVI" class="chapter-box">
                         <h3>XVI – How was Rome ruled? [16]</h3>
@@ -813,7 +824,7 @@
                             to manage the huge territories.
                         </p>
                     </div>
-        
+
                     <!-- XVII – Who was Julius Caesar? -->
                     <div id="h-XVII" class="chapter-box">
                         <h3>XVII – Who was Julius Caesar? [17]</h3>
@@ -824,7 +835,7 @@
                             and plotted to assassinate him.
                         </p>
                     </div>
-        
+
                     <!-- XVIII – Empire -->
                     <div id="h-XVIII" class="chapter-box">
                         <h3>XVIII – Empire [18]</h3>
@@ -834,7 +845,7 @@
                             enjoyed long periods of peace, known as the <em>Pax Romana</em>, or “Roman Peace”.
                         </p>
                     </div>
-        
+
                     <!-- XIX – Republic -->
                     <div id="h-XIX" class="chapter-box">
                         <h3>XIX – Republic [19]</h3>
@@ -845,7 +856,7 @@
                             democracies.
                         </p>
                     </div>
-        
+
                     <!-- XX – Downfall -->
                     <div id="h-XX" class="chapter-box">
                         <h3>XX – Downfall – How did the Empire end? [20]</h3>
@@ -856,7 +867,7 @@
                             another thousand years.
                         </p>
                     </div>
-        
+
                     <!-- XXI – Rest of the world -->
                     <div id="h-XXI" class="chapter-box">
                         <h3>XXI – What was the rest of the world like? [21]</h3>
@@ -867,7 +878,7 @@
                             writing and calendar systems.
                         </p>
                     </div>
-        
+
                     <!-- XXII – Why Ancient Rome still matters -->
                     <div id="h-XXII" class="chapter-box">
                         <h3>XXII – Why Ancient Rome still matters today [22]</h3>
@@ -878,7 +889,7 @@
                             and inventions came from.
                         </p>
                     </div>
-        
+
                     <!-- XXIII – Modern Rome -->
                     <div id="h-XXIII" class="chapter-box">
                         <h3>XXIII – Modern Rome in the modern world [23]</h3>
@@ -890,7 +901,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
 
         <!-- ====== TOOLS WRAPPER ====== -->
         <div id="tools" class="section">
@@ -1448,7 +1459,9 @@
         renderHistoryFacts();
         showSection('story');
     </script>
-        <footer id="site-footer">
+
+    <!-- Footer -->
+    <footer id="site-footer">
         <div class="footer-inner">
             <div>
                 <span>This website and its content are copyright of Paul Powers – © 2026 Paul Powers. All rights reserved.</span>
