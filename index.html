@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #ffd55c 50%, #5a94ff 50%);
+            background: url("images/ancient-rome.png") no-repeat center center fixed;
             margin: 0;
             padding: 20px;
         }
@@ -168,21 +168,29 @@
             Player name is used on the certificate.
         -->
         <div id="nav">
-            <button onclick="showSection('story')">Story</button>
-            <button onclick="showSection('tutorial')">Tutorial</button>
-            <button onclick="showSection('converter')">Converter</button>
-            <button onclick="showSection('builder')">Builder</button>
-            <button onclick="showSection('character-select')">Character</button>
-            <button onclick="showSection('quiz')">Arena</button>
-            <button onclick="showSection('matching')">Matching</button>
-            <button onclick="showSection('history')">History</button>
-            <button onclick="downloadCertificate()">Certificate</button>
-            <input type="text" id="player-name" placeholder="Your name" />
+          <button onclick="showSection('story')">Story</button>
+          <button onclick="showSection('tutorial')">Tutorial</button>
+          <button onclick="showSection('character-select')">Character</button>
+          <button onclick="showSection('history')">History</button>
+          <button onclick="showSection('quiz')">Arena</button>
+          <button onclick="showSection('tools')">Tools</button>
+          <button onclick="downloadCertificate()">Certificate</button>
+          <button onclick="showSection('highscore')">High Score</button>
+          <input type="text" id="player-name" placeholder="Your name" />
         </div>
+
 
         <!-- STORY / NARRATIVE -->
         <div id="story" class="section">
             <h2>Story</h2>
+            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
+              <img src="images/monster-1-faun-1.png" alt="Faun herald" style="max-width:120px;">
+              <p>
+                “Salve! I am Faun the Trickster. I will guide you through Rome.
+                Read our story, then follow the buttons above to learn our numbers,
+                explore our city, and prove your skills in the Arena.”
+              </p>
+            </div>
             <p>
                 You are a young scribe in ancient Rome, chosen by the Senate to keep
                 track of armies, festivals, and treasure. To prove yourself, you must
@@ -194,6 +202,15 @@
                 <strong>Senate</strong> (the council of leaders), and
                 <strong>scribe</strong> (a person who writes official records).
             </p>
+            <h3>How to use this adventure</h3>
+            <ol style="margin-left: 1.5rem;">
+              <li>Start with the <strong>Story</strong> and <strong>Tutorial</strong> pages to learn the basics.</li>
+              <li>Choose your hero on the <strong>Character</strong> page.</li>
+              <li>Visit the <strong>History</strong> page to unlock facts as you win battles.</li>
+              <li>Train in the <strong>Tools</strong> section: Converter, Builder, and Matching games.</li>
+              <li>Fight monsters in the <strong>Arena</strong> and climb through levels I to XX.</li>
+              <li>When you are ready, download your <strong>Certificate</strong> and add your name to the Hall of Fame.</li>
+            </ol>
             <!-- Background art: ancient Rome -->
             <img src="images/ancient-rome.png"
                  alt="Ancient Roman forum with temples and people"
@@ -203,6 +220,14 @@
         <!-- TUTORIAL (rules + clock image) -->
         <div id="tutorial" class="section">
             <h2>Tutorial</h2>
+            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
+              <img src="images/monster-1-faun-2.png" alt="Faun teacher" style="max-width:120px;">
+              <p>
+                “I, Faun, will teach you! First, read the rules above. Next, look at the clock
+                and say each numeral from I to XII. Then visit the Tools to practise. When you can
+                read every numeral quickly, you are ready for the Arena!”
+              </p>
+            </div>
             <p>Rules: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000.</p>
             <p>Subtractive forms: IV = 4, IX = 9, XL = 40, XC = 90, CD = 400, CM = 900.</p>
             <!-- Clock art showing Roman numerals -->
@@ -213,18 +238,44 @@
                 Modern use: Roman numerals still appear on clocks, in book chapters,
                 and at the end of films (for example, MMXXVI = 2026).
             </p>
+            <h3>How to use this site (Step‑by‑step)</h3>
+            <ol style="list-style-type: upper-roman; margin-left: 1.5rem;">
+              <li>Read the rules for Roman numerals at the top of this page.</li>
+              <li>Look at the clock and say each numeral out loud from I to XII.</li>
+              <li>Use the <strong>Converter</strong> to practise turning numbers into numerals and back.</li>
+              <li>Use the <strong>Builder</strong> to drag I, V, X, L, C, D, M and see how they combine.</li>
+              <li>Play the <strong>Matching</strong> game to speed up your recognition.</li>
+              <li>Enter the <strong>Arena</strong> when you feel ready to battle with maths.</li>
+            </ol>
         </div>
 
         <!-- CONVERTER -->
         <div id="converter" class="section">
+            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
+          <img src="images/monster-1-faun-left-1.png" alt="Faun helper" style="max-width:120px;">
+          <p>
+            “Type a regular number, like <strong>27</strong>, and press Convert to see its Roman
+            numeral (<strong>XXVII</strong>). Or type a Roman numeral, like <strong>XL</strong>,
+            to see the number <strong>40</strong>. Practise until you can guess the answer
+            before the converter shows it!”
+          </p>
+        </div>
             <h2>Converter</h2>
             <input type="text" id="input" placeholder="Number or Roman">
             <button onclick="convertInput()">Convert</button>
             <div id="result"></div>
-        </div>
+        </div>        
 
         <!-- DRAG‑AND‑DROP BUILDER -->
         <div id="builder" class="section">
+            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
+              <img src="images/monster-1-faun-left-1.png" alt="Faun helper" style="max-width:120px;">
+              <p>
+                “Type a regular number, like <strong>27</strong>, and press Convert to see its Roman
+                numeral (<strong>XXVII</strong>). Or type a Roman numeral, like <strong>XL</strong>,
+                to see the number <strong>40</strong>. Welcome Roman! Here is a tricky game for you to play!”
+              </p>
+            </div>
             <h2>Drag-and-Drop Builder</h2>
             <p>Drag symbols to build a Roman numeral and see its value.</p>
             <div>
@@ -275,7 +326,7 @@
                 </div>
                 <div class="fighter">
                     <!-- Monster: faun facing left (as in your screenshot) -->
-                    <img id="monster-img" src="images/monster-1-faun-left-1.png" alt="Monster faun">
+                    <img id="monster-img" src="images/monster-1-faun-right-2.png" alt="Faun monster">
                 </div>
             </div>
 
@@ -288,6 +339,14 @@
 
         <!-- MATCHING GAME -->
         <div id="matching" class="section">
+            <div style="display:flex; align-items:center; gap:16px; margin-top:20px;">
+              <img src="images/monster-1-faun-left-1.png" alt="Faun helper" style="max-width:120px;">
+              <p>
+                “Type a regular number, like <strong>27</strong>, and press Convert to see its Roman
+                numeral (<strong>XXVII</strong>). Or type a Roman numeral, like <strong>XL</strong>,
+                to see the number <strong>40</strong>. Rome wasn't built in a day! Practice makes perfect!”
+              </p>
+            </div>
             <h2>Matching Game</h2>
             <p>Drag Roman numerals to match the numbers.</p>
             <div>
@@ -618,55 +677,71 @@
 
         /* ========= CERTIFICATE (CANVAS) ========= */
 
-        function downloadCertificate() {
-            const canvas = document.getElementById('cert-canvas');
-            const ctx = canvas.getContext('2d');
-            const name = document.getElementById('player-name').value || 'Brave Student';
+function downloadCertificate() {
+    const canvas = document.getElementById('cert-canvas');
+    const ctx = canvas.getContext('2d');
+    const name = document.getElementById('player-name').value || 'Brave Student';
 
-            canvas.width = 800;
-            canvas.height = 600;
+    canvas.width = 800;
+    canvas.height = 600;
 
-            // Parchment‑style background
-            ctx.fillStyle = '#fdf6e3';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Background
+    ctx.fillStyle = '#fdf6e3';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Decorative border
-            ctx.strokeStyle = '#8b5a2b';
-            ctx.lineWidth = 10;
-            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+    // Border
+    ctx.strokeStyle = '#8b5a2b';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
 
-            // Title
-            ctx.fillStyle = '#000';
-            ctx.font = '36px Georgia';
-            ctx.textAlign = 'center';
-            ctx.fillText('Certificate of Achievement', canvas.width / 2, 120);
+    ctx.fillStyle = '#000';
+    ctx.textAlign = 'center';
 
-            // Subtitle
-            ctx.font = '28px Georgia';
-            ctx.fillText('Roman Numerals Master', canvas.width / 2, 180);
+    // Titles
+    ctx.font = '36px Georgia';
+    ctx.fillText('Certificate of Achievement', canvas.width / 2, 100);
+    ctx.font = '28px Georgia';
+    ctx.fillText('Roman Numerals Adventure', canvas.width / 2, 150);
 
-            // Player name
-            ctx.font = '24px Georgia';
-            ctx.fillText(name, canvas.width / 2, 240);
+    // Hero + name
+    ctx.font = '24px Georgia';
+    ctx.fillText(name, canvas.width / 2, 210);
+    ctx.font = '20px Georgia';
+    const heroLabel = selectedCharacter === 'scholar' ? 'Scholar of Numbers' : 'Centurion of Counting';
+    ctx.fillText(heroLabel, canvas.width / 2, 240);
 
-            // Score / level summary
-            ctx.font = '20px Georgia';
-            ctx.fillText(`Score: ${score}   Level: ${level}`, canvas.width / 2, 300);
+    // Score and level (Roman + Arabic)
+    const levelRoman = numberToRoman(level);
+    ctx.fillText(`Score: ${score}`, canvas.width / 2, 280);
+    ctx.fillText(`Level: ${levelRoman} (${level} of XX)`, canvas.width / 2, 310);
 
-            // Date
-            const date = new Date().toLocaleDateString();
-            ctx.fillText(`Awarded on: ${date}`, canvas.width / 2, 340);
+    // Monster text line
+    ctx.font = '18px Georgia';
+    ctx.fillText(
+        `Well done, ${name}! You defeated the trickster known as Faun.`,
+        canvas.width / 2, 350
+    );
 
-            // Footer
-            ctx.font = '16px Georgia';
-            ctx.fillText('Roman Numerals Adventure Academy', canvas.width / 2, 420);
+    // Insert small faun logo at bottom
+    const logo = new Image();
+    logo.src = 'images/monster-1-faun-left-1.png';
+    logo.onload = () => {
+        const logoSize = 100;
+        ctx.drawImage(logo, canvas.width / 2 - logoSize / 2, 370, logoSize, logoSize);
 
-            // Trigger a PNG download
-            const a = document.createElement('a');
-            a.href = canvas.toDataURL('image/png');
-            a.download = 'roman-numerals-certificate.png';
-            a.click();
-        }
+        // Footer and date after logo loads
+        ctx.font = '16px Georgia';
+        const date = new Date().toLocaleDateString();
+        ctx.fillText(`Awarded on: ${date}`, canvas.width / 2, 520);
+        ctx.fillText('Roman Numerals Adventure Academy', canvas.width / 2, 550);
+
+        // Trigger a .pdf document download
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        a.download = 'roman-numerals-certificate.png';
+        a.click();
+    };
+}
 
         /* ========= INITIALISATION ========= */
 
