@@ -6,28 +6,27 @@
     <title>Roman Numerals Adventure</title>
 
     <!--
-        Roman Numerals Adventure
-        Complete single–file HTML, CSS and JS.
-        IMPORTANT PATH NOTE:
-        - These three images are loaded from the ROOT of the repo:
-            ancient-rome.png
-            roman-character-1.png   (Centurion)
-            roman-character-2.png   (Scholar)
-        - All faun / monster / clock art is loaded from the images/ folder.
+        Roman Numerals Adventure – MAIN GAME + HISTORY OVERVIEW
+        - Background, Story, Tutorial, Character select
+        - History overview (0–24)
+        - Tools (Converter, Builder, Matching)
+        - Arena battle
+        - Certificate
+        - High Score (local only)
+        IMPORTANT IMAGE PATHS:
+        - From ROOT: ancient-rome.png, roman-character-1.png, roman-character-2.png
+        - From images/: all monster/faun art + roman-clock.png etc.
     -->
     <style>
         /* ====== GLOBAL LAYOUT & BACKGROUND ====== */
-
         body {
             font-family: Arial, sans-serif;
-            /* Background art from ROOT (as requested) */
             background: url("ancient-rome.png") no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             padding: 20px;
         }
 
-        /* Main white content card */
         .container {
             max-width: 1000px;
             margin: auto;
@@ -45,7 +44,15 @@
             margin-top: 10px;
         }
 
-        /* Top navigation bar */
+        h3 {
+            margin-top: 15px;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        /* ====== TOP NAVIGATION ====== */
         #nav {
             display: flex;
             flex-wrap: wrap;
@@ -64,12 +71,51 @@
             margin-top: 5px;
         }
 
-        /* All main pages (sections) */
+        /* Dropdown for History */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            border-radius: 4px;
+            z-index: 100;
+        }
+
+        .dropdown-menu button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: white;
+            padding: 8px 10px;
+        }
+
+        .dropdown-menu button:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* ====== SECTIONS (PAGES) ====== */
         .section {
             display: none;
         }
 
-        /* Reusable “info box” style (like your Did you know? box) */
+        /* ====== INFO BOXES (Cato, Did you know?) ====== */
         .info-box {
             background-color: #fffde7;
             border: 1px solid #ffd54f;
@@ -79,8 +125,7 @@
             border-radius: 4px;
         }
 
-        /* ====== FIXED GUIDE CHARACTER (BOTTOM‑RIGHT) ====== */
-
+        /* ====== FIXED GUIDE CHARACTER ====== */
         #character {
             position: fixed;
             bottom: 10px;
@@ -108,7 +153,6 @@
         }
 
         /* ====== DRAG / DROP COMMON STYLES ====== */
-
         .draggable {
             display: inline-block;
             padding: 10px;
@@ -126,7 +170,6 @@
         }
 
         /* ====== MATCHING GAME ====== */
-
         #matching .pair {
             display: flex;
             align-items: center;
@@ -144,7 +187,6 @@
         }
 
         /* ====== CONTENT IMAGES ====== */
-
         img.content-image {
             max-width: 100%;
             height: auto;
@@ -153,8 +195,7 @@
             display: block;
         }
 
-        /* ====== ARENA / BATTLE ====== */
-
+        /* ====== ARENA ====== */
         #battle-arena {
             display: flex;
             justify-content: space-between;
@@ -174,7 +215,6 @@
         }
 
         /* ====== CHARACTER SELECT ====== */
-
         #character-options {
             display: flex;
             gap: 20px;
@@ -182,7 +222,7 @@
             flex-wrap: wrap;
         }
 
-        #character-options .hero-card {
+        .hero-card {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 10px;
@@ -191,24 +231,17 @@
             cursor: pointer;
         }
 
-        #character-options .hero-card img {
+        .hero-card img {
             max-width: 100%;
             border-radius: 6px;
         }
 
-        #character-options .hero-card.selected {
+        .hero-card.selected {
             border: 3px solid #5a94ff;
             box-shadow: 0 0 6px rgba(90,148,255,0.6);
         }
 
-        /* ====== HISTORY FACTS ====== */
-
-        #history-facts p {
-            margin-bottom: 8px;
-        }
-
-        /* ====== TOOLS SECTION WRAPPER ====== */
-
+        /* ====== TOOLS NAV ====== */
         #tools-nav {
             display: flex;
             gap: 8px;
@@ -219,30 +252,95 @@
         .tool-panel {
             display: none;
         }
+
+        /* ====== HISTORY PAGE ====== */
+        #history-toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 15px 0;
+        }
+
+        #history-toc button {
+            padding: 6px 10px;
+            font-size: 0.9rem;
+        }
+
+        .history-section {
+            margin-top: 15px;
+        }
+
+        .chapter-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chapter-buttons a {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .chapter-kingdom { background: #ffe082; }
+        .chapter-republic { background: #ffcc80; }
+        .chapter-empire { background: #ffab91; }
+
+        /* ====== HIGH SCORE TABLE ====== */
+        #highscore-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        #highscore-table th,
+        #highscore-table td {
+            border: 1px solid #ccc;
+            padding: 4px 6px;
+            text-align: left;
+        }
+
+        #highscore-table th {
+            background: #f0f0f0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Roman Numerals Adventure</h1>
 
-        <!-- Navigation bar. Each button shows one section. -->
+        <!-- NAVIGATION BAR -->
         <div id="nav">
             <button onclick="showSection('story')">Story</button>
             <button onclick="showSection('tutorial')">Tutorial</button>
             <button onclick="showSection('character-select')">Character</button>
-            <button onclick="showSection('history')">History</button>
-            <button onclick="showSection('tools')">Tools</button>
+
+            <!-- History dropdown -->
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="showSection('history')">History ▼</button>
+                <div class="dropdown-menu">
+                    <button onclick="showSection('history'); scrollToId('history-top');">History overview</button>
+                    <button onclick="window.location.href='kingdom.html'">Roman Kingdom – 200 Years</button>
+                    <button onclick="window.location.href='republic.html'">Roman Republic – 500 Years</button>
+                    <button onclick="window.location.href='empire.html'">Roman Empire – 500 Years</button>
+                </div>
+            </div>
+
             <button onclick="showSection('quiz')">Arena</button>
+            <button onclick="showSection('tools')">Tools</button>
             <button onclick="downloadCertificate()">Certificate</button>
             <button onclick="showSection('highscore')">High Score</button>
             <input type="text" id="player-name" placeholder="Your name" />
         </div>
 
-        <!-- ====== STORY / NARRATIVE ====== -->
+        <!-- ====== STORY ====== -->
         <div id="story" class="section">
             <h2>Story</h2>
 
-            <!-- Guide Cato introduces the mission -->
             <div style="display:flex; align-items:center; gap:16px; margin-top:10px;">
                 <img src="images/monster-1-faun-1.png" alt="Cato the faun guide" style="max-width:120px;">
                 <p>
@@ -253,7 +351,6 @@
                 </p>
             </div>
 
-            <!-- Did you know box -->
             <div class="info-box">
                 <strong>Did you know?</strong>
                 <br>
@@ -281,14 +378,13 @@
             <h3>How to use this adventure</h3>
             <ol style="margin-left: 1.5rem; list-style-type: upper-roman;">
                 <li>Begin with the <strong>Story</strong> and <strong>Tutorial</strong> to learn the basics.</li>
-                <li>Choose your hero on the <strong>Character</strong> page: Centurion or Scholar.</li>
-                <li>Visit <strong>History</strong> to read fun facts about ancient Rome.</li>
+                <li>Choose your hero on the <strong>Character</strong> page.</li>
+                <li>Visit <strong>History</strong> to explore how Rome grew and changed.</li>
                 <li>Practise in <strong>Tools</strong> using the Converter, Builder, and Matching games.</li>
                 <li>Enter the <strong>Arena</strong> to battle Faun with your maths skills.</li>
                 <li>Download your <strong>Certificate</strong> and check the <strong>High Score</strong> board.</li>
             </ol>
 
-            <!-- Extra hero image of Rome, loaded from ROOT for consistency -->
             <img src="ancient-rome.png"
                  alt="Ancient Roman forum with temples and people"
                  class="content-image" />
@@ -329,7 +425,7 @@
             </ol>
         </div>
 
-        <!-- ====== CHARACTER SELECTION ====== -->
+        <!-- ====== CHARACTER SELECT ====== -->
         <div id="character-select" class="section">
             <h2>Choose Your Champion</h2>
 
@@ -342,18 +438,18 @@
             <p>Select a character to guide you through the Arena of Numbers.</p>
 
             <div id="character-options">
-                <!-- Centurion card (image from ROOT) -->
+                <!-- Centurion card -->
                 <div class="hero-card" id="card-centurion" onclick="selectCharacter('centurion')">
                     <img src="roman-character-1.png" alt="Centurion hero">
                     <h3>Centurion</h3>
                     <p>
                         A brave Roman officer who leads a <strong>century</strong> of 100 soldiers.
-                        The Centurion loves bold challenges, quick battles, and shouting numbers across
-                        the Arena so everyone can hear.
+                        The Centurion loves bold challenges, quick battles, and shouting numbers
+                        across the Arena so everyone can hear.
                     </p>
                 </div>
 
-                <!-- Scholar card (image from ROOT) -->
+                <!-- Scholar card -->
                 <div class="hero-card" id="card-scholar" onclick="selectCharacter('scholar')">
                     <img src="roman-character-2.png" alt="Scholar hero">
                     <h3>Scholar</h3>
@@ -366,24 +462,314 @@
             </div>
         </div>
 
-        <!-- ====== HISTORY (simple facts for now) ====== -->
+        <!-- ====== HISTORY OVERVIEW ====== -->
         <div id="history" class="section">
-            <h2>History & Background</h2>
+            <h2 id="history-top">History & Background</h2>
 
             <div class="info-box">
                 <strong>Cato whispers:</strong>
-                “As you rise through the levels, I will reveal more secrets about
-                Rome’s roads, buildings, and clever inventions.”
+                “Rome did not appear in a single day. It grew from a tiny village
+                beside a river into a huge empire across three continents. Let me
+                show you how it happened!”
             </div>
 
-            <p>
-                Win battles in the Arena to unlock new secrets about Roman numerals and
-                ancient Rome. Each level can reveal a new fact below.
-            </p>
-            <div id="history-facts"></div>
+            <!-- Small internal TOC for quick jump -->
+            <div id="history-toc">
+                <button onclick="scrollToId('h0')">Quick Facts</button>
+                <button onclick="scrollToId('h1')">Intro</button>
+                <button onclick="scrollToId('h4')">Culture</button>
+                <button onclick="scrollToId('h5')">Forum</button>
+                <button onclick="scrollToId('h14')">Legion</button>
+                <button onclick="scrollToId('h15')">Roads</button>
+                <button onclick="scrollToId('h18')">Empire</button>
+                <button onclick="scrollToId('h19')">Republic</button>
+                <button onclick="scrollToId('h22')">Why Rome matters</button>
+            </div>
+
+            <!-- 0. Quick Facts -->
+            <div id="h0" class="history-section">
+                <h3>0. Quick Facts</h3>
+                <ul>
+                    <li>Ancient Rome began as a small town by the River Tiber in Italy.</li>
+                    <li>Romans spoke Latin and used Roman numerals instead of our number system.</li>
+                    <li>At its largest, the Roman Empire stretched across Europe, North Africa, and the Middle East.</li>
+                    <li>Roman ideas about roads, laws, buildings, and calendars still affect our lives today.</li>
+                    <li>Many English words come from Latin, including <em>aquatic</em>, <em>video</em>, and <em>laboratory</em>.</li>
+                </ul>
+            </div>
+
+            <!-- 1. Introduction -->
+            <div id="h1" class="history-section">
+                <h3>1. Introduction to Ancient Rome</h3>
+                <p>
+                    Ancient Rome was one of the most powerful civilizations in world history.
+                    It started as a tiny village of farmers and grew into a busy city full of
+                    markets, temples, and bath houses. Romans were famous for their strong armies,
+                    clever engineers, and love of stories and myths.
+                </p>
+            </div>
+
+            <!-- 2. When was Ancient Rome? -->
+            <div id="h2" class="history-section">
+                <h3>2. When was Ancient Rome?</h3>
+                <p>
+                    The story of Rome stretches over more than one thousand years.
+                    It begins around 753 BCE (before the common era) with legends of
+                    twin brothers, Romulus and Remus, and continues until about 476 CE
+                    when the western part of the empire collapsed.
+                </p>
+            </div>
+
+            <!-- 3. How did Rome Begin? -->
+            <div id="h3" class="history-section">
+                <h3>3. How did Rome Begin?</h3>
+                <p>
+                    According to legend, Rome was founded by Romulus after a great argument
+                    with his twin brother Remus. The brothers were said to have been raised
+                    by a she‑wolf. Romulus chose a hill by the River Tiber, drew a sacred
+                    boundary, and slowly a village grew into the city of Rome.
+                </p>
+            </div>
+
+            <!-- 4. Roman Culture -->
+            <div id="h4" class="history-section">
+                <h3>4. Roman Culture</h3>
+                <p>
+                    Roman culture mixed ideas from many peoples, including the Greeks and Etruscans.
+                    Romans loved theatre, poetry, speeches, and colourful mosaics on their floors.
+                    They enjoyed sports like chariot racing and gladiator games, and they valued
+                    discipline, bravery, and loyalty to their family and city.
+                </p>
+            </div>
+
+            <!-- 5. The Forum -->
+            <div id="h5" class="history-section">
+                <h3>5. The Forum</h3>
+                <p>
+                    The Forum was the busy heart of Rome. It was an open square surrounded by
+                    important buildings. People went there to shop, listen to speeches, visit
+                    temples, and meet friends. If you stood in the Forum, you could hear news
+                    from all corners of the empire.
+                </p>
+            </div>
+
+            <!-- 6. History of Ancient Rome -->
+            <div id="h6" class="history-section">
+                <h3>6. History of Ancient Rome</h3>
+                <p>
+                    Historians usually divide Rome’s history into three big periods:
+                    the <strong>Kingdom</strong>, when kings ruled; the <strong>Republic</strong>,
+                    when citizens elected leaders; and the <strong>Empire</strong>, when powerful
+                    emperors controlled vast lands.
+                </p>
+            </div>
+
+            <!-- 7. Life in Ancient Rome -->
+            <div id="h7" class="history-section">
+                <h3>7. Life in Ancient Rome</h3>
+                <p>
+                    Daily life depended on who you were. Rich Romans lived in large houses with
+                    courtyards, servants, and fancy dinners. Poor Romans often lived in tall,
+                    crowded apartments. Children played games with balls, dolls, and toy soldiers,
+                    and many went to school to learn reading, writing, and numerals.
+                </p>
+            </div>
+
+            <!-- 8. The Roman Family -->
+            <div id="h8" class="history-section">
+                <h3>8. The Roman Family</h3>
+                <p>
+                    The Roman family was led by the <strong>pater familias</strong>, usually the oldest man.
+                    He was responsible for protecting everyone and making important decisions.
+                    Families included parents, children, grandparents, and sometimes enslaved people
+                    who worked in the home.
+                </p>
+            </div>
+
+            <!-- 9. Typical Roman activities -->
+            <div id="h9" class="history-section">
+                <h3>9. Typical Roman Activities</h3>
+                <p>
+                    Romans might start their day with a quick bread breakfast, visit the baths,
+                    work in shops or offices, and then relax by watching performances or sports.
+                    Children played knucklebones, marbles, and board games similar to modern ones.
+                </p>
+            </div>
+
+            <!-- 10. Roman Food -->
+            <div id="h10" class="history-section">
+                <h3>10. Roman Food</h3>
+                <p>
+                    Roman meals often included bread, olives, cheese, and fruit.
+                    Rich families might eat fish, meat, honey cakes, and exotic spices
+                    from far‑away provinces. A favourite sauce called <em>garum</em> was made
+                    from fermented fish and added to many dishes.
+                </p>
+            </div>
+
+            <!-- 11. Roman customs -->
+            <div id="h11" class="history-section">
+                <h3>11. Roman Customs</h3>
+                <p>
+                    Romans celebrated many festivals to honour their gods, such as Saturnalia,
+                    a winter feast with gift‑giving and games. They wore togas for special
+                    occasions and used wreaths of leaves as symbols of victory and honour.
+                </p>
+            </div>
+
+            <!-- 12. Rome was not built in a day -->
+            <div id="h12" class="history-section">
+                <h3>12. Rome Was Not Built in a Day</h3>
+                <p>
+                    The saying “Rome was not built in a day” reminds us that great things take time.
+                    Rome’s roads, aqueducts, and grand buildings took many years and thousands of
+                    workers to complete. Your learning journey will also grow step by step.
+                </p>
+            </div>
+
+            <!-- 13. Roman mythology -->
+            <div id="h13" class="history-section">
+                <h3>13. Roman Mythology</h3>
+                <p>
+                    Romans believed in many gods and goddesses, such as Jupiter, Juno, Mars, and Venus.
+                    They told stories to explain the world, from how the seasons changed to why
+                    storms shook the sky. Many planets in our solar system are named after Roman gods.
+                </p>
+            </div>
+
+            <!-- 14. The Roman Legion -->
+            <div id="h14" class="history-section">
+                <h3>14. The Roman Legion</h3>
+                <p>
+                    A <strong>legion</strong> was a huge group of Roman soldiers, sometimes over 5,000 men.
+                    They trained hard, marched long distances, and built forts and roads as they went.
+                    Their discipline and organisation helped Rome win many battles.
+                </p>
+            </div>
+
+            <!-- 15. Roman Roads -->
+            <div id="h15" class="history-section">
+                <h3>15. Roman Roads</h3>
+                <p>
+                    Romans built straight, strong roads made of layers of stone.
+                    These roads linked distant towns and made it easier to move
+                    armies, trade goods, and share news. The saying “All roads lead
+                    to Rome” comes from this amazing network.
+                </p>
+            </div>
+
+            <!-- 16. How was Rome ruled? -->
+            <div id="h16" class="history-section">
+                <h3>16. How Was Rome Ruled?</h3>
+                <p>
+                    Rome changed its style of government over time. Under kings,
+                    power was held by one ruler. During the Republic, many citizens
+                    could vote and elect leaders. In the Empire, emperors held the
+                    strongest power, but still used laws and officials to manage the
+                    huge territories.
+                </p>
+            </div>
+
+            <!-- 17. Who was Julius Caesar? -->
+            <div id="h17" class="history-section">
+                <h3>17. Who Was Julius Caesar?</h3>
+                <p>
+                    Julius Caesar was a brilliant general and politician who helped
+                    bring an end to the Roman Republic. He conquered lands like Gaul
+                    (modern France), became very popular, and was eventually made
+                    “dictator for life”. Some senators feared he had too much power
+                    and plotted to assassinate him.
+                </p>
+            </div>
+
+            <!-- 18. Empire -->
+            <div id="h18" class="history-section">
+                <h3>18. Empire</h3>
+                <p>
+                    After Julius Caesar’s death, his adopted heir Octavian became
+                    the first emperor, taking the name Augustus. Under the empire,
+                    Rome reached its greatest size and enjoyed long periods of peace,
+                    known as the <em>Pax Romana</em>, or “Roman Peace”.
+                </p>
+            </div>
+
+            <!-- 19. Republic -->
+            <div id="h19" class="history-section">
+                <h3>19. Republic</h3>
+                <p>
+                    The Roman Republic was a time when citizens chose leaders to
+                    represent them. There was a Senate of wealthy men, and different
+                    assemblies for voting. Although not everyone was treated equally,
+                    ideas from the Republic helped inspire later democracies.
+                </p>
+            </div>
+
+            <!-- 20. Downfall -->
+            <div id="h20" class="history-section">
+                <h3>20. Downfall – How Did the Empire End?</h3>
+                <p>
+                    Over time, the western Roman Empire faced many problems: weak
+                    rulers, expensive wars, and attacks from invading groups.
+                    In 476 CE, the last western emperor was removed. The eastern
+                    half, called the Byzantine Empire, continued for almost another
+                    thousand years.
+                </p>
+            </div>
+
+            <!-- 21. Rest of the world -->
+            <div id="h21" class="history-section">
+                <h3>21. What Was the Rest of the World Like?</h3>
+                <p>
+                    While Rome grew, many other cultures flourished. In China,
+                    the Han dynasty built sections of the Great Wall. In India,
+                    powerful kingdoms created beautiful temples. In the Americas,
+                    early civilizations like the Maya were developing their own
+                    writing and calendar systems.
+                </p>
+            </div>
+
+            <!-- 22. Why Rome still matters -->
+            <div id="h22" class="history-section">
+                <h3>22. Why Ancient Rome Still Matters Today</h3>
+                <p>
+                    Rome’s ideas about laws, government, engineering, and language
+                    still shape our world. Many modern buildings copy Roman arches
+                    and columns, and our months and numerals have Roman roots.
+                    Learning about Rome helps us understand where many of our own
+                    customs and inventions came from.
+                </p>
+            </div>
+
+            <!-- 23. Modern Rome -->
+            <div id="h23" class="history-section">
+                <h3>23. Modern Rome in the Modern World</h3>
+                <p>
+                    Today, Rome is the capital of Italy and a busy modern city.
+                    Visitors can walk past ancient ruins like the Colosseum and
+                    Forum, then enjoy gelato and modern shops nearby. It is a
+                    place where old and new sit side by side.
+                </p>
+            </div>
+
+            <!-- 24. How to use chapter buttons -->
+            <div id="h24" class="history-section">
+                <h3>24. How to Use the Chapter Buttons</h3>
+                <p>
+                    The three chapter buttons below take you on longer journeys
+                    through Rome’s past. Each chapter focuses on a different time:
+                    the Kingdom, the Republic, and the Empire. You can read them
+                    in any order, but many learners like to start at the beginning.
+                </p>
+
+                <div class="chapter-buttons">
+                    <a href="kingdom.html" class="chapter-kingdom">The Roman Kingdom – 200 Years</a>
+                    <a href="republic.html" class="chapter-republic">The Roman Republic – 500 Years</a>
+                    <a href="empire.html" class="chapter-empire">The Roman Empire – 500 Years</a>
+                </div>
+            </div>
         </div>
 
-        <!-- ====== TOOLS WRAPPER (Converter, Builder, Matching) ====== -->
+        <!-- ====== TOOLS WRAPPER ====== -->
         <div id="tools" class="section">
             <h2>Tools</h2>
 
@@ -420,7 +806,7 @@
                     <p>
                         “Welcome, Roman! Drag the symbols I, V, X, L, C, D, and M into the box
                         to build your own numerals. Watch how the value changes as you add or
-                        remove symbols. Can you build the number <strong>2026</strong>?”
+                        remove symbols. Can you build the number <strong>MMXXVI</strong>?”
                     </p>
                     <div style="clear:both;"></div>
                 </div>
@@ -470,7 +856,7 @@
             </div>
         </div>
 
-        <!-- ====== ARENA / BATTLE QUIZ ====== -->
+        <!-- ====== ARENA ====== -->
         <div id="quiz" class="section">
             <h2>Arena Battle</h2>
 
@@ -493,11 +879,9 @@
 
             <div id="battle-arena">
                 <div class="fighter">
-                    <!-- Hero image (Centurion or Scholar) from ROOT -->
                     <img id="hero-img" src="roman-character-1.png" alt="Hero">
                 </div>
                 <div class="fighter">
-                    <!-- Monster: Faun, from images/ -->
                     <img id="monster-img" src="images/monster-1-faun-right-2.png" alt="Faun monster">
                 </div>
             </div>
@@ -509,38 +893,54 @@
             <div id="quiz-result" style="margin-top:5px; font-weight:bold;"></div>
         </div>
 
-        <!-- ====== HIGH SCORE (placeholder for now) ====== -->
+        <!-- ====== HIGH SCORE ====== -->
         <div id="highscore" class="section">
             <h2>High Score</h2>
+
+            <div class="info-box">
+                <strong>Cato challenges you:</strong>
+                “Here you can see the bravest numeral heroes. Can you beat their scores?”
+            </div>
+
             <p>
-                This page will list the highest scores from brave players around the world.
-                For now, keep battling in the Arena to build your score!
+                After each <strong>victory</strong> in the Arena, you can add your name and country
+                to this board. Only polite words are allowed.
             </p>
+
+            <table id="highscore-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="highscore-body">
+                    <!-- Filled by JS -->
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Fixed guide character (uses chosen hero art from ROOT) -->
+    <!-- Fixed guide character -->
     <div id="character">
         <img id="corner-character" src="roman-character-1.png" alt="Guide character">
         <div id="speech">Welcome to the Arena of Numbers!</div>
     </div>
 
-    <!-- Hidden canvas for certificate rendering -->
+    <!-- Hidden canvas for certificate -->
     <canvas id="cert-canvas" style="display:none;"></canvas>
 
     <script>
-        /* ========= GLOBAL STATE & PERSISTENCE ========= */
-
-        // Score and level (persisted in localStorage)
+        /* ========= GLOBAL STATE ========= */
         let score = parseInt(localStorage.getItem('score') || '0', 10);
         let level = parseInt(localStorage.getItem('level') || '1', 10);
         document.getElementById('score').innerText = score;
         document.getElementById('level').innerText = level;
 
-        // Active hero: "centurion" or "scholar"
         let selectedCharacter = 'centurion';
 
-        // Short history facts unlocked per level
         const historyFacts = [
             "Romans used numerals mainly for counting money, recording trade, and numbering armies.",
             "Romans did not have a symbol for zero. The idea of zero came later from other cultures.",
@@ -552,6 +952,7 @@
 
         function renderHistoryFacts() {
             const container = document.getElementById('history-facts');
+            if (!container) return;
             container.innerHTML = '';
             for (let i = 0; i < unlockedFacts && i < historyFacts.length; i++) {
                 const p = document.createElement('p');
@@ -561,14 +962,20 @@
         }
 
         /* ========= NAVIGATION ========= */
-
         function showSection(id) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
             const section = document.getElementById(id);
             if (section) section.style.display = 'block';
 
             if (id === 'quiz') startQuiz();
-            if (id === 'tools') showTool('tool-converter'); // default tool
+            if (id === 'tools') showTool('tool-converter');
+            if (id === 'highscore') renderHighScores();
+        }
+
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function showTool(id) {
@@ -578,7 +985,6 @@
         }
 
         /* ========= ROMAN NUMERAL UTILITIES ========= */
-
         const romanMap = [
             { value: 1000, numeral: "M" }, { value: 900, numeral: "CM" }, { value: 500, numeral: "D" },
             { value: 400, numeral: "CD" }, { value: 100, numeral: "C" }, { value: 90, numeral: "XC" },
@@ -633,7 +1039,6 @@
         }
 
         /* ========= DRAG & DROP BUILDER ========= */
-
         function allowDrop(ev) { ev.preventDefault(); }
 
         function drag(ev) {
@@ -660,22 +1065,17 @@
         }
 
         /* ========= CHARACTER SELECTION ========= */
-
         function selectCharacter(id) {
             selectedCharacter = id;
 
-            // Corner guide portrait (from ROOT)
             document.getElementById('corner-character').src =
-                id === 'scholar'
-                    ? 'roman-character-2.png'
-                    : 'roman-character-1.png';
+                id === 'scholar' ? 'roman-character-2.png' : 'roman-character-1.png';
 
             document.getElementById('speech').innerText =
                 id === 'scholar'
                     ? 'You chose the Scholar! Think carefully and strike wisely.'
                     : 'You chose the Centurion! Charge bravely into the Arena.';
 
-            // Highlight selected hero card
             document.querySelectorAll('#character-options .hero-card')
                 .forEach(card => card.classList.remove('selected'));
             if (id === 'scholar') {
@@ -685,15 +1085,13 @@
             }
         }
 
-        /* ========= ARENA / QUIZ BATTLE ========= */
-
+        /* ========= ARENA / QUIZ ========= */
         let heroHp = 5;
         let monsterHp = 5;
         let questionsThisRound = 0;
         let currentQuestion = null;
 
         function startQuiz() {
-            // Update hero art based on chosen character (ROOT paths)
             const heroImg = document.getElementById('hero-img');
             heroImg.src =
                 selectedCharacter === 'scholar'
@@ -790,6 +1188,9 @@
                         document.getElementById('speech').innerText =
                             'Victory! You have uncovered all the known secrets of Rome.';
                     }
+
+                    // Prompt for high score entry after a win
+                    promptHighScore();
                 } else if (heroHp <= 0) {
                     document.getElementById('speech').innerText =
                         'Defeat... but you can try the level again.';
@@ -803,7 +1204,6 @@
         }
 
         /* ========= MATCHING GAME ========= */
-
         function dropMatch(ev, num) {
             ev.preventDefault();
             const id = ev.dataTransfer.getData("text");
@@ -818,8 +1218,7 @@
             }
         }
 
-        /* ========= CERTIFICATE (CANVAS) ========= */
-
+        /* ========= CERTIFICATE ========= */
         function downloadCertificate() {
             const canvas = document.getElementById('cert-canvas');
             const ctx = canvas.getContext('2d');
@@ -863,7 +1262,6 @@
             );
 
             const logo = new Image();
-            // Use logo image as requested, from images/ folder
             logo.src = 'images/monster-1-faun-logo-1.png';
             logo.onload = () => {
                 const size = 100;
@@ -881,10 +1279,50 @@
             };
         }
 
-        /* ========= INITIALISATION ========= */
+        /* ========= HIGH SCORE SYSTEM ========= */
+        const bannedWords = ["badword", "rude"]; // extend as needed
 
-        renderHistoryFacts();
+        function isClean(text) {
+            const lower = text.toLowerCase();
+            return !bannedWords.some(bad => lower.includes(bad));
+        }
+
+        function promptHighScore() {
+            const name = prompt("Victory! Enter your name for the High Score board:") || "";
+            const country = prompt("Enter your country:") || "";
+            if (!name.trim() || !country.trim()) return;
+            if (!isClean(name) || !isClean(country)) {
+                alert("Please choose polite words for name and country.");
+                return;
+            }
+
+            const record = { name: name.trim(), country: country.trim(), score };
+            const data = JSON.parse(localStorage.getItem('romanHighScores') || "[]");
+            data.push(record);
+            localStorage.setItem('romanHighScores', JSON.stringify(data));
+        }
+
+        function renderHighScores() {
+            const tbody = document.getElementById('highscore-body');
+            tbody.innerHTML = '';
+            const data = JSON.parse(localStorage.getItem('romanHighScores') || "[]");
+            data.sort((a, b) => b.score - a.score);
+            const top = data.slice(0, 20);
+            top.forEach((rec, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${rec.name}</td>
+                    <td>${rec.country}</td>
+                    <td>${rec.score}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        /* ========= INIT ========= */
         selectCharacter('centurion');
+        renderHistoryFacts();
         showSection('story');
     </script>
 </body>
