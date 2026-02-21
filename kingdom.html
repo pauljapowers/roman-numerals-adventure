@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Kingdom – 200 Years</title>
+
+    <!--
+        Roman Kingdom – 200 Years
+        Standalone history chapter page.
+        Assumes:
+        - ROOT images: ancient-rome.png, roman-character-1.png, roman-character-2.png
+        - images/: monster-1-faun-*.png, roman-clock.png, etc.
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("ancient-rome.png") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px 40px 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 10px;
+        }
+
+        h3 {
+            margin-top: 15px;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        /* Top navigation (same structure as index.html) */
+        #nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            border-radius: 4px;
+            z-index: 100;
+        }
+
+        .dropdown-menu button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: white;
+            padding: 8px 10px;
+        }
+
+        .dropdown-menu button:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Info boxes for Cato and Did you know? */
+        .info-box {
+            background-color: #fffde7;
+            border: 1px solid #ffd54f;
+            border-left: 5px solid #fbc02d;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        /* Mini table of contents */
+        #chapter-toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 15px 0;
+        }
+
+        #chapter-toc button {
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .chapter-section {
+            margin-top: 15px;
+        }
+
+        /* Fixed guide character (Cato) */
+        #character {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+            z-index: 50;
+        }
+
+        #character img {
+            max-width: 100%;
+            display: block;
+        }
+
+        #speech {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Roman Kingdom – 200 Years</h1>
+
+        <!-- NAVIGATION -->
+        <div id="nav">
+            <!-- These links go back to the main app in index.html -->
+            <button onclick="window.location.href='index.html#story'">Story</button>
+            <button onclick="window.location.href='index.html#tutorial'">Tutorial</button>
+            <button onclick="window.location.href='index.html#character-select'">Character</button>
+
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="window.location.href='index.html#history-top'">
+                    History ▼
+                </button>
+                <div class="dropdown-menu">
+                    <button onclick="window.location.href='index.html#history-top'">History overview</button>
+                    <button onclick="window.location.href='kingdom.html'">Roman Kingdom – 200 Years</button>
+                    <button onclick="window.location.href='republic.html'">Roman Republic – 500 Years</button>
+                    <button onclick="window.location.href='empire.html'">Roman Empire – 500 Years</button>
+                </div>
+            </div>
+
+            <button onclick="window.location.href='index.html#quiz'">Arena</button>
+            <button onclick="window.location.href='index.html#tools'">Tools</button>
+            <button onclick="window.location.href='index.html'">Certificate</button>
+            <button onclick="window.location.href='index.html#highscore'">High Score</button>
+        </div>
+
+        <!-- INTRO + Cato -->
+        <div class="info-box">
+            <strong>Cato welcomes you:</strong>
+            “This chapter tells the earliest stories of Rome. From wolf‑raised twins
+            to brave heroes on bridges, the Roman Kingdom is where it all began!”
+        </div>
+
+        <p>
+            Historians call the first part of Rome’s story the <strong>Roman Kingdom</strong>.
+            It lasted for about 200 years and was ruled by a line of kings. Some of
+            these kings may be legendary, but their stories help us understand what
+            early Romans admired: bravery, cleverness, and respect for the gods.
+        </p>
+
+        <!-- Mini chapter TOC -->
+        <div id="chapter-toc">
+            <button onclick="scrollToId('k1')">1. Romans & Greeks</button>
+            <button onclick="scrollToId('k2')">2. Geography</button>
+            <button onclick="scrollToId('k3')">3. Etruscans</button>
+            <button onclick="scrollToId('k4')">4. Romulus & Remus</button>
+            <button onclick="scrollToId('k5')">5. Gods & Goddesses</button>
+            <button onclick="scrollToId('k6')">6. 12 Gods</button>
+            <button onclick="scrollToId('k7')">7. Myths</button>
+            <button onclick="scrollToId('k8')">8. Planet Names</button>
+            <button onclick="scrollToId('k9')">9. Patricians & Plebeians</button>
+            <button onclick="scrollToId('k10')">10. Pater Familias</button>
+            <button onclick="scrollToId('k11')">11. Horatius</button>
+        </div>
+
+        <!-- 1. How Ancient Romans Differ from Ancient Greeks -->
+        <div id="k1" class="chapter-section">
+            <h2>1. How Ancient Romans Differed from Ancient Greeks</h2>
+            <p>
+                The Romans admired the Greeks, but they were not the same. Greek cities
+                loved art, ideas, and debates. Romans liked these things too, but they
+                also focused on order, laws, and building a strong army. Greeks told
+                stories about heroes who searched for glory, while Romans praised leaders
+                who served their city and kept their promises.
+            </p>
+        </div>
+
+        <!-- 2. Geography, natural resources, maps -->
+        <div id="k2" class="chapter-section">
+            <h2>2. Geography, Natural Resources, Maps</h2>
+            <p>
+                Rome grew beside the River Tiber in central Italy. The city was surrounded
+                by seven hills, which made it easier to defend. Nearby fields provided
+                grain, olives, and grapes for food and trade. Because Italy sticks out
+                into the Mediterranean Sea like a boot, Roman ships could easily reach
+                many other lands.
+            </p>
+            <div class="info-box">
+                <strong>Map idea:</strong>
+                “Later, you can add a map here showing the River Tiber, the seven hills,
+                and the Mediterranean Sea. Try drawing Rome in the centre and colouring
+                the sea bright blue.”
+            </div>
+        </div>
+
+        <!-- 3. The Etruscans -->
+        <div id="k3" class="chapter-section">
+            <h2>3. The Etruscans</h2>
+            <p>
+                Before Rome became powerful, a people called the <strong>Etruscans</strong>
+                lived in northern and central Italy. They were skilled metalworkers and
+                builders. Romans learned many things from them, including how to build
+                arches and how to read certain signs from the gods. Some of Rome’s early
+                kings were probably Etruscan.
+            </p>
+        </div>
+
+        <!-- 4. Romulus & Remus -->
+        <div id="k4" class="chapter-section">
+            <h2>4. Romulus &amp; Remus</h2>
+            <p>
+                According to legend, twin brothers Romulus and Remus were abandoned as
+                babies and rescued by a she‑wolf. When they grew up, they decided to
+                build a city. A fierce argument followed, and Romulus killed Remus.
+                Romulus named the new city <strong>Rome</strong> after himself and became
+                its first king.
+            </p>
+        </div>
+
+        <!-- 5. Gods & Goddesses -->
+        <div id="k5" class="chapter-section">
+            <h2>5. Gods &amp; Goddesses</h2>
+            <p>
+                Early Romans believed that spirits and gods watched over every part of
+                life: the home, the fields, and the sky. Later, they matched many of
+                their gods with Greek ones. For example, the Roman god Jupiter was
+                similar to the Greek god Zeus, and Venus was similar to Aphrodite.
+            </p>
+        </div>
+
+        <!-- 6. Roman Council of 12 Gods -->
+        <div id="k6" class="chapter-section">
+            <h2>6. Roman Council of 12 Gods</h2>
+            <p>
+                The most important Roman gods were sometimes called the “Council of Twelve”.
+                These included Jupiter, Juno, Minerva, Mars, Venus, Mercury, Neptune,
+                Diana, Apollo, Vesta, Ceres, and Vulcan. Temples and festivals were held
+                in their honour, and people asked them for protection and good fortune.
+            </p>
+        </div>
+
+        <!-- 7. Roman Myths -->
+        <div id="k7" class="chapter-section">
+            <h2>7. Roman Myths</h2>
+            <p>
+                Roman myths told exciting stories about brave heroes, magical creatures,
+                and powerful gods. These tales explained why storms happened, how cities
+                were founded, and what it meant to be loyal and brave. Children in Rome
+                grew up hearing these stories just as you might hear fairy tales today.
+            </p>
+        </div>
+
+        <!-- 8. How the planets got their names -->
+        <div id="k8" class="chapter-section">
+            <h2>8. How the Planets Got Their Names</h2>
+            <p>
+                Many of the planets in our solar system are named after Roman gods.
+                Mars, the red planet, is named after the god of war. Venus, the bright
+                evening star, is named after the goddess of love and beauty. Even the
+                planet Neptune, deep blue in colour, is named after the god of the sea.
+            </p>
+        </div>
+
+        <!-- 9. Patricians & Plebeians -->
+        <div id="k9" class="chapter-section">
+            <h2>9. Patricians &amp; Plebeians</h2>
+            <p>
+                Early Roman society was divided into two main groups:
+                <strong>patricians</strong> and <strong>plebeians</strong>. Patricians were
+                wealthy families who owned land and often became leaders. Plebeians were
+                ordinary citizens such as farmers, craft workers, and traders. Both groups
+                were important for building Rome.
+            </p>
+        </div>
+
+        <!-- 10. Pater Familias, Family -->
+        <div id="k10" class="chapter-section">
+            <h2>10. Pater Familias &amp; Family</h2>
+            <p>
+                In each Roman household, the <strong>pater familias</strong> was the head of
+                the family, usually the oldest man. He was expected to care for everyone,
+                make decisions, and honour the family’s ancestors. Children were taught
+                to obey their parents and to show respect to their elders.
+            </p>
+        </div>
+
+        <!-- 11. Horatius at the Bridge -->
+        <div id="k11" class="chapter-section">
+            <h2>11. Horatius at the Bridge</h2>
+            <p>
+                One famous story from the time of the Roman Kingdom is about
+                <strong>Horatius Cocles</strong>. When an enemy army tried to cross a bridge
+                into Rome, Horatius stood at the far end and fought them off while the
+                bridge was destroyed behind him. He risked his life to protect his city,
+                and Romans remembered him as a model of courage and loyalty.
+            </p>
+            <div class="info-box">
+                <strong>Think about it:</strong>
+                “If you were Horatius, would you be brave enough to stand on the bridge?
+                What modern heroes do you know who protect other people?”
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed guide character -->
+    <div id="character">
+        <img id="corner-character" src="roman-character-1.png" alt="Guide character">
+        <div id="speech">Welcome to the Roman Kingdom chapter!</div>
+    </div>
+
+    <script>
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
