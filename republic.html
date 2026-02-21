@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Republic – 500 Years</title>
+
+    <!--
+        Roman Republic – 500 Years
+        Standalone history chapter page.
+        Assumes:
+        - ROOT images: ancient-rome.png, roman-character-1.png, roman-character-2.png
+        - images/: monster-1-faun-*.png, roman-clock.png, etc.
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("ancient-rome.png") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px 40px 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 10px;
+        }
+
+        h3 {
+            margin-top: 15px;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        /* Top navigation (same feel as index.html) */
+        #nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            border-radius: 4px;
+            z-index: 100;
+        }
+
+        .dropdown-menu button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: white;
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu button:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background-color: #fffde7;
+            border: 1px solid #ffd54f;
+            border-left: 5px solid #fbc02d;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        /* Mini table of contents */
+        #chapter-toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 15px 0;
+        }
+
+        #chapter-toc button {
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .chapter-section {
+            margin-top: 15px;
+        }
+
+        /* Fixed guide character (Cato) */
+        #character {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+            z-index: 50;
+        }
+
+        #character img {
+            max-width: 100%;
+            display: block;
+        }
+
+        #speech {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Roman Republic – 500 Years</h1>
+
+        <!-- NAVIGATION -->
+        <div id="nav">
+            <!-- Back to main app sections in index.html -->
+            <button onclick="window.location.href='index.html#story'">Story</button>
+            <button onclick="window.location.href='index.html#tutorial'">Tutorial</button>
+            <button onclick="window.location.href='index.html#character-select'">Character</button>
+
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="window.location.href='index.html#history-top'">
+                    History ▼
+                </button>
+                <div class="dropdown-menu">
+                    <button onclick="window.location.href='index.html#history-top'">History overview</button>
+                    <button onclick="window.location.href='kingdom.html'">Roman Kingdom – 200 Years</button>
+                    <button onclick="window.location.href='republic.html'">Roman Republic – 500 Years</button>
+                    <button onclick="window.location.href='empire.html'">Roman Empire – 500 Years</button>
+                </div>
+            </div>
+
+            <button onclick="window.location.href='index.html#quiz'">Arena</button>
+            <button onclick="window.location.href='index.html#tools'">Tools</button>
+            <button onclick="window.location.href='index.html'">Certificate</button>
+            <button onclick="window.location.href='index.html#highscore'">High Score</button>
+        </div>
+
+        <!-- INTRO + Cato -->
+        <div class="info-box">
+            <strong>Cato introduces the Republic:</strong>
+            “Now Rome decides that no single king should rule. Citizens vote, senators debate,
+            and heroes write letters home from far‑away wars. Welcome to five hundred years
+            of the Roman Republic!”
+        </div>
+
+        <p>
+            The <strong>Roman Republic</strong> lasted for about 500 years. During this time,
+            Romans experimented with new ways of sharing power. Ordinary citizens had more
+            of a voice, but life was still very different for rich and poor people. Many
+            famous stories, wars, and leaders come from this period.
+        </p>
+
+        <!-- Mini chapter TOC -->
+        <div id="chapter-toc">
+            <button onclick="scrollToId('r1')">1. Government</button>
+            <button onclick="scrollToId('r2')">2. US vs Republic</button>
+            <button onclick="scrollToId('r3')">3. SPQR</button>
+            <button onclick="scrollToId('r4')">4. 12 Tables</button>
+            <button onclick="scrollToId('r5')">5. Crime & Justice</button>
+            <button onclick="scrollToId('r6')">6. Patrician Life</button>
+            <button onclick="scrollToId('r7')">7. Plebeian Life</button>
+            <button onclick="scrollToId('r8')">8. Countryside</button>
+            <button onclick="scrollToId('r9')">9. Houses</button>
+            <button onclick="scrollToId('r10')">10. Clothing</button>
+            <button onclick="scrollToId('r11')">11. Bulla</button>
+            <button onclick="scrollToId('r12')">12. Forum</button>
+            <button onclick="scrollToId('r13')">13. Baths</button>
+            <button onclick="scrollToId('r14')">14. Jobs</button>
+            <button onclick="scrollToId('r15')">15. Kids & School</button>
+            <button onclick="scrollToId('r16')">16. Weddings</button>
+            <button onclick="scrollToId('r17')">17. Mosaics</button>
+            <button onclick="scrollToId('r18')">18. Legion</button>
+            <button onclick="scrollToId('r19')">19. Letters</button>
+            <button onclick="scrollToId('r20')">20. Roads</button>
+            <button onclick="scrollToId('r21')">21. Provinces</button>
+            <button onclick="scrollToId('r22')">22. Romans in Britain</button>
+            <button onclick="scrollToId('r23')">23. Aeneid</button>
+            <button onclick="scrollToId('r24')">24. Hannibal</button>
+            <button onclick="scrollToId('r25')">25. Julius Caesar</button>
+            <button onclick="scrollToId('r26')">26. Cicero</button>
+            <button onclick="scrollToId('r27')">27. Republic Fails</button>
+        </div>
+
+        <!-- 1. Republic Government -->
+        <div id="r1" class="chapter-section">
+            <h2>1. Republic Government</h2>
+            <p>
+                In the Roman Republic, leaders were chosen by citizens instead of crowned as kings.
+                There were two main officials called <strong>consuls</strong> who shared power and
+                could stop each other’s decisions. A group called the <strong>Senate</strong> advised
+                them, and different assemblies allowed citizens to vote on some laws.
+            </p>
+        </div>
+
+        <!-- 2. Comparison, US and Roman Republic Governments -->
+        <div id="r2" class="chapter-section">
+            <h2>2. Comparing the US and Roman Republic Governments</h2>
+            <p>
+                Like the Roman Republic, the United States has elected leaders, a senate, and written
+                laws. Both systems try to balance power so no single person controls everything.
+                However, many people in Rome could not vote, including women and enslaved people,
+                while modern democracies try to give more citizens a voice.
+            </p>
+        </div>
+
+        <!-- 3. SPQR -->
+        <div id="r3" class="chapter-section">
+            <h2>3. SPQR</h2>
+            <p>
+                The letters <strong>SPQR</strong> stand for <em>Senatus Populusque Romanus</em>,
+                which means “The Senate and People of Rome”. Romans carved SPQR on buildings,
+                flags, and shields to show that government came from both the leaders and the citizens.
+            </p>
+        </div>
+
+        <!-- 4. 12 Tables -->
+        <div id="r4" class="chapter-section">
+            <h2>4. The Twelve Tables</h2>
+            <p>
+                Early in the Republic, Romans wrote down their laws on bronze tablets called
+                the <strong>Twelve Tables</strong>. These tablets were displayed in the Forum so
+                that everyone could see the rules. This helped stop powerful people from secretly
+                changing laws to suit themselves.
+            </p>
+        </div>
+
+        <!-- 5. Crime and Justice in Ancient Rome -->
+        <div id="r5" class="chapter-section">
+            <h2>5. Crime and Justice in Ancient Rome</h2>
+            <p>
+                Romans took law and order seriously. People accused of crimes could sometimes speak
+                in their own defence or have a lawyer. Punishments included fines, exile from the city,
+                or, for serious crimes, death. Rich people often had better chances in court than poor people.
+            </p>
+        </div>
+
+        <!-- 6. Daily Life for Patricians -->
+        <div id="r6" class="chapter-section">
+            <h2>6. Daily Life for Patricians</h2>
+            <p>
+                <strong>Patricians</strong> were wealthy families with large houses and many slaves.
+                They enjoyed fancy dinners, political meetings, and trips to the baths. Their children
+                sometimes had private tutors who taught them reading, writing, Greek, and public speaking.
+            </p>
+        </div>
+
+        <!-- 7. Daily Life for Plebeians -->
+        <div id="r7" class="chapter-section">
+            <h2>7. Daily Life for Plebeians</h2>
+            <p>
+                <strong>Plebeians</strong> were ordinary citizens such as farmers, shopkeepers, and craftsmen.
+                Many lived in crowded apartment buildings. They worked hard during the day and relaxed by
+                visiting the market, the baths, or the games in the arena when they could.
+            </p>
+        </div>
+
+        <!-- 8. Daily Life in the Countryside -->
+        <div id="r8" class="chapter-section">
+            <h2>8. Daily Life in the Countryside</h2>
+            <p>
+                Outside the city, many Romans lived on farms. Families grew grain, olives, grapes, and raised
+                animals like sheep and goats. Life followed the seasons: planting, harvesting, and caring for
+                crops. News from Rome sometimes arrived only after many days.
+            </p>
+        </div>
+
+        <!-- 9. Roman Houses and the Atrium -->
+        <div id="r9" class="chapter-section">
+            <h2>9. Roman Houses and the Atrium</h2>
+            <p>
+                Wealthy Romans lived in houses with an open central hall called an <strong>atrium</strong>.
+                Rainwater fell through a hole in the roof into a pool on the floor. Rooms opened around
+                the atrium, and guests could admire family shrines, statues, and colourful wall paintings.
+            </p>
+        </div>
+
+        <!-- 10. Clothing & Hair Styles -->
+        <div id="r10" class="chapter-section">
+            <h2>10. Clothing &amp; Hair Styles</h2>
+            <p>
+                Roman citizens often wore a simple tunic, and on special days men might add a
+                <strong>toga</strong>, a large draped cloth. Women wore long dresses called
+                <strong>stolae</strong> and styled their hair in braids or curls. Wealthy people
+                might use pins and jewellery to show their status.
+            </p>
+        </div>
+
+        <!-- 11. Bulla -->
+        <div id="r11" class="chapter-section">
+            <h2>11. Bulla</h2>
+            <p>
+                Roman children were given a small locket called a <strong>bulla</strong> to wear
+                around their necks. It contained lucky charms to protect them from harm. Boys
+                usually wore their bulla until they became adults and put on a man’s toga.
+            </p>
+        </div>
+
+        <!-- 12. The Forum -->
+        <div id="r12" class="chapter-section">
+            <h2>12. The Forum</h2>
+            <p>
+                During the Republic, the Forum was busier than ever. Citizens met there to trade,
+                listen to court cases, and hear speeches from politicians. If you stood in the
+                Forum, you might hear arguments about new laws or news from distant provinces.
+            </p>
+        </div>
+
+        <!-- 13. The Baths -->
+        <div id="r13" class="chapter-section">
+            <h2>13. The Baths</h2>
+            <p>
+                Public bath houses were like a mix of a swimming pool, gym, and social club.
+                Romans could exercise, wash in hot and cold pools, and relax with friends.
+                Many baths also had libraries and snack stalls, making them popular meeting places.
+            </p>
+        </div>
+
+        <!-- 14. Occupations and Jobs -->
+        <div id="r14" class="chapter-section">
+            <h2>14. Occupations and Jobs</h2>
+            <p>
+                Romans worked in many different jobs: farmers, soldiers, builders, merchants,
+                scribes, and more. Some people ran small shops, while others worked on large
+                estates or in government offices. Enslaved people did much of the hardest labour.
+            </p>
+        </div>
+
+        <!-- 15. Kids & School -->
+        <div id="r15" class="chapter-section">
+            <h2>15. Kids &amp; School</h2>
+            <p>
+                Many Roman children learned at home or in small schools run by teachers.
+                They practised writing on wax tablets, memorised poems, and learned
+                multiplication with counting boards. Good handwriting and clear speaking
+                were very important skills.
+            </p>
+        </div>
+
+        <!-- 16. Wedding Customs -->
+        <div id="r16" class="chapter-section">
+            <h2>16. Wedding Customs</h2>
+            <p>
+                Roman weddings included special clothes, music, and feasts. Brides wore a bright
+                orange veil and carried a small torch. After the ceremony, guests shouted
+                good wishes as the couple walked to their new home.
+            </p>
+        </div>
+
+        <!-- 17. Roman Mosaics -->
+        <div id="r17" class="chapter-section">
+            <h2>17. Roman Mosaics</h2>
+            <p>
+                Romans decorated floors and walls with <strong>mosaics</strong>, pictures made
+                from tiny pieces of coloured stone or glass. Mosaics showed animals, gods,
+                and scenes from everyday life. They were beautiful and also easier to clean
+                than painted floors.
+            </p>
+        </div>
+
+        <!-- 18. Roman Legion -->
+        <div id="r18" class="chapter-section">
+            <h2>18. Roman Legion</h2>
+            <p>
+                During the Republic, the <strong>legion</strong> became Rome’s main fighting force.
+                Citizens served as soldiers, training to march in formation and use shields and swords.
+                Successful generals gained great fame and sometimes used their armies to win political power.
+            </p>
+        </div>
+
+        <!-- 19. Roman Letters Home, Inscriptions -->
+        <div id="r19" class="chapter-section">
+            <h2>19. Roman Letters Home &amp; Inscriptions</h2>
+            <p>
+                Soldiers and travellers sometimes wrote letters home on thin wooden tablets or papyrus.
+                Important messages and honours were carved into stone <strong>inscriptions</strong>.
+                Archaeologists still discover these writings today, giving us a peek into real Roman voices.
+            </p>
+        </div>
+
+        <!-- 20. Roman Roads -->
+        <div id="r20" class="chapter-section">
+            <h2>20. Roman Roads</h2>
+            <p>
+                As Rome conquered more land, it built sturdy roads to move soldiers and goods.
+                These roads connected new provinces to the city of Rome. Mile‑stones along the
+                way told travellers how far they were from the capital.
+            </p>
+        </div>
+
+        <!-- 21. Provinces, Expansion -->
+        <div id="r21" class="chapter-section">
+            <h2>21. Provinces &amp; Expansion</h2>
+            <p>
+                Lands outside Italy that Rome controlled were called <strong>provinces</strong>.
+                Governors were sent to collect taxes and keep order. Some provinces became rich
+                from trade in grain, metals, or wine, but others suffered from heavy taxation
+                and unfair treatment.
+            </p>
+        </div>
+
+        <!-- 22. The Romans in Britain -->
+        <div id="r22" class="chapter-section">
+            <h2>22. The Romans in Britain</h2>
+            <p>
+                During the late Republic and early Empire, Roman armies reached the island of Britain.
+                They built forts, roads, and walls, including the famous Hadrian’s Wall. Roman rule
+                brought new foods, coins, and baths, but also battles with local tribes.
+            </p>
+        </div>
+
+        <!-- 23. The Aeneid by Virgil -->
+        <div id="r23" class="chapter-section">
+            <h2>23. The Aeneid by Virgil</h2>
+            <p>
+                The poet <strong>Virgil</strong> wrote an epic poem called the <em>Aeneid</em>.
+                It tells the story of Aeneas, a brave Trojan who travels to Italy and becomes
+                an ancestor of the Romans. The poem linked Rome’s past to the heroic tales of
+                the Trojan War and gave the Republic a grand, mythical origin.
+            </p>
+        </div>
+
+        <!-- 24. Hannibal, Punic Wars -->
+        <div id="r24" class="chapter-section">
+            <h2>24. Hannibal &amp; the Punic Wars</h2>
+            <p>
+                Rome fought three long wars against the city of Carthage, called the
+                <strong>Punic Wars</strong>. The Carthaginian general <strong>Hannibal</strong>
+                became famous for leading war elephants across the Alps to surprise the Romans.
+                After many battles, Rome finally won and became the strongest power in the western Mediterranean.
+            </p>
+        </div>
+
+        <!-- 25. Julius Caesar -->
+        <div id="r25" class="chapter-section">
+            <h2>25. Julius Caesar</h2>
+            <p>
+                <strong>Julius Caesar</strong> was a brilliant general who conquered Gaul and
+                became extremely popular. He used his army to gain control of Rome and was named
+                “dictator for life”. Some senators feared he would make himself king, so they
+                plotted against him and assassinated him on the Ides of March.
+            </p>
+        </div>
+
+        <!-- 26. Cicero -->
+        <div id="r26" class="chapter-section">
+            <h2>26. Cicero</h2>
+            <p>
+                <strong>Cicero</strong> was a famous Roman lawyer and speaker who loved the ideals
+                of the Republic. He wrote many letters and speeches about justice, friendship,
+                and good government. His words are still studied today by students learning about
+                rhetoric and philosophy.
+            </p>
+        </div>
+
+        <!-- 27. Republic Fails -->
+        <div id="r27" class="chapter-section">
+            <h2>27. The Republic Fails</h2>
+            <p>
+                By the end of the Republic, Rome was full of problems: rich and poor citizens
+                argued, generals used their armies to win power, and civil wars broke out.
+                After Caesar’s death, his adopted heir Octavian defeated his rivals and
+                became the first emperor, Augustus. The Republic was over, and the Empire had begun.
+            </p>
+            <div class="info-box">
+                <strong>Think about it:</strong>
+                “Why do you think it was hard for Rome to stay a Republic as it grew so large?
+                What helps modern countries keep their governments fair?”
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed guide character -->
+    <div id="character">
+        <img id="corner-character" src="roman-character-2.png" alt="Guide character">
+        <div id="speech">Welcome to the Roman Republic chapter!</div>
+    </div>
+
+    <script>
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
