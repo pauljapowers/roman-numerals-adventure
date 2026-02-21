@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Empire – 500 Years</title>
+
+    <!--
+        Roman Empire – 500 Years
+        Standalone history chapter page.
+        Assumes:
+        - ROOT images: ancient-rome.png, roman-character-1.png, roman-character-2.png
+        - images/: monster-1-faun-*.png, roman-clock.png, etc.
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("ancient-rome.png") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px 40px 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 10px;
+        }
+
+        h3 {
+            margin-top: 15px;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        /* Top navigation (mirrors index.html) */
+        #nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            border-radius: 4px;
+            z-index: 100;
+        }
+
+        .dropdown-menu button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: white;
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu button:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background-color: #fffde7;
+            border: 1px solid #ffd54f;
+            border-left: 5px solid #fbc02d;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        /* Mini chapter TOC */
+        #chapter-toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 15px 0;
+        }
+
+        #chapter-toc button {
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .chapter-section {
+            margin-top: 15px;
+        }
+
+        /* Fixed guide character */
+        #character {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 220px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+            z-index: 50;
+        }
+
+        #character img {
+            max-width: 100%;
+            display: block;
+        }
+
+        #speech {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Roman Empire – 500 Years</h1>
+
+        <!-- NAVIGATION -->
+        <div id="nav">
+            <button onclick="window.location.href='index.html#story'">Story</button>
+            <button onclick="window.location.href='index.html#tutorial'">Tutorial</button>
+            <button onclick="window.location.href='index.html#character-select'">Character</button>
+
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="window.location.href='index.html#history-top'">
+                    History ▼
+                </button>
+                <div class="dropdown-menu">
+                    <button onclick="window.location.href='index.html#history-top'">History overview</button>
+                    <button onclick="window.location.href='kingdom.html'">Roman Kingdom – 200 Years</button>
+                    <button onclick="window.location.href='republic.html'">Roman Republic – 500 Years</button>
+                    <button onclick="window.location.href='empire.html'">Roman Empire – 500 Years</button>
+                </div>
+            </div>
+
+            <button onclick="window.location.href='index.html#quiz'">Arena</button>
+            <button onclick="window.location.href='index.html#tools'">Tools</button>
+            <button onclick="window.location.href='index.html'">Certificate</button>
+            <button onclick="window.location.href='index.html#highscore'">High Score</button>
+        </div>
+
+        <!-- INTRO + Cato -->
+        <div class="info-box">
+            <strong>Cato tells the tale:</strong>
+            “In the Empire, Rome reaches its greatest size. Emperors rule from marble
+            palaces, gladiators fight in huge arenas, and roads and aqueducts stretch
+            across three continents. Come and see how the story ends!”
+        </div>
+
+        <p>
+            The <strong>Roman Empire</strong> began after the Republic collapsed and powerful
+            emperors took charge. For about 500 years, Rome controlled lands across
+            Europe, North Africa, and the Middle East. There were times of peace and
+            clever building, and other times of danger, fire, and invasion.
+        </p>
+
+        <!-- Mini chapter TOC -->
+        <div id="chapter-toc">
+            <button onclick="scrollToId('e1')">1. Emperors</button>
+            <button onclick="scrollToId('e2')">2. Pax Romana</button>
+            <button onclick="scrollToId('e3')">3. Improvements</button>
+            <button onclick="scrollToId('e4')">4. Calendar</button>
+            <button onclick="scrollToId('e5')">5. Women</button>
+            <button onclick="scrollToId('e6')">6. Daily Life</button>
+            <button onclick="scrollToId('e7')">7. Breakfast</button>
+            <button onclick="scrollToId('e8')">8. Siestas</button>
+            <button onclick="scrollToId('e9')">9. Dinner</button>
+            <button onclick="scrollToId('e10')">10. Entertainment</button>
+            <button onclick="scrollToId('e11')">11. Festivals</button>
+            <button onclick="scrollToId('e12')">12. Country Life</button>
+            <button onclick="scrollToId('e13')">13. Campus</button>
+            <button onclick="scrollToId('e14')">14. Theatre</button>
+            <button onclick="scrollToId('e15')">15. Circus Maximus</button>
+            <button onclick="scrollToId('e16')">16. Art</button>
+            <button onclick="scrollToId('e17')">17. Architecture</button>
+            <button onclick="scrollToId('e18')">18. Numerals</button>
+            <button onclick="scrollToId('e19')">19. Colosseum</button>
+            <button onclick="scrollToId('e20')">20. Gladiators</button>
+            <button onclick="scrollToId('e21')">21. Nero</button>
+            <button onclick="scrollToId('e22')">22. Spartacus</button>
+            <button onclick="scrollToId('e23')">23. Christianity</button>
+            <button onclick="scrollToId('e24')">24. Two Empires</button>
+            <button onclick="scrollToId('e25')">25. Barbarians</button>
+            <button onclick="scrollToId('e26')">26. Fall of Rome</button>
+            <button onclick="scrollToId('e27')">27. Achievements</button>
+            <button onclick="scrollToId('e28')">28. Government</button>
+            <button onclick="scrollToId('e29')">29. Pantheon</button>
+            <button onclick="scrollToId('e30')">30. Pompeii</button>
+        </div>
+
+        <!-- 1. Roman Emperors -->
+        <div id="e1" class="chapter-section">
+            <h2>1. Roman Emperors</h2>
+            <p>
+                The first emperor was <strong>Augustus</strong>, who brought order after years
+                of civil war. Later emperors were very different from each other: some were wise
+                and careful, others cruel and reckless. Emperors wore purple robes and had guards,
+                palaces, and enormous power over millions of people.
+            </p>
+        </div>
+
+        <!-- 2. Pax Romana -->
+        <div id="e2" class="chapter-section">
+            <h2>2. Pax Romana</h2>
+            <p>
+                The phrase <strong>Pax Romana</strong> means “Roman Peace”. For about 200 years,
+                the empire enjoyed relatively few major wars inside its borders. Trade flowed
+                along safe roads and sea routes, and cities across the empire grew rich and busy.
+            </p>
+        </div>
+
+        <!-- 3. Improvements -->
+        <div id="e3" class="chapter-section">
+            <h2>3. Improvements</h2>
+            <p>
+                Emperors invested in roads, bridges, aqueducts, and public buildings.
+                They improved city planning with sewers and fresh water supplies, and they
+                standardised coins and weights. These improvements helped people travel,
+                trade, and live more comfortably.
+            </p>
+        </div>
+
+        <!-- 4. Roman Calendar -->
+        <div id="e4" class="chapter-section">
+            <h2>4. Roman Calendar</h2>
+            <p>
+                Julius Caesar reformed the calendar into a 365‑day year with leap years, called
+                the <strong>Julian calendar</strong>. Many of our month names, like March (from
+                Mars) and July (from Julius), come from Rome. Later changes created the modern
+                calendar we still use today.
+            </p>
+        </div>
+
+        <!-- 5. Status of Women -->
+        <div id="e5" class="chapter-section">
+            <h2>5. Status of Women</h2>
+            <p>
+                Women in the Empire could not vote, but many managed households, helped run
+                businesses, and influenced politics behind the scenes. Wealthy women owned
+                property and sponsored buildings or games. Some became famous writers and
+                philosophers, although their names are less well known than men’s.
+            </p>
+        </div>
+
+        <!-- 6. Daily Life -->
+        <div id="e6" class="chapter-section">
+            <h2>6. Daily Life</h2>
+            <p>
+                A typical day in Rome began with a simple breakfast, work or school during
+                the morning, and a rest in the hot afternoon. People might visit the baths,
+                shop in markets, or watch entertainment in the evening. Much like today,
+                daily life mixed chores with chances to relax.
+            </p>
+        </div>
+
+        <!-- 7. Breakfast -->
+        <div id="e7" class="chapter-section">
+            <h2>7. Breakfast</h2>
+            <p>
+                Roman breakfast, called <em>ientaculum</em>, was often small: bread with
+                cheese or olives, and maybe some fruit. Only the wealthy sometimes enjoyed
+                fancier foods early in the day.
+            </p>
+        </div>
+
+        <!-- 8. Afternoon, Siestas -->
+        <div id="e8" class="chapter-section">
+            <h2>8. Afternoon &amp; Siestas</h2>
+            <p>
+                The hottest part of the day was often time for a rest or <em>meridiatio</em>.
+                Shops might close, and people would nap, play quiet games, or chat at home
+                before returning to work later.
+            </p>
+        </div>
+
+        <!-- 9. Dinner -->
+        <div id="e9" class="chapter-section">
+            <h2>9. Dinner</h2>
+            <p>
+                The main meal, <em>cena</em>, could be simple or spectacular. Rich families
+                reclined on couches and ate several courses, including fish, meat, vegetables,
+                and sweets. Musicians or dancers sometimes performed during the meal.
+            </p>
+        </div>
+
+        <!-- 10. Entertainment -->
+        <div id="e10" class="chapter-section">
+            <h2>10. Entertainment</h2>
+            <p>
+                Romans loved entertainment. They watched plays, listened to poetry, and enjoyed
+                acrobats, animal shows, and storytelling. Crowds also flocked to chariot races
+                and gladiator fights in massive arenas.
+            </p>
+        </div>
+
+        <!-- 11. Holidays & Festivals -->
+        <div id="e11" class="chapter-section">
+            <h2>11. Holidays &amp; Festivals</h2>
+            <p>
+                Festivals honoured gods, emperors, or important events. During <strong>Saturnalia</strong>,
+                masters and slaves switched roles for a day, gifts were exchanged, and everyone
+                enjoyed feasts and games. Religious ceremonies filled the calendar.
+            </p>
+        </div>
+
+        <!-- 12. Daily Life in the Country -->
+        <div id="e12" class="chapter-section">
+            <h2>12. Daily Life in the Country</h2>
+            <p>
+                In the countryside, farmers worked on large estates, growing crops for cities.
+                Life followed the rhythms of planting and harvest. Some estates belonged to
+                wealthy Romans who visited only for holidays, leaving managers and workers to
+                handle daily tasks.
+            </p>
+        </div>
+
+        <!-- 13. The Campus -->
+        <div id="e13" class="chapter-section">
+            <h2>13. The Campus</h2>
+            <p>
+                The <strong>Campus Martius</strong>, or Field of Mars, was a large open area where
+                soldiers trained and young men exercised. Over time, it also gained temples,
+                theatres, and baths, becoming a lively part of the city.
+            </p>
+        </div>
+
+        <!-- 14. Pantomime, Theatre -->
+        <div id="e14" class="chapter-section">
+            <h2>14. Pantomime &amp; Theatre</h2>
+            <p>
+                Roman theatres staged comedies, tragedies, and <strong>pantomime</strong>, where
+                actors told stories through movement and masks while a chorus sang the words.
+                Audiences laughed, cheered, and sometimes loudly complained if a play was boring!
+            </p>
+        </div>
+
+        <!-- 15. Circus Maximus, Chariot Races -->
+        <div id="e15" class="chapter-section">
+            <h2>15. Circus Maximus &amp; Chariot Races</h2>
+            <p>
+                The <strong>Circus Maximus</strong> was a huge race track that could hold more than
+                100,000 spectators. Teams raced light chariots pulled by horses around the track
+                at dangerous speeds. Fans supported their favourite colours—Red, White, Blue, or Green—
+                much like sports teams today.
+            </p>
+        </div>
+
+        <!-- 16. Roman Art -->
+        <div id="e16" class="chapter-section">
+            <h2>16. Roman Art</h2>
+            <p>
+                Roman artists created realistic statues, detailed mosaics, and colourful wall
+                paintings. They often copied Greek styles but added their own ideas, showing
+                everyday scenes as well as gods and heroes.
+            </p>
+        </div>
+
+        <!-- 17. Roman Architecture, the Great Builders -->
+        <div id="e17" class="chapter-section">
+            <h2>17. Roman Architecture – The Great Builders</h2>
+            <p>
+                Romans used arches, domes, and concrete to build strong and beautiful structures:
+                aqueducts, bridges, temples, and arenas. Their engineering skills were so advanced
+                that many Roman buildings still stand today, almost two thousand years later.
+            </p>
+        </div>
+
+        <!-- 18. Roman Numerals -->
+        <div id="e18" class="chapter-section">
+            <h2>18. Roman Numerals</h2>
+            <p>
+                Numbers in the Empire were written with letters like I, V, X, L, C, D, and M.
+                Romans used them on monuments, in documents, and for counting money and soldiers.
+                You have already started to master these numerals in the Arena of Numbers!
+            </p>
+        </div>
+
+        <!-- 19. Colosseum -->
+        <div id="e19" class="chapter-section">
+            <h2>19. The Colosseum</h2>
+            <p>
+                The <strong>Colosseum</strong> is Rome’s most famous amphitheatre. It could hold
+                tens of thousands of spectators who came to watch gladiator fights, animal hunts,
+                and mock sea battles. Different levels of seats were reserved for different social
+                classes, from senators down to ordinary citizens.
+            </p>
+        </div>
+
+        <!-- 20. Gladiators -->
+        <div id="e20" class="chapter-section">
+            <h2>20. Gladiators</h2>
+            <p>
+                <strong>Gladiators</strong> were trained fighters, often enslaved people or
+                prisoners of war, who battled each other or wild animals for the crowd’s
+                entertainment. Some became famous and won their freedom, but many faced
+                great danger in the arena.
+            </p>
+        </div>
+
+        <!-- 21. Nero -->
+        <div id="e21" class="chapter-section">
+            <h2>21. Nero</h2>
+            <p>
+                Emperor <strong>Nero</strong> is remembered for his strange and cruel behaviour.
+                Ancient writers say he loved performing on stage and sometimes ignored his duties.
+                A great fire destroyed much of Rome during his rule, and many blamed him, although
+                historians still debate what really happened.
+            </p>
+        </div>
+
+        <!-- 22. Spartacus -->
+        <div id="e22" class="chapter-section">
+            <h2>22. Spartacus</h2>
+            <p>
+                <strong>Spartacus</strong> was a gladiator who led a major rebellion of enslaved
+                people against Rome. For a time his army defeated several Roman forces, showing
+                how dangerous unrest could be inside the empire. In the end, the rebellion was
+                crushed, but the story of Spartacus remained famous.
+            </p>
+        </div>
+
+        <!-- 23. Rise of Christianity -->
+        <div id="e23" class="chapter-section">
+            <h2>23. Rise of Christianity</h2>
+            <p>
+                During the Empire, a new religion called <strong>Christianity</strong> began in
+                the eastern provinces. At first, Christians were sometimes punished for refusing
+                to honour Roman gods. Later, emperors such as Constantine made Christianity legal
+                and eventually it became the empire’s main religion.
+            </p>
+        </div>
+
+        <!-- 24. Two Roman Empires -->
+        <div id="e24" class="chapter-section">
+            <h2>24. Two Roman Empires</h2>
+            <p>
+                The empire grew so large that emperors eventually divided it into a western half,
+                ruled from Rome, and an eastern half, ruled from Constantinople. The eastern empire,
+                often called the Byzantine Empire, lasted for nearly a thousand years after the western
+                half fell.
+            </p>
+        </div>
+
+        <!-- 25. Barbarians Attack -->
+        <div id="e25" class="chapter-section">
+            <h2>25. Barbarians Attack</h2>
+            <p>
+                Romans called many neighbouring peoples <strong>barbarians</strong> if they did not
+                speak Latin or Greek. Over time, some of these groups, such as the Goths and Vandals,
+                pushed into Roman lands. They were sometimes enemies, sometimes allies, and often
+                searching for new homes.
+            </p>
+        </div>
+
+        <!-- 26. Rome Falls (Review) -->
+        <div id="e26" class="chapter-section">
+            <h2>26. Rome Falls (Review)</h2>
+            <p>
+                In 476 CE, the last western Roman emperor was removed by a Germanic leader
+                named Odoacer. Many historians use this date as the “fall” of the western
+                Roman Empire. However, Roman laws, language, and buildings continued to
+                influence Europe for centuries.
+            </p>
+        </div>
+
+        <!-- 27. Achievements, Contributions -->
+        <div id="e27" class="chapter-section">
+            <h2>27. Achievements &amp; Contributions</h2>
+            <p>
+                Romans left behind impressive achievements: straight roads, strong bridges,
+                aqueducts that carried water for miles, grand buildings, clear laws, and
+                Latin words that shaped many modern languages. When you see arches, domes,
+                or Roman numerals, you are seeing their legacy.
+            </p>
+        </div>
+
+        <!-- 28. Overview of Roman Government -->
+        <div id="e28" class="chapter-section">
+            <h2>28. Overview of Roman Government</h2>
+            <p>
+                Over its history, Rome tried several types of government: kings, a republic
+                with elected officials, and an empire ruled by emperors. Each system had
+                strengths and weaknesses. Many later countries studied Rome to learn what
+                to copy and what mistakes to avoid.
+            </p>
+        </div>
+
+        <!-- 29. Grand Pantheon -->
+        <div id="e29" class="chapter-section">
+            <h2>29. The Grand Pantheon</h2>
+            <p>
+                The <strong>Pantheon</strong> is a magnificent temple with a huge concrete dome
+                and a round opening in the roof called an <em>oculus</em>. Originally built to
+                honour all the gods, it is one of the best‑preserved Roman buildings and shows
+                how advanced Roman engineering was.
+            </p>
+        </div>
+
+        <!-- 30. Pompeii -->
+        <div id="e30" class="chapter-section">
+            <h2>30. Pompeii</h2>
+            <p>
+                In 79 CE, the volcano Mount Vesuvius erupted and buried the town of
+                <strong>Pompeii</strong> under ash and rock. Many people died, but the ash
+                also preserved buildings, paintings, and even food. Today, archaeologists
+                study Pompeii to learn amazing details about everyday Roman life.
+            </p>
+            <div class="info-box">
+                <strong>Imagine:</strong>
+                “If your town were frozen in time like Pompeii, what objects would future
+                archaeologists find that show how you lived?”
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed guide character -->
+    <div id="character">
+        <img id="corner-character" src="roman-character-1.png" alt="Guide character">
+        <div id="speech">Welcome to the Roman Empire chapter!</div>
+    </div>
+
+    <script>
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
